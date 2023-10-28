@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class MazeGenerator
 {
-    public int width;
-    public int height;
+    private int width;
+    private int height;
+
+    public int ExitCellPositionX { get; private set; }
+    public int ExitCellPositionY { get; private set; }
 
     public MazeGenerator (int width, int height)
     {
@@ -116,5 +119,8 @@ public class MazeGenerator
         else if (furthest.y == 0) furthest.isHaveBottomtWall = false;
         else if (furthest.x == width - 2) labyrinths[furthest.x + 1, furthest.y].isHaveLeftWall = false;
         else if (furthest.y == height - 2) labyrinths[furthest.x, furthest.y + 1].isHaveBottomtWall = false;
+
+        ExitCellPositionX = furthest.x;
+        ExitCellPositionY = furthest.y;
     }
 }

@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 public class MazeSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private GameObject exitObjectPrefab;
+
     [SerializeField] private int mazeWidth;
     [SerializeField] private int mazeHeight;
 
+    public float FirstCellPositionX { get; private set; }
+    public float FirstCellPositionY { get; private set; }
 
     public void Spawn()
     {
@@ -23,14 +25,19 @@ public class MazeSpawner : MonoBehaviour
 
                 if (i == 0 && j == 0)
                 {
-                    cell.bottomWallSpriteRenderer.color = Color.green;
-                    cell.leftWallSpriteRenderer.color = Color.green;
+                    FirstCellPositionX = i - (mazeWidth / 2) + 0.9f;
+                    FirstCellPositionY = j - (mazeHeight / 2) + 0.9f;
                 }
 
-                if (i == (mazeWidth/2) - 1 && j == (mazeHeight/2) - 1)
+                //if (i == (mazeWidth/2) - 1 && j == (mazeHeight/2) - 1)
+                //{
+                //    cell.bottomWallSpriteRenderer.color = Color.green;
+                //    cell.leftWallSpriteRenderer.color = Color.green;
+                //}
+
+                if (i == mazeGenerator.ExitCellPositionX && j == mazeGenerator.ExitCellPositionY)
                 {
-                    cell.bottomWallSpriteRenderer.color = Color.green;
-                    cell.leftWallSpriteRenderer.color = Color.green;
+                    Instantiate(exitObjectPrefab, new Vector2(i - (mazeWidth / 2) + 0.9f, j - (mazeHeight / 2) + 0.9f), Quaternion.identity);
                 }
 
                 cell.leftWall.SetActive(labyrinths[i, j].isHaveLeftWall);
