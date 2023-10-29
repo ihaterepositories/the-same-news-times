@@ -7,8 +7,8 @@ public class MazeGenerator
     private int width;
     private int height;
 
-    public int ExitCellPositionX { get; private set; }
-    public int ExitCellPositionY { get; private set; }
+    public static int ExitCellPositionX { get; private set; }
+    public static int ExitCellPositionY { get; private set; }
 
     public MazeGenerator (int width, int height)
     {
