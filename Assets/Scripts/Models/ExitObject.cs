@@ -1,16 +1,15 @@
+using System;
 using UnityEngine;
 
-public class ExitObject : MonoBehaviour
+public class ExitObject : MonoBehaviour, IEatable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static event Action OnEated;
 
-    // Update is called once per frame
-    void Update()
+    
+
+    public void Eated()
     {
-        
+        OnEated?.Invoke();
+        Destroy(gameObject);
     }
 }

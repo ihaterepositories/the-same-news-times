@@ -20,7 +20,13 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        transform.Translate(Vector3.zero);
+        //transform.Translate(Vector3.zero);
+        var eateable = collision.gameObject.GetComponent<IEatable>();
+
+        if (eateable is not null)
+        {
+            eateable.Eated();
+        }
     }
 
     private void Move()

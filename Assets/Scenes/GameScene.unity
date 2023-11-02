@@ -245,6 +245,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 717656131}
+  - {fileID: 873177866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
@@ -385,7 +386,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mazeSpawner: {fileID: 1902395196}
   _playerPrefab: {fileID: 3644842019870960266, guid: a6c13d67666b0c9458c568caff1cee57, type: 3}
-  _exitObject: {fileID: 4936072063466599147, guid: 20b611c3b48412b498fe0251c9751069, type: 3}
 --- !u!1 &854748870
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +454,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &873177865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873177866}
+  - component: {fileID: 873177867}
+  m_Layer: 0
+  m_Name: FinishLevelController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &873177866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873177865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 248804534}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &873177867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873177865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e54b2e713f91e44db214f065ddeb803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1152777122
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +578,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!224 &1152777126
 RectTransform:
@@ -614,7 +658,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.9490196, g: 0.9607843, b: 0.91764706, a: 1}
   m_FlipX: 0
@@ -636,7 +680,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -729,7 +773,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a2288ac1950c3479f0425404a9f5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellPrefab: {fileID: 1602727331111734203, guid: 005256168d959ef4ea4b02d566d17c1a, type: 3}
+  _cellPrefab: {fileID: 1602727331111734203, guid: 005256168d959ef4ea4b02d566d17c1a, type: 3}
+  _exitObjectPrefab: {fileID: 4936072063466599147, guid: 20b611c3b48412b498fe0251c9751069, type: 3}
+  _eatablePointPrefab: {fileID: 6394658373644960433, guid: 546128f71fd5a784db629d8482300887, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

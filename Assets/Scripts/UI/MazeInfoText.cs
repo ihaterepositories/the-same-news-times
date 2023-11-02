@@ -21,8 +21,8 @@ public class MazeInfoText : MonoBehaviour
         StartLevelController.OnMazeGenerated -= ShowText;
     }
 
-    public void ShowText(int mazeSize, int cyclesCount)
+    public void ShowText(int mazeSize, int cyclesCount, int eatablePointsCount)
     {
-        text.text = $"maze size: {mazeSize}x{mazeSize} / cycles: {cyclesCount} / recommended time: 0";
+        text.text = $"maze size: {mazeSize}x{mazeSize}  /  cycles: {cyclesCount}  /  eatable points: {eatablePointsCount}";
     }
 }

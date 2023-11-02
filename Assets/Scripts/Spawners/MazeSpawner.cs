@@ -1,41 +1,45 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class MazeSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private GameObject _cellPrefab;
+    [SerializeField] private GameObject _exitObjectPrefab;
+    [SerializeField] private GameObject _eatablePointPrefab;
 
-    private int spawnedCyclesCount;
-    private int mazeSize;
+    private int _spawnedCyclesCount;
+    private int _spawnedEatablePointsCount;
+    private int _mazeSize;
+    private Cell[,] _maze;
 
-    public Vector2 FirstCellCoordinates { get { return new Vector2(-(mazeSize / 2) + 0.9f, -(mazeSize / 2) + 0.9f); } }
-    public int MazeSize { get { return mazeSize; } }
-    public int SpawnedCyclesCount { get { return spawnedCyclesCount; } }
+    public Vector2 FirstCellCoordinates { get { return new Vector2(-(_mazeSize / 2) + 0.9f, -(_mazeSize / 2) + 0.9f); } }
+    public int MazeSize { get { return _mazeSize; } }
+    public int SpawnedCyclesCount { get { return _spawnedCyclesCount; } }
+    public int SpawnedEatablePointsCount { get { return _spawnedEatablePointsCount; } }
 
     public void Spawn()
     {
-        mazeSize = UnityEngine.Random.Range(10, 19);
-        var mazeGenerator = new MazeGenerator(mazeSize, mazeSize);
-        var maze = mazeGenerator.Generate();
+        _mazeSize = UnityEngine.Random.Range(10, 19);
+        var mazeGenerator = new MazeGenerator(_mazeSize, _mazeSize);
+        _maze = mazeGenerator.Generate();
         var cells = new List<CellWallsCollector>();
 
-        CreateCycles(maze, UnityEngine.Random.Range(1, 5));
-
-        InstantiateCells(maze, cells);
+        CreateCycles(_maze, UnityEngine.Random.Range(1, 5));
+        SpawnCells(_maze, cells);
+        SpawnExitObject();
+        SpawnEatablePoints();
     }
 
-    private void InstantiateCells(Cell[,] maze, List<CellWallsCollector> cells)
+    private void SpawnCells(Cell[,] maze, List<CellWallsCollector> cells)
     {
         for (int cellPositionX = 0; cellPositionX < maze.GetLength(0); cellPositionX++)
         {
             for (int cellPositionY = 0; cellPositionY < maze.GetLength(1); cellPositionY++)
             {
                 CellWallsCollector cell = Instantiate(
-                    cellPrefab, 
-                    new Vector2(cellPositionX - (mazeSize / 2) + 0.5f, cellPositionY - (mazeSize / 2) + 0.5f), 
+                    _cellPrefab, 
+                    new Vector2(cellPositionX - (_mazeSize / 2) + 0.5f, cellPositionY - (_mazeSize / 2) + 0.5f), 
                     Quaternion.identity)
                     .GetComponent<CellWallsCollector>();
 
@@ -57,20 +61,20 @@ public class MazeSpawner : MonoBehaviour
     {
         for (int i = 0; i < cyclesCount; i++)
         {
-            int cellPositionX = UnityEngine.Random.Range(3, mazeSize - 2);
-            int cellPositionY = UnityEngine.Random.Range(3, mazeSize - 2);
+            int cellPositionX = UnityEngine.Random.Range(3, _mazeSize - 2);
+            int cellPositionY = UnityEngine.Random.Range(3, _mazeSize - 2);
 
             if (maze[cellPositionX, cellPositionY].isHaveLeftWall)
             {
                 maze[cellPositionX, cellPositionY].isHaveLeftWall = false;
-                spawnedCyclesCount++;
+                _spawnedCyclesCount++;
                 continue;
             }
 
             if (maze[cellPositionX, cellPositionY].isHaveBottomtWall)
             {
                 maze[cellPositionX, cellPositionY].isHaveBottomtWall = false;
-                spawnedCyclesCount++;
+                _spawnedCyclesCount++;
             }
         }
     }
@@ -136,6 +140,40 @@ public class MazeSpawner : MonoBehaviour
         {
             StartCoroutine(CellSpawnAnimationCoroutine(cells[i]));
             yield return new WaitForSeconds(0.0001f);
+        }
+    }
+
+    private void SpawnExitObject()
+    {
+        Instantiate(
+            _exitObjectPrefab,
+            new Vector2(MazeGenerator.ExitCellPositionX - (_mazeSize / 2) + 0.9f, MazeGenerator.ExitCellPositionY - (_mazeSize / 2) + 0.9f),
+            Quaternion.identity);
+    }
+
+    private void SpawnEatablePoints()
+    {
+        int eatablePointsCount = UnityEngine.Random.Range(_mazeSize - 10, _mazeSize - 5);
+        _spawnedEatablePointsCount = eatablePointsCount;
+
+        for (int i = 0; i < eatablePointsCount; i++)
+        {
+            int xPosition = UnityEngine.Random.Range(0, _mazeSize - 1);
+            int yPosition = UnityEngine.Random.Range(0, _mazeSize - 1);
+
+            if (xPosition != MazeGenerator.ExitCellPositionX && yPosition != MazeGenerator.ExitCellPositionY)
+            {
+                Cell cell = _maze[xPosition, yPosition];
+
+                Instantiate(
+                _eatablePointPrefab,
+                new Vector2(cell.x - (_mazeSize / 2) + 0.9f, cell.y - (_mazeSize / 2) + 0.9f),
+                Quaternion.identity);
+            }
+            else
+            {
+                _spawnedEatablePointsCount--;
+            }
         }
     }
 }
