@@ -6,7 +6,7 @@ public class MazeSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _cellPrefab;
     [SerializeField] private GameObject _exitObjectPrefab;
-    [SerializeField] private GameObject _eatablePointPrefab;
+    [SerializeField] private GameObject _greenPointPrefab;
 
     private int _spawnedCyclesCount;
     private int _spawnedEatablePointsCount;
@@ -20,7 +20,7 @@ public class MazeSpawner : MonoBehaviour
 
     public void Spawn()
     {
-        _mazeSize = UnityEngine.Random.Range(10, 19);
+        _mazeSize = UnityEngine.Random.Range(15, 20);
         var mazeGenerator = new MazeGenerator(_mazeSize, _mazeSize);
         _maze = mazeGenerator.Generate();
         var cells = new List<CellWallsCollector>();
@@ -166,7 +166,7 @@ public class MazeSpawner : MonoBehaviour
                 Cell cell = _maze[xPosition, yPosition];
 
                 Instantiate(
-                _eatablePointPrefab,
+                _greenPointPrefab,
                 new Vector2(cell.x - (_mazeSize / 2) + 0.9f, cell.y - (_mazeSize / 2) + 0.9f),
                 Quaternion.identity);
             }

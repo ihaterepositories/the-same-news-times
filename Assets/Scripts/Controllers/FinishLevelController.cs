@@ -9,12 +9,14 @@ public class FinishLevelController : MonoBehaviour
 
     private void OnEnable()
     {
-        ExitObject.OnEated += FinishLevel;
+        ScoreController.OnPinkScoreUpdated += FinishLevel;
+        Timer.OnTimerFinish += FinishGame;
     }
 
     private void OnDisable()
     {
-        ExitObject.OnEated -= FinishLevel;
+        ScoreController.OnPinkScoreUpdated -= FinishLevel;
+        Timer.OnTimerFinish -= FinishGame;
     }
 
     private void FinishLevel()
@@ -26,16 +28,11 @@ public class FinishLevelController : MonoBehaviour
     {
         OnFinishLevel?.Invoke();
         yield return new WaitForSeconds(1f);
-        LoadNewLevel();
-    }
-
-    private void LoadNewLevel()
-    {
         SceneManager.LoadScene("GameScene");
     }
 
-    private void LoadMenu()
+    private void FinishGame()
     {
-        SceneManager.LoadScene("Menu");
+        //show finish game window
     }
 }

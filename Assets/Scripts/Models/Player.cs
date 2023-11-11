@@ -18,6 +18,16 @@ public class Player : MonoBehaviour
         Move();
     }
 
+    private void OnEnable()
+    {
+        Timer.OnTimerFinish += DestroyPlayer;
+    }
+
+    private void OnDisable()
+    {
+        Timer.OnTimerFinish -= DestroyPlayer;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //transform.Translate(Vector3.zero);
@@ -47,5 +57,10 @@ public class Player : MonoBehaviour
         {
             transform.Translate(Vector3.left * _speed * Time.deltaTime);
         }
+    }
+
+    private void DestroyPlayer()
+    {
+        Destroy(gameObject);
     }
 }

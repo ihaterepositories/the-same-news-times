@@ -5,14 +5,18 @@ public class CircleAnimation : MonoBehaviour
 {
     private void OnEnable()
     {
+        StartGameObject.OnGameStart += IncreaseCircle;
         StartLevelController.OnStartLevel += DecreaseCircle;
         FinishLevelController.OnFinishLevel += IncreaseCircle;
+        Timer.OnTimerFinish += IncreaseCircle;
     }
 
     private void OnDisable()
     {
+        StartGameObject.OnGameStart -= IncreaseCircle;
         StartLevelController.OnStartLevel -= DecreaseCircle;
         FinishLevelController.OnFinishLevel -= IncreaseCircle;
+        Timer.OnTimerFinish -= IncreaseCircle;
     }
 
     private void DecreaseCircle()

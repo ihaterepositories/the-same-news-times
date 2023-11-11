@@ -11,6 +11,7 @@ public class StartLevelController : MonoBehaviour
 
     public static event Action OnStartLevel;
     public static event Action<int, int, int> OnMazeGenerated;
+    public static event Action OnAllSpawned;
 
     private void Start()
     {
@@ -18,6 +19,7 @@ public class StartLevelController : MonoBehaviour
         _mazeSpawner.Spawn();
         OnMazeGenerated?.Invoke(_mazeSpawner.MazeSize, _mazeSpawner.SpawnedCyclesCount, _mazeSpawner.SpawnedEatablePointsCount);
         SpawnPlayer();
+        OnAllSpawned?.Invoke();
     }
 
     private void SpawnPlayer()
