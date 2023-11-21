@@ -10,18 +10,21 @@ public class MazeSpawner : MonoBehaviour
 
     private int _spawnedCyclesCount;
     private int _spawnedEatablePointsCount;
-    private int _mazeSize;
+    private int _mazeWidth = 35;
+    private int _mazeHeight = 18;
     private Cell[,] _maze;
 
-    public Vector2 FirstCellCoordinates { get { return new Vector2(-(_mazeSize / 2) + 0.9f, -(_mazeSize / 2) + 0.9f); } }
-    public int MazeSize { get { return _mazeSize; } }
+    public Vector2 FirstCellCoordinates { get { return new Vector2(-(_mazeWidth / 2) + 0.9f, -(_mazeHeight / 2) + 0.9f); } }
+    public int MazeWidth { get { return _mazeWidth; } }
+    public int MazeHeight { get { return _mazeHeight; } }
     public int SpawnedCyclesCount { get { return _spawnedCyclesCount; } }
     public int SpawnedEatablePointsCount { get { return _spawnedEatablePointsCount; } }
 
     public void Spawn()
     {
-        _mazeSize = UnityEngine.Random.Range(15, 20);
-        var mazeGenerator = new MazeGenerator(_mazeSize, _mazeSize);
+        _mazeWidth = UnityEngine.Random.Range(20, 36);
+        _mazeHeight = UnityEngine.Random.Range(15, 19);
+        var mazeGenerator = new MazeGenerator(_mazeWidth, _mazeHeight);
         _maze = mazeGenerator.Generate();
         var cells = new List<CellWallsCollector>();
 
@@ -39,7 +42,7 @@ public class MazeSpawner : MonoBehaviour
             {
                 CellWallsCollector cell = Instantiate(
                     _cellPrefab, 
-                    new Vector2(cellPositionX - (_mazeSize / 2) + 0.5f, cellPositionY - (_mazeSize / 2) + 0.5f), 
+                    new Vector2(cellPositionX - (_mazeWidth / 2) + 0.5f, cellPositionY - (_mazeHeight / 2) + 0.5f), 
                     Quaternion.identity)
                     .GetComponent<CellWallsCollector>();
 
@@ -61,8 +64,8 @@ public class MazeSpawner : MonoBehaviour
     {
         for (int i = 0; i < cyclesCount; i++)
         {
-            int cellPositionX = UnityEngine.Random.Range(3, _mazeSize - 2);
-            int cellPositionY = UnityEngine.Random.Range(3, _mazeSize - 2);
+            int cellPositionX = UnityEngine.Random.Range(3, _mazeWidth - 2);
+            int cellPositionY = UnityEngine.Random.Range(3, _mazeHeight - 2);
 
             if (maze[cellPositionX, cellPositionY].isHaveLeftWall)
             {
@@ -147,19 +150,19 @@ public class MazeSpawner : MonoBehaviour
     {
         Instantiate(
             _exitObjectPrefab,
-            new Vector2(MazeGenerator.ExitCellPositionX - (_mazeSize / 2) + 0.9f, MazeGenerator.ExitCellPositionY - (_mazeSize / 2) + 0.9f),
+            new Vector2(MazeGenerator.ExitCellPositionX - (_mazeWidth / 2) + 0.9f, MazeGenerator.ExitCellPositionY - (_mazeHeight / 2) + 0.9f),
             Quaternion.identity);
     }
 
     private void SpawnEatablePoints()
     {
-        int eatablePointsCount = UnityEngine.Random.Range(_mazeSize - 10, _mazeSize - 5);
+        int eatablePointsCount = UnityEngine.Random.Range(_mazeWidth - 10, _mazeHeight - 5);
         _spawnedEatablePointsCount = eatablePointsCount;
 
         for (int i = 0; i < eatablePointsCount; i++)
         {
-            int xPosition = UnityEngine.Random.Range(0, _mazeSize - 1);
-            int yPosition = UnityEngine.Random.Range(0, _mazeSize - 1);
+            int xPosition = UnityEngine.Random.Range(0, _mazeWidth - 1);
+            int yPosition = UnityEngine.Random.Range(0, _mazeHeight - 1);
 
             if (xPosition != MazeGenerator.ExitCellPositionX && yPosition != MazeGenerator.ExitCellPositionY)
             {
@@ -167,7 +170,7 @@ public class MazeSpawner : MonoBehaviour
 
                 Instantiate(
                 _greenPointPrefab,
-                new Vector2(cell.x - (_mazeSize / 2) + 0.9f, cell.y - (_mazeSize / 2) + 0.9f),
+                new Vector2(cell.x - (_mazeWidth / 2) + 0.9f, cell.y - (_mazeHeight / 2) + 0.9f),
                 Quaternion.identity);
             }
             else

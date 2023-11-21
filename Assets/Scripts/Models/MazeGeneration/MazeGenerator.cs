@@ -103,9 +103,9 @@ public class MazeGenerator
     {
         Cell furthest = labyrinths[0, 0];
 
-        for (int x = 0; x < labyrinths.GetLength(0); x++)
+        for (int x = 0; x < labyrinths.GetLength(1); x++)
         {
-            if (labyrinths[x, width - 2].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[x, width - 2];
+            if (labyrinths[x, height - 2].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[x, height - 2];
             if (labyrinths[x, 0].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[x, 0];
         }
 

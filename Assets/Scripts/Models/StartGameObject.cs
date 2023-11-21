@@ -20,6 +20,16 @@ public class StartGameObject : MonoBehaviour
     private IEnumerator LoadGameSceneCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("GameScene");
+        StartCoroutine(LoadGameSceneAsyncCoroutine());
+    }
+
+    private IEnumerator LoadGameSceneAsyncCoroutine()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("GameScene");
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 }

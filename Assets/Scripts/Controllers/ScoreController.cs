@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-    [SerializeField] private ScoreText _greenScoreText;
-    [SerializeField] private ScoreText _pinkScoreText;
+    [SerializeField] private InfoText _greenScoreText;
+    [SerializeField] private InfoText _pinkScoreText;
 
     private int _greenScore;
     private int _pinkScore;
+    private int _totalScore;
 
     public static event Action OnPinkScoreUpdated;
 
@@ -18,8 +19,8 @@ public class ScoreController : MonoBehaviour
         _greenScore = PlayerPrefs.GetInt("GreenScore", 0);
         _pinkScore = PlayerPrefs.GetInt("PinkScore", 0);
 
-        UpdateGreenScoreText();
-        UpdatePinkScoreText();
+        _greenScoreText.SetText(_greenScore);
+        _pinkScoreText.SetText(_pinkScore);
     }
 
     private void OnEnable()
@@ -37,29 +38,75 @@ public class ScoreController : MonoBehaviour
     private void UpdateGreenScore()
     {
         _greenScore++;
-        UpdateGreenScoreText();
+        _greenScoreText.SetText(_greenScore);
+
         PlayerPrefs.SetInt("GreenScore", _greenScore);
+        PlayerPrefs.Save();
     }
 
     private void UpdatePinkScore()
     {
         _pinkScore++;
-        UpdatePinkScoreText();
-        PlayerPrefs.SetInt("PinkScore", _pinkScore);
+        _pinkScoreText.SetText(_pinkScore);
 
-        int totalMazesCompleted = PlayerPrefs.GetInt("TotalMazesCompleted", 0) + 1;
-        PlayerPrefs.SetInt("TotalMazesCompleted", totalMazesCompleted);
+        PlayerPrefs.SetInt("PinkScore", _pinkScore);
+        PlayerPrefs.SetInt("TotalMazesCompleted", PlayerPrefs.GetInt("TotalMazesCompleted", 0) + 1);
+        PlayerPrefs.Save();
 
         OnPinkScoreUpdated?.Invoke();
     }
 
-    private void UpdateGreenScoreText()
+    private string CalculatePinkScore()
     {
-        _greenScoreText.UpdateScore(_greenScore);
+        int bestPinkScore = PlayerPrefs.GetInt("BestPinkScore", 0);
+        string scoreString = $"pink score: {_pinkScore}";
+
+        if (_pinkScore > bestPinkScore)
+        {
+            PlayerPrefs.SetInt("BestPinkScore", _pinkScore);
+            PlayerPrefs.Save();
+            scoreString = $"new best pink score: {bestPinkScore} !";
+        }
+
+        return scoreString;
     }
 
-    private void UpdatePinkScoreText()
+    private string CalculateGreenScore()
     {
-        _pinkScoreText.UpdateScore(_pinkScore);
+        int bestGreenScore = PlayerPrefs.GetInt("BestGreenScore", 0);
+        string scoreString = $"green score: {_greenScore}";
+
+        if (_greenScore > bestGreenScore)
+        {
+            PlayerPrefs.SetInt("BestGreenScore", _greenScore);
+            PlayerPrefs.Save();
+            scoreString = $"new best green score: {bestGreenScore} !";
+        }
+
+        return scoreString;
+    }
+
+    private string CalculateTotalScore()
+    {
+        _totalScore = _pinkScore * _greenScore;
+
+        int bestTotalScore = PlayerPrefs.GetInt("BestTotalScore", 0);
+        string scoreString = $"total score: {_totalScore}";
+
+        if (_totalScore > bestTotalScore)
+        {
+            PlayerPrefs.SetInt("BestTotalScore", _totalScore);
+            PlayerPrefs.Save();
+            scoreString = $"new best total score: {bestTotalScore} !";
+        }
+
+        return scoreString;
+    }
+
+    public string GetScoresString()
+    {
+        return CalculatePinkScore() + "\n" + "\n" +
+               CalculateGreenScore() + "\n" + "\n" +
+               CalculateTotalScore();
     }
 }

@@ -9,6 +9,7 @@ public class CircleAnimation : MonoBehaviour
         StartLevelController.OnStartLevel += DecreaseCircle;
         FinishLevelController.OnFinishLevel += IncreaseCircle;
         Timer.OnTimerFinish += IncreaseCircle;
+        FinishGameObject.OnGameExit += IncreaseCircle;
     }
 
     private void OnDisable()
@@ -17,6 +18,7 @@ public class CircleAnimation : MonoBehaviour
         StartLevelController.OnStartLevel -= DecreaseCircle;
         FinishLevelController.OnFinishLevel -= IncreaseCircle;
         Timer.OnTimerFinish -= IncreaseCircle;
+        FinishGameObject.OnGameExit -= IncreaseCircle;
     }
 
     private void DecreaseCircle()

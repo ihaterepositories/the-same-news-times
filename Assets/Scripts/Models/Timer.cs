@@ -1,19 +1,15 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
+    [SerializeField] private InfoText _timerText;
+    [SerializeField] private Color _timeGoesOutColor;
+
     private float _duration;
     private float _timeRemaining;
-    private bool isTimeOver;
     private Coroutine timerCoroutine;
-
-    public float Duration { get { return _duration; } }
-    public float TimeRemaining { get { return _timeRemaining; } }
-    public bool IsTimeOver { get { return isTimeOver; } }
 
     public static event Action OnTimerStart;
     public static event Action<float> OnTimerWorking;
@@ -21,8 +17,7 @@ public class Timer : MonoBehaviour
 
     private void Awake()
     {
-        //_duration = PlayerPrefs.GetFloat("TimerSeconds", 300f);
-        _duration = 10f;
+        _duration = PlayerPrefs.GetFloat("TimerSeconds", 300f);
     }
 
     private void OnEnable()
@@ -39,7 +34,6 @@ public class Timer : MonoBehaviour
 
     public void StartTimer()
     {
-        isTimeOver = false;
         _timeRemaining = _duration;
         OnTimerStart?.Invoke();
         timerCoroutine = StartCoroutine(StartTimerCoroutine());
@@ -56,36 +50,26 @@ public class Timer : MonoBehaviour
         }
     }
 
-    public void ContinueTimer()
-    {
-        timerCoroutine = StartCoroutine(StartTimerCoroutine());
-    }
-
     private IEnumerator StartTimerCoroutine()
     {
         while (_timeRemaining >= 0f)
         {
             OnTimerWorking?.Invoke(_timeRemaining);
+            SetTimerText(_timeRemaining);
             _timeRemaining -= Time.deltaTime;
             yield return null;
         }
 
-        TimeOver();
-    }
-
-    private void TimeOver()
-    {
-        isTimeOver = true;
         OnTimerFinish?.Invoke();
     }
 
-    public bool IsMoreThanSomeTimeLeft(float seconds)
+    private void SetTimerText(float timeRemaining)
     {
-        return _timeRemaining > seconds;
-    }
+        if (timeRemaining <= 10)
+        {
+            _timerText.TextObject.color = _timeGoesOutColor;
+        }
 
-    public bool IsLessThanSomeTimeLeft(float seconds)
-    {
-        return _timeRemaining < seconds;
+        _timerText.SetText(string.Format("{0:00}:{1:00}", Mathf.FloorToInt(timeRemaining / 60), Mathf.FloorToInt(timeRemaining % 60)));
     }
 }
