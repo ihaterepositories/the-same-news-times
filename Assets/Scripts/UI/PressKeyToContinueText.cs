@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,12 +9,11 @@ public class PressKeyToContinueText : MonoBehaviour
 {
     [SerializeField] private KeyCode _keyToPress;
     [SerializeField] private string _nextSceneString;
+    [SerializeField] private GameObject _circleAnimationPrefab;
 
     private Text _text;
     private float _scaleX;
     private float _scaleY;
-
-    public static event Action OnContinueKeyPressed;
 
     private void Awake()
     {
@@ -49,7 +47,10 @@ public class PressKeyToContinueText : MonoBehaviour
     {
         if (Input.GetKeyDown(_keyToPress))
         {
-            OnContinueKeyPressed?.Invoke();
+            var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
+            circleAnimation.SortingOrder = 6;
+            circleAnimation.IncreaseCircle();
+
             StartCoroutine(LoadNextSceneCoroutine());
         }
     }

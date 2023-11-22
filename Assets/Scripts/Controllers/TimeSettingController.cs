@@ -4,14 +4,15 @@ using UnityEngine;
 public class TimeSettingController : MonoBehaviour
 {
     [SerializeField] private InfoText _timeSettingText;
+    [SerializeField] private GameObject _circleAnimationPrefab;
 
     private float _timeDuration;
 
-    public static event Action OnTimeSettingEntered;
-
     private void Start()
     {
-        OnTimeSettingEntered?.Invoke();
+        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
+        circleAnimation.DecreaseCircle();
+
         _timeDuration = 60f;
     }
 

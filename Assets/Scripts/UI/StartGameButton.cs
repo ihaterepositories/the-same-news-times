@@ -1,18 +1,20 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartGameObject : MonoBehaviour
+[RequireComponent(typeof(Collider2D))]
+public class StartGameButton : MonoBehaviour
 {
-    public static event Action OnGameStart;
+    [SerializeField] private GameObject _circleAnimationPrefab;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerPrefs.SetInt("GreenScore", 0);
         PlayerPrefs.SetInt("PinkScore", 0);
 
-        OnGameStart?.Invoke();
+        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
+        circleAnimation.IncreaseCircle();
+
         StartCoroutine(LoadTimerSettingSceneCoroutine());
     }
 

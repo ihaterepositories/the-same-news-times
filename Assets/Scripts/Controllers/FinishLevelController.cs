@@ -9,8 +9,7 @@ public class FinishLevelController : MonoBehaviour
     [SerializeField] private InfoText _gameOverText;
     [SerializeField] private ScoreController _scoreController;
     [SerializeField] private Text _pressAnyKeyText;
-
-    public static event Action OnFinishLevel;
+    [SerializeField] private GameObject _circleAnimationPrefab;
 
     private void Awake()
     {
@@ -36,7 +35,9 @@ public class FinishLevelController : MonoBehaviour
 
     private IEnumerator FinishLevelCoroutine()
     {
-        OnFinishLevel?.Invoke();
+        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
+        circleAnimation.IncreaseCircle();
+
         yield return new WaitForSeconds(1f);
         StartCoroutine(LoadGameSceneAsyncCoroutine());
     }

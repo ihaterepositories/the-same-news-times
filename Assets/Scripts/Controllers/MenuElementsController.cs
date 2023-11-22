@@ -4,11 +4,15 @@ using UnityEngine;
 public class MenuElementsController : MonoBehaviour
 {
     [SerializeField] private InfoText _bestScoresText;
+    [SerializeField] private GameObject _circleAnimationPrefab;
 
     public static event Action OnMenuEntered;
 
     private void Start()
     {
+        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
+        circleAnimation.DecreaseCircle();
+
         OnMenuEntered?.Invoke();
         SetBestScoresText();
     }
