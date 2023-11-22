@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 
 public class MenuElementsController : MonoBehaviour
 {
     [SerializeField] private InfoText _bestScoresText;
 
+    public static event Action OnMenuEntered;
+
     private void Start()
     {
+        OnMenuEntered?.Invoke();
         SetBestScoresText();
     }
 

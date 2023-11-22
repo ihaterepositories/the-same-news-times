@@ -2,13 +2,20 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FinishLevelController : MonoBehaviour
 {
     [SerializeField] private InfoText _gameOverText;
     [SerializeField] private ScoreController _scoreController;
+    [SerializeField] private Text _pressAnyKeyText;
 
     public static event Action OnFinishLevel;
+
+    private void Awake()
+    {
+        _pressAnyKeyText.gameObject.SetActive(false);
+    }
 
     private void OnEnable()
     {
@@ -34,11 +41,6 @@ public class FinishLevelController : MonoBehaviour
         StartCoroutine(LoadGameSceneAsyncCoroutine());
     }
 
-    private void FinishGame()
-    {
-        _gameOverText.SetText(_scoreController.GetScoresString());
-    }
-
     private IEnumerator LoadGameSceneAsyncCoroutine()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("GameScene");
@@ -47,5 +49,17 @@ public class FinishLevelController : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    private void FinishGame()
+    {
+        _gameOverText.SetText(_scoreController.GetScoresString());
+        StartCoroutine(SpawnPressAnyKeyTextCoroutine());
+    }
+
+    private IEnumerator SpawnPressAnyKeyTextCoroutine()
+    {
+        yield return new WaitForSeconds(2f);
+        _pressAnyKeyText.gameObject.SetActive(true);
     }
 }
