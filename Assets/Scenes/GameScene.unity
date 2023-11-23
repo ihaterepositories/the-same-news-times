@@ -1801,6 +1801,8 @@ MonoBehaviour:
   _cellPrefab: {fileID: 1602727331111734203, guid: 005256168d959ef4ea4b02d566d17c1a, type: 3}
   _exitObjectPrefab: {fileID: 4936072063466599147, guid: 20b611c3b48412b498fe0251c9751069, type: 3}
   _greenPointPrefab: {fileID: 6394658373644960433, guid: 546128f71fd5a784db629d8482300887, type: 3}
+  _enemyPrefab: {fileID: 6596613840098838541, guid: b9649c942d98eca45945b7a82d39f990, type: 3}
+  _directionSelectorPrefab: {fileID: 4457193790651140451, guid: 2f523e1a95a2074419fcf5433a557a9b, type: 3}
 --- !u!1 &1919264163
 GameObject:
   m_ObjectHideFlags: 0

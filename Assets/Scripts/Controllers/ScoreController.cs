@@ -65,7 +65,7 @@ public class ScoreController : MonoBehaviour
         {
             PlayerPrefs.SetInt("BestPinkScore", _pinkScore);
             PlayerPrefs.Save();
-            scoreString = $"new best pink score: {bestPinkScore} !";
+            scoreString = $"new best pink score: {_pinkScore} !";
         }
 
         return scoreString;
@@ -80,7 +80,7 @@ public class ScoreController : MonoBehaviour
         {
             PlayerPrefs.SetInt("BestGreenScore", _greenScore);
             PlayerPrefs.Save();
-            scoreString = $"new best green score: {bestGreenScore} !";
+            scoreString = $"new best green score: {_greenScore} !";
         }
 
         return scoreString;
@@ -97,7 +97,7 @@ public class ScoreController : MonoBehaviour
         {
             PlayerPrefs.SetInt("BestTotalScore", _totalScore);
             PlayerPrefs.Save();
-            scoreString = $"new best total score: {bestTotalScore} !";
+            scoreString = $"new best total score: {_totalScore} !";
         }
 
         return scoreString;

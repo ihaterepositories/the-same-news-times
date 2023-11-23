@@ -54,6 +54,9 @@ public class FinishLevelController : MonoBehaviour
 
     private void FinishGame()
     {
+        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
+        circleAnimation.IncreaseCircle();
+
         _gameOverText.SetText(_scoreController.GetScoresString());
         StartCoroutine(SpawnPressAnyKeyTextCoroutine());
     }

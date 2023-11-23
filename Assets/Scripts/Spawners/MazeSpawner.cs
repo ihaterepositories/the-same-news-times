@@ -7,6 +7,7 @@ public class MazeSpawner : MonoBehaviour
     [SerializeField] private GameObject _cellPrefab;
     [SerializeField] private GameObject _exitObjectPrefab;
     [SerializeField] private GameObject _greenPointPrefab;
+    [SerializeField] private GameObject _enemyPrefab;
 
     private int _spawnedCyclesCount;
     private int _spawnedEatablePointsCount;
@@ -32,6 +33,7 @@ public class MazeSpawner : MonoBehaviour
         SpawnCells(_maze, cells);
         SpawnExitObject();
         SpawnEatablePoints();
+        SpawnEnemies();
     }
 
     private void SpawnCells(Cell[,] maze, List<CellWallsCollector> cells)
@@ -84,25 +86,19 @@ public class MazeSpawner : MonoBehaviour
 
     private IEnumerator CellSpawnAnimationCoroutine(CellWallsCollector cell)
     {
-        yield return new WaitForSeconds(0.0005f);
-        ChangeCellTransparety(cell, 0.1f);
-        yield return new WaitForSeconds(0.0005f);
-        ChangeCellTransparety(cell, 0.2f);
-        yield return new WaitForSeconds(0.0005f);
-        ChangeCellTransparety(cell, 0.3f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 0.4f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 0.5f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 0.6f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 0.7f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 0.8f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 0.9f);
-        yield return new WaitForSeconds(0.0005f);
+        yield return new WaitForSeconds(0.0001f);
         ChangeCellTransparety(cell, 1);
     }
 
@@ -176,6 +172,27 @@ public class MazeSpawner : MonoBehaviour
             else
             {
                 _spawnedEatablePointsCount--;
+            }
+        }
+    }
+
+    private void SpawnEnemies()
+    {
+        int enemiesCount = UnityEngine.Random.Range(1, 4);
+
+        for (int i = 0; i < enemiesCount; i++)
+        {
+            int xPosition = UnityEngine.Random.Range(0, _mazeWidth - 1);
+            int yPosition = UnityEngine.Random.Range(0, _mazeHeight - 1);
+
+            if (xPosition != MazeGenerator.ExitCellPositionX && yPosition != MazeGenerator.ExitCellPositionY)
+            {
+                Cell cell = _maze[xPosition, yPosition];
+
+                Instantiate(
+                _enemyPrefab,
+                new Vector2(cell.x - (_mazeWidth / 2) + 0.9f, cell.y - (_mazeHeight / 2) + 0.9f),
+                Quaternion.identity);
             }
         }
     }
