@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,12 +19,14 @@ public class FinishLevelController : MonoBehaviour
     {
         ScoreController.OnPinkScoreUpdated += FinishLevel;
         Timer.OnTimerFinish += FinishGame;
+        Enemy.OnReachedPlayer += FinishGame;
     }
 
     private void OnDisable()
     {
         ScoreController.OnPinkScoreUpdated -= FinishLevel;
         Timer.OnTimerFinish -= FinishGame;
+        Enemy.OnReachedPlayer -= FinishGame;
     }
 
     private void FinishLevel()
