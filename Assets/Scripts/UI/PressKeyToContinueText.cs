@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
+
 public class PressKeyToContinueText : MonoBehaviour
 {
     [SerializeField] private KeyCode _keyToPress;
     [SerializeField] private string _nextSceneString;
-    [SerializeField] private GameObject _circleAnimationPrefab;
 
     private Text _text;
     private float _scaleX;
@@ -47,9 +47,7 @@ public class PressKeyToContinueText : MonoBehaviour
     {
         if (Input.GetKeyDown(_keyToPress))
         {
-            var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
-            circleAnimation.SortingOrder = 6;
-            circleAnimation.IncreaseCircle();
+            CircleAnimation.Instance.Increase(6);
 
             StartCoroutine(LoadNextSceneCoroutine());
         }

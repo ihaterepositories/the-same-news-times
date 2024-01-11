@@ -3,12 +3,9 @@ using UnityEngine;
 
 public class FinishGameButton : MonoBehaviour
 {
-    [SerializeField] private GameObject _circleAnimationPrefab;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
-        circleAnimation.IncreaseCircle();
+        CircleAnimation.Instance.Increase(4);
 
         StartCoroutine(ExitGameCoroutine());
     }

@@ -5,15 +5,12 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Collider2D))]
 public class StartGameButton : MonoBehaviour
 {
-    [SerializeField] private GameObject _circleAnimationPrefab;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerPrefs.SetInt("GreenScore", 0);
         PlayerPrefs.SetInt("PinkScore", 0);
 
-        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
-        circleAnimation.IncreaseCircle();
+        CircleAnimation.Instance.Increase(4);
 
         StartCoroutine(LoadTimerSettingSceneCoroutine());
     }

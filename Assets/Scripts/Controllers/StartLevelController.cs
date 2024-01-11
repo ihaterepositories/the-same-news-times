@@ -6,14 +6,12 @@ public class StartLevelController : MonoBehaviour
     [SerializeField] private MazeSpawner _mazeSpawner;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private InfoText _mazeInfoText;
-    [SerializeField] private GameObject _circleAnimationPrefab;
 
     public static event Action OnAllSpawned;
 
     private void Start()
     {
-        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
-        circleAnimation.DecreaseCircle();
+        CircleAnimation.Instance.Decrease();
 
         _mazeSpawner.Spawn();
 

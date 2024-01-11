@@ -4,25 +4,23 @@ using UnityEngine;
 public class TimeSettingController : MonoBehaviour
 {
     [SerializeField] private InfoText _timeSettingText;
-    [SerializeField] private GameObject _circleAnimationPrefab;
 
     private float _timeDuration;
 
     private void Start()
     {
-        var circleAnimation = Instantiate(_circleAnimationPrefab).GetComponent<CircleAnimator>();
-        circleAnimation.DecreaseCircle();
+        CircleAnimation.Instance.Decrease();
 
         _timeDuration = 60f;
     }
 
     private void Update()
     {
-        ChangeTimeSettings();
-        SetTime();
+        GetTimeSettingsFromUser();
+        SaveSettedTime();
     }
 
-    private void ChangeTimeSettings()
+    private void GetTimeSettingsFromUser()
     {
         _timeSettingText.SetText(TimeSpan.FromSeconds(_timeDuration).ToString());
 
@@ -36,7 +34,7 @@ public class TimeSettingController : MonoBehaviour
         }
     }
 
-    private void SetTime()
+    private void SaveSettedTime()
     {
         if (Input.GetKey(KeyCode.Space))
         {

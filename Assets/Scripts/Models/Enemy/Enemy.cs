@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -8,7 +7,8 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyTriggerZone triggerZone;
     [SerializeField] private Sprite activeEnemySprite;
-    
+    [SerializeField] private ParticleSystem sleepingEffectParticle;
+
     private float speed;
     private bool isSeePlayer = false;
     private bool isReachedPlayer = false;
@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
 
     private void WakeUpEnemy()
     {
+        sleepingEffectParticle.Stop();
         MakePlayerVisible();
         ChangeSpriteToActive();
     }
