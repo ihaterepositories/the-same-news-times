@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreController : MonoBehaviour
+public class InGameScoreController : MonoBehaviour
 {
     [SerializeField] private InfoText _greenScoreText;
     [SerializeField] private InfoText _pinkScoreText;

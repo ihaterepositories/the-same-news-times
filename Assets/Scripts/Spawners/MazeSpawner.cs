@@ -182,7 +182,9 @@ public class MazeSpawner : MonoBehaviour
         int yPosition = UnityEngine.Random.Range(1, _mazeHeight - 1);
 
         if (xPosition != MazeGenerator.ExitCellPositionX && 
-            yPosition != MazeGenerator.ExitCellPositionY)
+            yPosition != MazeGenerator.ExitCellPositionY &&
+            xPosition > 5 &&
+            yPosition > 5)
         {
             Cell cell = _maze[xPosition, yPosition];
 

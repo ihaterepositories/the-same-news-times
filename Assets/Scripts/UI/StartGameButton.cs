@@ -12,18 +12,18 @@ public class StartGameButton : MonoBehaviour
 
         CircleAnimation.Instance.Increase(4);
 
-        StartCoroutine(LoadTimerSettingSceneCoroutine());
+        StartCoroutine(LoadKeyTipsSceneCoroutine());
     }
 
-    private IEnumerator LoadTimerSettingSceneCoroutine()
+    private IEnumerator LoadKeyTipsSceneCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        StartCoroutine(LoadTimerSettingSceneCoroutineAsync());
+        StartCoroutine(LoadKeyTipsSceneCoroutineAsync());
     }
 
-    private IEnumerator LoadTimerSettingSceneCoroutineAsync()
+    private IEnumerator LoadKeyTipsSceneCoroutineAsync()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("TimerSettingScene");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("KeyTipsScene");
 
         while (!asyncLoad.isDone)
         {

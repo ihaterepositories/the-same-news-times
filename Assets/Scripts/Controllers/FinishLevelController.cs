@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class FinishLevelController : MonoBehaviour
 {
     [SerializeField] private InfoText _gameOverText;
-    [SerializeField] private ScoreController _scoreController;
+    [SerializeField] private InGameScoreController _scoreController;
     [SerializeField] private Text _pressAnyKeyText;
 
     private void Awake()
@@ -16,14 +16,14 @@ public class FinishLevelController : MonoBehaviour
 
     private void OnEnable()
     {
-        ScoreController.OnPinkScoreUpdated += FinishLevel;
+        InGameScoreController.OnPinkScoreUpdated += FinishLevel;
         Timer.OnTimerFinish += FinishGame;
         Enemy.OnReachedPlayer += FinishGame;
     }
 
     private void OnDisable()
     {
-        ScoreController.OnPinkScoreUpdated -= FinishLevel;
+        InGameScoreController.OnPinkScoreUpdated -= FinishLevel;
         Timer.OnTimerFinish -= FinishGame;
         Enemy.OnReachedPlayer -= FinishGame;
     }

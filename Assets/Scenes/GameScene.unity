@@ -748,7 +748,6 @@ MonoBehaviour:
   _mazeSpawner: {fileID: 1902395196}
   _playerPrefab: {fileID: 3644842019870960266, guid: a6c13d67666b0c9458c568caff1cee57, type: 3}
   _mazeInfoText: {fileID: 238764604}
-  _circleAnimationPrefab: {fileID: 4617911764860610625, guid: 11d5bcb3aef3809439eaee3edf85c43d, type: 3}
 --- !u!1 &787918315
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,7 +961,6 @@ MonoBehaviour:
   _gameOverText: {fileID: 1388597313}
   _scoreController: {fileID: 1958177595}
   _pressAnyKeyText: {fileID: 1894931057}
-  _circleAnimationPrefab: {fileID: 4617911764860610625, guid: 11d5bcb3aef3809439eaee3edf85c43d, type: 3}
 --- !u!1 &936527161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1659,7 +1657,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keyToPress: 32
   _nextSceneString: Menu
-  _circleAnimationPrefab: {fileID: 4617911764860610625, guid: 11d5bcb3aef3809439eaee3edf85c43d, type: 3}
 --- !u!1 &1902395194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,7 +1821,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1958177593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8642a4c94a237428578d70936196bb, type: 3}
+  m_Script: {fileID: 11500000, guid: e81f15d68f2262e41b2b57c624d124e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _greenScoreText: {fileID: 23902444}

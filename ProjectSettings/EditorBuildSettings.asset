@@ -6,12 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/IntroScene.unity
+    guid: ecc4b88d9e0950d43a97e1911928cd2b
+  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 08a355a96ab223f4a88cb5f366991eae
+  - enabled: 1
+    path: Assets/Scenes/KeyTipsScene.unity
+    guid: 7df66e912a4205e4c96d81b8a3db4300
   - enabled: 1
     path: Assets/Scenes/TimerSettingScene.unity
     guid: ce7351f8ab30b3b4a9b19979deb4ed6b
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/RecordsScene.unity
+    guid: 8ad4c4aae7956c148a339c8a4cdef278
   m_configObjects: {}
