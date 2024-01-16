@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FinishLevelController : MonoBehaviour
@@ -9,57 +9,54 @@ public class FinishLevelController : MonoBehaviour
     [SerializeField] private InGameScoreController _scoreController;
     [SerializeField] private Text _pressAnyKeyText;
 
+    public static event Action OnLevelFinished;
+    public static event Action OnGameFinished;
+
     private void Awake()
     {
         _pressAnyKeyText.gameObject.SetActive(false);
     }
 
+    private void Update()
+    {
+        EnableGameStopping();
+    }
+
     private void OnEnable()
     {
         InGameScoreController.OnPinkScoreUpdated += FinishLevel;
-        Timer.OnTimerFinish += FinishGame;
         Enemy.OnReachedPlayer += FinishGame;
     }
 
     private void OnDisable()
     {
         InGameScoreController.OnPinkScoreUpdated -= FinishLevel;
-        Timer.OnTimerFinish -= FinishGame;
         Enemy.OnReachedPlayer -= FinishGame;
+    }
+
+    private void EnableGameStopping()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            FinishGame();
+        }
     }
 
     private void FinishLevel()
     {
-        StartCoroutine(FinishLevelCoroutine());
-    }
-
-    private IEnumerator FinishLevelCoroutine()
-    {
-        CircleAnimation.Instance.Increase(4);
-
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(LoadGameSceneAsyncCoroutine());
-    }
-
-    private IEnumerator LoadGameSceneAsyncCoroutine()
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("GameScene");
-
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
+        OnLevelFinished?.Invoke();
+        SceneLoadingController.Instance.LoadSceneAsync("GameScene");
     }
 
     private void FinishGame()
     {
-        CircleAnimation.Instance.Increase(4);
-
-        _gameOverText.SetText(_scoreController.GetScoresString());
-        StartCoroutine(ActivatePressAnyKeyTextCoroutine());
+        OnGameFinished?.Invoke();
+        CircleAnimation.Instance.Increase();
+        _gameOverText.SetText(_scoreController.GetCurrentGameScore());
+        StartCoroutine(ActivateExitButtonCoroutine());
     }
 
-    private IEnumerator ActivatePressAnyKeyTextCoroutine()
+    private IEnumerator ActivateExitButtonCoroutine()
     {
         yield return new WaitForSeconds(2f);
         _pressAnyKeyText.gameObject.SetActive(true);

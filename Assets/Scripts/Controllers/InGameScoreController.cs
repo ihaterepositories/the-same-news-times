@@ -54,7 +54,7 @@ public class InGameScoreController : MonoBehaviour
         OnPinkScoreUpdated?.Invoke();
     }
 
-    private string CalculatePinkScore()
+    private string GetPinkScore()
     {
         int bestPinkScore = PlayerPrefs.GetInt("BestPinkScore", 0);
         string scoreString = $"pink score: {_pinkScore}";
@@ -69,7 +69,7 @@ public class InGameScoreController : MonoBehaviour
         return scoreString;
     }
 
-    private string CalculateGreenScore()
+    private string GetGreenScore()
     {
         int bestGreenScore = PlayerPrefs.GetInt("BestGreenScore", 0);
         string scoreString = $"green score: {_greenScore}";
@@ -84,9 +84,9 @@ public class InGameScoreController : MonoBehaviour
         return scoreString;
     }
 
-    private string CalculateTotalScore()
+    private string GetTotalScore()
     {
-        _totalScore = _pinkScore * _greenScore;
+        _totalScore = (_pinkScore * _greenScore) + (int)PlayerPrefs.GetFloat("GameDuration", 0f);
 
         int bestTotalScore = PlayerPrefs.GetInt("BestTotalScore", 0);
         string scoreString = $"total score: {_totalScore}";
@@ -101,10 +101,27 @@ public class InGameScoreController : MonoBehaviour
         return scoreString;
     }
 
-    public string GetScoresString()
+    private string GetGameDuration()
     {
-        return CalculatePinkScore() + "\n" + "\n" +
-               CalculateGreenScore() + "\n" + "\n" +
-               CalculateTotalScore();
+        float currentGameDuration = PlayerPrefs.GetFloat("GameDuration", 0f);
+        float bestGameDuration = PlayerPrefs.GetFloat("BestGameDuration", 0f);
+
+        string gameDurationString = $"game duration: {TimeFormatter.Formate(currentGameDuration)}";
+
+        if (currentGameDuration > bestGameDuration)
+        {
+            PlayerPrefs.SetFloat("BestGameDuration", currentGameDuration);
+            gameDurationString = $"new longest game record: {TimeFormatter.Formate(currentGameDuration)} !";
+        }
+
+        return gameDurationString;
+    }
+
+    public string GetCurrentGameScore()
+    {
+        return GetPinkScore() + "\n" + "\n" +
+               GetGreenScore() + "\n" + "\n" +
+               GetTotalScore() + "\n" + "\n" +
+               GetGameDuration();
     }
 }

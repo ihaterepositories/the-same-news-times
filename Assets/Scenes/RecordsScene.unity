@@ -618,6 +618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keyToPress: 32
   _nextSceneString: Menu
+  isHaveCircleAnimation: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

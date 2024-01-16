@@ -36,11 +36,13 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         triggerZone.OnTriggerEnter += WakeUpEnemy;
+        FinishLevelController.OnGameFinished += StopParticleEffect;
     }
 
     private void OnDisable()
     {
         triggerZone.OnTriggerEnter -= WakeUpEnemy;
+        FinishLevelController.OnGameFinished -= StopParticleEffect;
     }
 
     private void WakeUpEnemy()
@@ -98,5 +100,10 @@ public class Enemy : MonoBehaviour
             speed = 0.1f;
             triggerZone.SetAlphaOfColor(0);
         }
+    }
+
+    private void StopParticleEffect()
+    {
+        sleepingEffectParticle.Stop();
     }
 }

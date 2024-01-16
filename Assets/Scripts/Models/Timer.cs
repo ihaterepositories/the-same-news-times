@@ -1,49 +1,39 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] private InfoText _timerText;
-    [SerializeField] private Color _timeGoesOutColor;
+    [SerializeField] private InfoText timerText;
 
-    private float _duration;
-    private float _timeRemaining;
+    private float gameDuration;
     private Coroutine timerCoroutine;
-
-    public float TimeRemaining { get { return _timeRemaining; } set { _timeRemaining = value; } }
-
-    public static event Action OnTimerStart;
-    public static event Action<float> OnTimerWorking;
-    public static event Action OnTimerFinish;
 
     private void Awake()
     {
-        _duration = PlayerPrefs.GetFloat("TimerSeconds", 300f);
+        gameDuration = PlayerPrefs.GetFloat("GameDuration", 0f);
     }
 
-    private void Update()
+    private void Start()
     {
-        StopTimerByPlayer();
+        StartTimer();
     }
 
     private void OnEnable()
     {
-        StartLevelController.OnAllSpawned += StartTimer;
-        ExitObject.OnEated += StopTimer;
+        FinishLevelController.OnLevelFinished += StopTimer;
+        FinishLevelController.OnGameFinished += StopTimer;
     }
 
     private void OnDisable()
     {
-        StartLevelController.OnAllSpawned -= StartTimer;
-        ExitObject.OnEated -= StopTimer;
+        FinishLevelController.OnLevelFinished -= StopTimer;
+        FinishLevelController.OnGameFinished -= StopTimer;
     }
 
-    public void StartTimer()
+    private void StartTimer()
     {
-        _timeRemaining = _duration;
-        OnTimerStart?.Invoke();
-        timerCoroutine = StartCoroutine(StartTimerCoroutine());
+        Debug.Log("Timer started");
+        timerCoroutine = StartCoroutine(IncreaseTimeCoroutine());
     }
 
     public void StopTimer()
@@ -52,40 +42,18 @@ public class Timer : MonoBehaviour
         {
             StopCoroutine(timerCoroutine);
             timerCoroutine = null;
-
-            PlayerPrefs.SetFloat("TimerSeconds", _timeRemaining);
+            PlayerPrefs.SetFloat("GameDuration", gameDuration);
         }
     }
 
-    private IEnumerator StartTimerCoroutine()
+    private IEnumerator IncreaseTimeCoroutine()
     {
-        while (_timeRemaining >= 0f)
+        while (true)
         {
-            OnTimerWorking?.Invoke(_timeRemaining);
-            SetTimerText(_timeRemaining);
-            _timeRemaining -= Time.deltaTime;
+            gameDuration += Time.deltaTime;
+            Debug.Log(gameDuration);
+            timerText.SetText(TimeFormatter.Formate(gameDuration));
             yield return null;
-        }
-
-        OnTimerFinish?.Invoke();
-    }
-
-    private void SetTimerText(float timeRemaining)
-    {
-        if (timeRemaining <= 10f)
-        {
-            _timerText.TextObject.color = _timeGoesOutColor;
-        }
-
-        TimeSpan t = TimeSpan.FromSeconds(timeRemaining);
-        _timerText.SetText(string.Format("{0:00}:{1:00}:{2:00}", ((int)t.TotalHours), t.Minutes, t.Seconds));
-    }
-
-    private void StopTimerByPlayer()
-    {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            _timeRemaining = 0f;
         }
     }
 }

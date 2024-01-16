@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
@@ -29,7 +28,7 @@ public class PressKeyToContinueText : MonoBehaviour
 
     private void Update()
     {
-        LoadNextScene();
+        EnableNextSceneLoading();
     }
 
     private IEnumerator ChangeScaleCoroutine()
@@ -43,29 +42,11 @@ public class PressKeyToContinueText : MonoBehaviour
         StartCoroutine(ChangeScaleCoroutine());
     }
 
-    private void LoadNextScene()
+    private void EnableNextSceneLoading()
     {
         if (Input.GetKeyDown(_keyToPress))
         {
-            CircleAnimation.Instance.Increase(6);
-
-            StartCoroutine(LoadNextSceneCoroutine());
-        }
-    }
-
-    private IEnumerator LoadNextSceneCoroutine()
-    {
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(LoadSceneAsyncCoroutine());
-    }
-
-    private IEnumerator LoadSceneAsyncCoroutine()
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_nextSceneString);
-
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
+            SceneLoadingController.Instance.LoadSceneAsync(_nextSceneString);
         }
     }
 }

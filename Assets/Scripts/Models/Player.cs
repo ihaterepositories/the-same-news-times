@@ -17,12 +17,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        Timer.OnTimerFinish += DestroyPlayer;
+        FinishLevelController.OnGameFinished += DestroyPlayer;
     }
 
     private void OnDisable()
     {
-        Timer.OnTimerFinish -= DestroyPlayer;
+        FinishLevelController.OnGameFinished -= DestroyPlayer;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

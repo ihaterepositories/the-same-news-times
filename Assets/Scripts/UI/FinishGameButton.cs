@@ -5,7 +5,7 @@ public class FinishGameButton : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CircleAnimation.Instance.Increase(4);
+        CircleAnimation.Instance.Increase();
 
         StartCoroutine(ExitGameCoroutine());
     }

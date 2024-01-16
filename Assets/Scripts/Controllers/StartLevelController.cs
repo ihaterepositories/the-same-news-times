@@ -11,8 +11,6 @@ public class StartLevelController : MonoBehaviour
 
     private void Start()
     {
-        CircleAnimation.Instance.Decrease();
-
         _mazeSpawner.Spawn();
 
         _mazeInfoText.SetText(

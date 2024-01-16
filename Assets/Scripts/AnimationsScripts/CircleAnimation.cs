@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CircleAnimation : MonoBehaviour
 {
@@ -24,15 +25,29 @@ public class CircleAnimation : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Decrease();
+    }
+
     public void Decrease()
     {
         transform.localScale = new Vector2(50f, 50f);
         transform.DOScale(Vector2.zero, 1f);
     }
 
-    public void Increase(int sortingOrder)
+    public void Increase()
     {
-        _spriteRenderer.sortingOrder = sortingOrder;
         transform.localScale = Vector2.zero;
         transform.DOScale(new Vector2(50f, 50f), 1f);
     }
