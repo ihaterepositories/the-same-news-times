@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPoolable
 {
     [SerializeField] private EnemyTriggerZone triggerZone;
     [SerializeField] private Sprite activeEnemySprite;
@@ -14,9 +14,12 @@ public class Enemy : MonoBehaviour
     private bool isReachedPlayer = false;
     private SpriteRenderer spriteRenderer;
 
+    public GameObject GameObject => gameObject;
+
     public static event Action OnReachedPlayer;
     public static event Action OnPlayerInDangeroues;
     public static event Action OnEndOfPlayerDangeroues;
+    public event Action<IPoolable> OnDestroyed;
 
     private void Start()
     {
@@ -37,12 +40,19 @@ public class Enemy : MonoBehaviour
     {
         triggerZone.OnTriggerEnter += WakeUpEnemy;
         FinishLevelController.OnGameFinished += StopParticleEffect;
+        FinishLevelController.OnLevelFinished += Reset;
     }
 
     private void OnDisable()
     {
         triggerZone.OnTriggerEnter -= WakeUpEnemy;
         FinishLevelController.OnGameFinished -= StopParticleEffect;
+        FinishLevelController.OnLevelFinished -= Reset;
+    }
+
+    public void Reset()
+    {
+        OnDestroyed?.Invoke(this);
     }
 
     private void WakeUpEnemy()

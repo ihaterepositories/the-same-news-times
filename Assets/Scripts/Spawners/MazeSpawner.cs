@@ -4,61 +4,65 @@ using UnityEngine;
 
 public class MazeSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _cellPrefab;
+    [SerializeField] private CellWallsCollector _cellPrefab;
     [SerializeField] private GameObject _exitObjectPrefab;
     [SerializeField] private GameObject _greenPointPrefab;
     [SerializeField] private GameObject _enemyPrefab;
 
     private int _spawnedCyclesCount;
-    private int _spawnedEatablePointsCount;
-    private int _mazeWidth = 35;
-    private int _mazeHeight = 18;
+    private int _mazeWidth;
+    private int _mazeHeight;
     private Cell[,] _maze;
+    private List<CellWallsCollector> _cellObjects;
+    private ObjectPool<CellWallsCollector> _pool;
 
     public Vector2 FirstCellCoordinates { get { return new Vector2(-(_mazeWidth / 2) + 0.9f, -(_mazeHeight / 2) + 0.9f); } }
     public int MazeWidth { get { return _mazeWidth; } }
     public int MazeHeight { get { return _mazeHeight; } }
     public int SpawnedCyclesCount { get { return _spawnedCyclesCount; } }
-    public int SpawnedEatablePointsCount { get { return _spawnedEatablePointsCount; } }
+    public Cell[,] Maze { get { return _maze; } }
+    public List<CellWallsCollector> CellObjects { get { return _cellObjects; } }
+
+    private void Awake()
+    {
+        _pool = new ObjectPool<CellWallsCollector>(_cellPrefab);
+    }
 
     public void Spawn()
     {
-        _mazeWidth = UnityEngine.Random.Range(20, 36);
-        _mazeHeight = UnityEngine.Random.Range(15, 19);
-        var mazeGenerator = new MazeGenerator(_mazeWidth, _mazeHeight);
-        _maze = mazeGenerator.Generate();
-        var cells = new List<CellWallsCollector>();
-
+        _mazeWidth = Random.Range(20, 36);
+        _mazeHeight = Random.Range(15, 19);
+        _maze = new MazeGenerator(_mazeWidth, _mazeHeight).Generate();
+        _cellObjects = new List<CellWallsCollector>();
         CreateCycles(_maze, UnityEngine.Random.Range(1, 5));
-        SpawnCells(_maze, cells);
-        SpawnExitObject();
-        SpawnEatablePoints();
-        SpawnEnemy();
+        SpawnCells(_maze);
     }
 
-    private void SpawnCells(Cell[,] maze, List<CellWallsCollector> cells)
+    private void SpawnCells(Cell[,] maze)
     {
         for (int cellPositionX = 0; cellPositionX < maze.GetLength(0); cellPositionX++)
         {
             for (int cellPositionY = 0; cellPositionY < maze.GetLength(1); cellPositionY++)
             {
-                CellWallsCollector cell = Instantiate(
-                    _cellPrefab, 
-                    new Vector2(cellPositionX - (_mazeWidth / 2) + 0.5f, cellPositionY - (_mazeHeight / 2) + 0.5f), 
-                    Quaternion.identity)
-                    .GetComponent<CellWallsCollector>();
+                CellWallsCollector cell = GetCellObject();
+                cell.transform.localPosition = new Vector2(
+                    cellPositionX - (_mazeWidth / 2) + 0.5f, 
+                    cellPositionY - (_mazeHeight / 2) + 0.5f);
 
-                ChangeCellTransparety(cell, 0f);
+                cell.ChangeTransparety(0);
 
                 cell.leftWall.SetActive(maze[cellPositionX, cellPositionY].isHaveLeftWall);
                 cell.bottomWall.SetActive(maze[cellPositionX, cellPositionY].isHaveBottomtWall);
-                cell.gameObject.name = $"cell[X:{cellPositionX}][Y:{cellPositionY}]";
 
-                cells.Add(cell);
+                _cellObjects.Add(cell);
             }
         }
+    }
 
-        StartCoroutine(PlayCellsSpawnAnimation(cells));
+    private CellWallsCollector GetCellObject()
+    {
+        IPoolable poolable = _pool.GetFreeObject();
+        return poolable as CellWallsCollector;
     }
 
     // Delete some random walls, which are closer to the maze center, to create cycles
@@ -84,115 +88,8 @@ public class MazeSpawner : MonoBehaviour
         }
     }
 
-    private IEnumerator CellSpawnAnimationCoroutine(CellWallsCollector cell)
+    public static Vector2 GetWorldCellCoordinates(Cell cell, int mazeWidth, int mazeHeight)
     {
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 0.4f);
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 0.5f);
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 0.6f);
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 0.7f);
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 0.8f);
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 0.9f);
-        yield return new WaitForSeconds(0.0001f);
-        ChangeCellTransparety(cell, 1);
-    }
-
-    private void ChangeCellTransparety(CellWallsCollector cell, float transparety)
-    {
-        cell.bottomWallSpriteRenderer.color = new Color(
-                    cell.bottomWallSpriteRenderer.color.r,
-                    cell.bottomWallSpriteRenderer.color.g,
-                    cell.bottomWallSpriteRenderer.color.b,
-                    transparety);
-
-        cell.leftWallSpriteRenderer.color = new Color(
-                    cell.bottomWallSpriteRenderer.color.r,
-                    cell.bottomWallSpriteRenderer.color.g,
-                    cell.bottomWallSpriteRenderer.color.b,
-                    transparety);
-    }
-
-    private void ShuffleCells(List<CellWallsCollector> cells)
-    {
-        System.Random rng = new System.Random();
-        int n = cells.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            CellWallsCollector value = cells[k];
-            cells[k] = cells[n];
-            cells[n] = value;
-        }
-    }
-
-    private IEnumerator PlayCellsSpawnAnimation(List<CellWallsCollector> cells)
-    {
-        ShuffleCells(cells);
-
-        for (int i = 0; i < cells.Count; i++)
-        {
-            StartCoroutine(CellSpawnAnimationCoroutine(cells[i]));
-            yield return new WaitForSeconds(0.0001f);
-        }
-    }
-
-    private void SpawnExitObject()
-    {
-        Instantiate(
-            _exitObjectPrefab,
-            new Vector2(MazeGenerator.ExitCellPositionX - (_mazeWidth / 2) + 0.9f, MazeGenerator.ExitCellPositionY - (_mazeHeight / 2) + 0.9f),
-            Quaternion.identity);
-    }
-
-    private void SpawnEatablePoints()
-    {
-        int eatablePointsCount = UnityEngine.Random.Range(_mazeWidth - 10, _mazeHeight - 5);
-        _spawnedEatablePointsCount = eatablePointsCount;
-
-        for (int i = 0; i < eatablePointsCount; i++)
-        {
-            int xPosition = UnityEngine.Random.Range(0, _mazeWidth - 1);
-            int yPosition = UnityEngine.Random.Range(0, _mazeHeight - 1);
-
-            if (xPosition != MazeGenerator.ExitCellPositionX && yPosition != MazeGenerator.ExitCellPositionY)
-            {
-                Cell cell = _maze[xPosition, yPosition];
-
-                Instantiate(
-                _greenPointPrefab,
-                new Vector2(cell.x - (_mazeWidth / 2) + 0.9f, cell.y - (_mazeHeight / 2) + 0.9f),
-                Quaternion.identity);
-            }
-            else
-            {
-                _spawnedEatablePointsCount--;
-            }
-        }
-    }
-
-    private void SpawnEnemy()
-    {
-        int xPosition = UnityEngine.Random.Range(1, _mazeWidth - 1);
-        int yPosition = UnityEngine.Random.Range(1, _mazeHeight - 1);
-
-        if (xPosition != MazeGenerator.ExitCellPositionX && 
-            yPosition != MazeGenerator.ExitCellPositionY &&
-            xPosition > 5 &&
-            yPosition > 5)
-        {
-            Cell cell = _maze[xPosition, yPosition];
-
-            Instantiate(
-            _enemyPrefab,
-            new Vector2(cell.x - (_mazeWidth / 2) + 0.9f, cell.y - (_mazeHeight / 2) + 0.9f),
-            Quaternion.identity);
-        }
-        else { SpawnEnemy(); }
+        return new Vector2(cell.x - (mazeWidth / 2) + 0.9f, cell.y - (mazeHeight / 2) + 0.9f);
     }
 }

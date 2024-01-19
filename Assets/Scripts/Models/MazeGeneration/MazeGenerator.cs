@@ -7,8 +7,7 @@ public class MazeGenerator
     private int width;
     private int height;
 
-    public static int ExitCellPositionX { get; private set; }
-    public static int ExitCellPositionY { get; private set; }
+    public static Cell ExitCell {  get; private set; }
 
     public MazeGenerator (int width, int height)
     {
@@ -28,7 +27,7 @@ public class MazeGenerator
             }
         }
 
-        // remove walls, which out of the maze
+        // remove walls which are out of the maze
         for (int x = 0; x < labyrinths.GetLength(0); x++)
         {
             labyrinths[x, height - 1].isHaveLeftWall = false;
@@ -40,14 +39,14 @@ public class MazeGenerator
         }
         //
 
-        RemoveWalls(labyrinths);
+        GenerateWay(labyrinths);
 
         PlaceMazeExit(labyrinths);
 
         return labyrinths;
     }
 
-    public void RemoveWalls(Cell[,] labyrinths)
+    private void GenerateWay(Cell[,] labyrinths)
     {
         Cell currentCell = labyrinths[0, 0];
         currentCell.isVisitedByGenerator = true;
@@ -120,7 +119,8 @@ public class MazeGenerator
         else if (furthest.x == width - 2) labyrinths[furthest.x + 1, furthest.y].isHaveLeftWall = false;
         else if (furthest.y == height - 2) labyrinths[furthest.x, furthest.y + 1].isHaveBottomtWall = false;
 
-        ExitCellPositionX = furthest.x;
-        ExitCellPositionY = furthest.y;
+        ExitCell = new Cell();
+        ExitCell.x = furthest.x;
+        ExitCell.y = furthest.y;
     }
 }

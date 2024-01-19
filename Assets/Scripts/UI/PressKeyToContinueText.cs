@@ -9,6 +9,7 @@ public class PressKeyToContinueText : MonoBehaviour
 {
     [SerializeField] private KeyCode _keyToPress;
     [SerializeField] private string _nextSceneString;
+    [SerializeField] private bool useAdditionalCircleAnimation;
 
     private Text _text;
     private float _scaleX;

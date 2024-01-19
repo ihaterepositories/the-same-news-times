@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1384972288569595778}
   - component: {fileID: 5258464106083680986}
   - component: {fileID: 8378945866881642606}
-  - component: {fileID: 504369885821877668}
+  - component: {fileID: 8851438598087151166}
   m_Layer: 0
-  m_Name: GreenPoint
+  m_Name: GreenScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &504369885821877668
+--- !u!114 &8851438598087151166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,6 +140,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6394658373644960433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6eb1850d0b19f541b3c510805ec8b75, type: 3}
+  m_Script: {fileID: 11500000, guid: 50cc2e01f022db841b560d4301bd2177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

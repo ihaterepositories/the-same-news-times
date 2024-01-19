@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SavedDataCleaningController : MonoBehaviour
+public class LevelDataCleaningController : MonoBehaviour
 {
-    private SavedDataCleaningController _instance;
+    private LevelDataCleaningController _instance;
 
     private void Awake()
     {

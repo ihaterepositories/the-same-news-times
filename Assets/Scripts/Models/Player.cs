@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : MonoBehaviour
+
+public class Player : MonoBehaviour, IPoolable
 {
     private float speed = 10f;
 
     public static Vector2 Position;
+    public GameObject GameObject => gameObject;
+
+    public event Action<IPoolable> OnDestroyed;
 
     private void FixedUpdate()
     {
@@ -17,22 +20,23 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        FinishLevelController.OnGameFinished += DestroyPlayer;
+        FinishLevelController.OnLevelFinished += Reset;
     }
 
     private void OnDisable()
     {
-        FinishLevelController.OnGameFinished -= DestroyPlayer;
+        FinishLevelController.OnLevelFinished -= Reset;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var eateable = collision.gameObject.GetComponent<IEatable>();
+        var eatable = collision.gameObject.GetComponent<IEatable>();
+        if (eatable is not null) eatable.Eated();
+    }
 
-        if (eateable is not null)
-        {
-            eateable.Eated();
-        }
+    public void Reset()
+    {
+        OnDestroyed?.Invoke(this);
     }
 
     private void Move()
@@ -53,11 +57,6 @@ public class Player : MonoBehaviour
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime);
         }
-    }
-
-    private void DestroyPlayer()
-    {
-        Destroy(gameObject);
     }
 
     private void SetPositionVariable()

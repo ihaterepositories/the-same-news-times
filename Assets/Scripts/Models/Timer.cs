@@ -8,31 +8,24 @@ public class Timer : MonoBehaviour
     private float gameDuration;
     private Coroutine timerCoroutine;
 
-    private void Awake()
-    {
-        gameDuration = PlayerPrefs.GetFloat("GameDuration", 0f);
-    }
-
-    private void Start()
-    {
-        StartTimer();
-    }
+    public float GameDuration { get { return gameDuration; } }
 
     private void OnEnable()
     {
+        StartLevelController.OnAllSpawned += StartTimer;
         FinishLevelController.OnLevelFinished += StopTimer;
         FinishLevelController.OnGameFinished += StopTimer;
     }
 
     private void OnDisable()
     {
+        StartLevelController.OnAllSpawned -= StartTimer;
         FinishLevelController.OnLevelFinished -= StopTimer;
         FinishLevelController.OnGameFinished -= StopTimer;
     }
 
-    private void StartTimer()
+    public void StartTimer()
     {
-        Debug.Log("Timer started");
         timerCoroutine = StartCoroutine(IncreaseTimeCoroutine());
     }
 
@@ -42,7 +35,6 @@ public class Timer : MonoBehaviour
         {
             StopCoroutine(timerCoroutine);
             timerCoroutine = null;
-            PlayerPrefs.SetFloat("GameDuration", gameDuration);
         }
     }
 
@@ -51,7 +43,6 @@ public class Timer : MonoBehaviour
         while (true)
         {
             gameDuration += Time.deltaTime;
-            Debug.Log(gameDuration);
             timerText.SetText(TimeFormatter.Formate(gameDuration));
             yield return null;
         }

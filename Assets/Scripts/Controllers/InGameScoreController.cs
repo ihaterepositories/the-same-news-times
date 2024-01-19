@@ -5,52 +5,44 @@ public class InGameScoreController : MonoBehaviour
 {
     [SerializeField] private InfoText _greenScoreText;
     [SerializeField] private InfoText _pinkScoreText;
+    [SerializeField] private Timer _gameDurationTimer;
 
-    private int _greenScore;
-    private int _pinkScore;
-    private int _totalScore;
+    private int _greenScore = 0;
+    private int _pinkScore = 0;
+    private int _totalScore = 0;
 
     public static event Action OnPinkScoreUpdated;
 
     private void Start()
     {
-        _greenScore = PlayerPrefs.GetInt("GreenScore", 0);
-        _pinkScore = PlayerPrefs.GetInt("PinkScore", 0);
-
         _greenScoreText.SetText(_greenScore);
         _pinkScoreText.SetText(_pinkScore);
     }
 
     private void OnEnable()
     {
-        GreenPoint.OnEated += UpdateGreenScore;
-        ExitObject.OnEated += UpdatePinkScore;
+        GreenScore.OnEated += UpdateGreenScore;
+        PinkScore.OnEated += UpdatePinkScore;
     }
 
     private void OnDisable()
     {
-        GreenPoint.OnEated -= UpdateGreenScore;
-        ExitObject.OnEated -= UpdatePinkScore;
+        GreenScore.OnEated -= UpdateGreenScore;
+        PinkScore.OnEated -= UpdatePinkScore;
     }
 
     private void UpdateGreenScore()
     {
         _greenScore++;
         _greenScoreText.SetText(_greenScore);
-
-        PlayerPrefs.SetInt("GreenScore", _greenScore);
-        PlayerPrefs.Save();
     }
 
     private void UpdatePinkScore()
     {
         _pinkScore++;
         _pinkScoreText.SetText(_pinkScore);
-
-        PlayerPrefs.SetInt("PinkScore", _pinkScore);
         PlayerPrefs.SetInt("TotalMazesCompleted", PlayerPrefs.GetInt("TotalMazesCompleted", 0) + 1);
         PlayerPrefs.Save();
-
         OnPinkScoreUpdated?.Invoke();
     }
 
@@ -86,7 +78,7 @@ public class InGameScoreController : MonoBehaviour
 
     private string GetTotalScore()
     {
-        _totalScore = (_pinkScore * _greenScore) + (int)PlayerPrefs.GetFloat("GameDuration", 0f);
+        _totalScore = (_pinkScore * _greenScore) + (int)_gameDurationTimer.GameDuration;
 
         int bestTotalScore = PlayerPrefs.GetInt("BestTotalScore", 0);
         string scoreString = $"total score: {_totalScore}";
@@ -103,7 +95,7 @@ public class InGameScoreController : MonoBehaviour
 
     private string GetGameDuration()
     {
-        float currentGameDuration = PlayerPrefs.GetFloat("GameDuration", 0f);
+        float currentGameDuration = _gameDurationTimer.GameDuration;
         float bestGameDuration = PlayerPrefs.GetFloat("BestGameDuration", 0f);
 
         string gameDurationString = $"game duration: {TimeFormatter.Formate(currentGameDuration)}";

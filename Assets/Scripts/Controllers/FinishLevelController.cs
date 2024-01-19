@@ -10,6 +10,7 @@ public class FinishLevelController : MonoBehaviour
     [SerializeField] private Text _pressAnyKeyText;
 
     public static event Action OnLevelFinished;
+    public static event Action OnReadyToStartNewLevel;
     public static event Action OnGameFinished;
 
     private void Awake()
@@ -44,14 +45,28 @@ public class FinishLevelController : MonoBehaviour
 
     private void FinishLevel()
     {
+        StartCoroutine(FinishLevelCoroutine());
+    }
+
+    private IEnumerator FinishLevelCoroutine()
+    {
+        CircleAnimation.Instance.Increase();
+        yield return new WaitForSeconds(1f);
         OnLevelFinished?.Invoke();
-        SceneLoadingController.Instance.LoadSceneAsync("GameScene");
+        yield return new WaitForSeconds(2f);
+        OnReadyToStartNewLevel?.Invoke();
     }
 
     private void FinishGame()
     {
-        OnGameFinished?.Invoke();
+        StartCoroutine(FinishGameCoroutine());
+    }
+
+    private IEnumerator FinishGameCoroutine()
+    {
         CircleAnimation.Instance.Increase();
+        yield return new WaitForSeconds(1f);
+        OnGameFinished?.Invoke();
         _gameOverText.SetText(_scoreController.GetCurrentGameScore());
         StartCoroutine(ActivateExitButtonCoroutine());
     }
