@@ -1,17 +1,20 @@
 using System;
 using UnityEngine;
 
-public class PinkScore : MonoBehaviour, IPickable, IPoolable
+public class Lock : MonoBehaviour, IPoolable
 {
     public GameObject GameObject => gameObject;
 
-    public static event Action OnPicked;
     public event Action<IPoolable> OnDestroyed;
 
-    public void Pick()
+    private void OnEnable()
     {
-        OnPicked?.Invoke();
-        Reset();
+        Key.OnPicked += Reset;
+    }
+
+    private void OnDisable()
+    {
+        Key.OnPicked -= Reset;
     }
 
     public void Reset()

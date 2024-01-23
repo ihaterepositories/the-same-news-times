@@ -50,10 +50,10 @@ public class FinishLevelController : MonoBehaviour
 
     private IEnumerator FinishLevelCoroutine()
     {
-        CircleAnimation.Instance.Increase();
-        yield return new WaitForSeconds(1f);
+        CircleAnimation.Instance.Increase(0.2f);
+        yield return new WaitForSeconds(0.2f);
         OnLevelFinished?.Invoke();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         OnReadyToStartNewLevel?.Invoke();
     }
 

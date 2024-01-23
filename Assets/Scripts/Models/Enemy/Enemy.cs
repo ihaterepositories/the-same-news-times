@@ -7,11 +7,12 @@ public class Enemy : MonoBehaviour, IPoolable
 {
     [SerializeField] private EnemyTriggerZone triggerZone;
     [SerializeField] private Sprite activeEnemySprite;
+    [SerializeField] private Sprite sleepingEnemySprite;
     [SerializeField] private ParticleSystem sleepingEffectParticle;
 
     private float speed;
-    private bool isSeePlayer = false;
-    private bool isReachedPlayer = false;
+    private bool isSeePlayer;
+    private bool isReachedPlayer;
     private SpriteRenderer spriteRenderer;
 
     public GameObject GameObject => gameObject;
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour, IPoolable
     {
         triggerZone.OnTriggerEnter += WakeUpEnemy;
         FinishLevelController.OnGameFinished += StopParticleEffect;
+        FinishLevelController.OnLevelFinished += StopParticleEffect;
         FinishLevelController.OnLevelFinished += Reset;
     }
 
@@ -47,29 +49,32 @@ public class Enemy : MonoBehaviour, IPoolable
     {
         triggerZone.OnTriggerEnter -= WakeUpEnemy;
         FinishLevelController.OnGameFinished -= StopParticleEffect;
+        FinishLevelController.OnLevelFinished -= StopParticleEffect;
         FinishLevelController.OnLevelFinished -= Reset;
     }
 
     public void Reset()
     {
+        MakeEnemySleep();
         OnDestroyed?.Invoke(this);
     }
 
     private void WakeUpEnemy()
     {
-        sleepingEffectParticle.Stop();
-        MakePlayerVisible();
-        ChangeSpriteToActive();
-    }
-
-    private void ChangeSpriteToActive()
-    {
-        spriteRenderer.sprite = activeEnemySprite;
-    }
-
-    private void MakePlayerVisible()
-    {
         isSeePlayer = true;
+        sleepingEffectParticle.Stop();
+        spriteRenderer.sprite = activeEnemySprite;
+        Debug.Log("detected player");
+    }
+
+    public void MakeEnemySleep()
+    {
+        isSeePlayer = false;
+        isReachedPlayer = false;
+        sleepingEffectParticle.Play();
+        triggerZone.SetAlphaOfColor(0.15f);
+        spriteRenderer.sprite = sleepingEnemySprite;
+        triggerZone.StartBreathingAnimation();
     }
 
     private float GetDistanceToPlayer()

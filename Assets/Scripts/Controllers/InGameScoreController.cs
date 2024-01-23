@@ -21,14 +21,14 @@ public class InGameScoreController : MonoBehaviour
 
     private void OnEnable()
     {
-        GreenScore.OnEated += UpdateGreenScore;
-        PinkScore.OnEated += UpdatePinkScore;
+        GreenScore.OnPicked += UpdateGreenScore;
+        PinkScore.OnPicked += UpdatePinkScore;
     }
 
     private void OnDisable()
     {
-        GreenScore.OnEated -= UpdateGreenScore;
-        PinkScore.OnEated -= UpdatePinkScore;
+        GreenScore.OnPicked -= UpdateGreenScore;
+        PinkScore.OnPicked -= UpdatePinkScore;
     }
 
     private void UpdateGreenScore()

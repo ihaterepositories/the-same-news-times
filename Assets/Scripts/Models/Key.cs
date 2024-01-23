@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
 
-public class PinkScore : MonoBehaviour, IPickable, IPoolable
+public class Key : MonoBehaviour, IPickable, IPoolable
 {
     public GameObject GameObject => gameObject;
 
-    public static event Action OnPicked;
     public event Action<IPoolable> OnDestroyed;
+    public static event Action OnPicked;
 
     public void Pick()
     {
+        Debug.Log("Key picked");
         OnPicked?.Invoke();
         Reset();
     }

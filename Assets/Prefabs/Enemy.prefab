@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerZone: {fileID: 3292864324356559630}
   activeEnemySprite: {fileID: 21300000, guid: e7b4ed5b7ba832c4aa0fcea73b1eaeb9, type: 3}
+  sleepingEnemySprite: {fileID: 21300000, guid: 00a9fb8e91fc17f48ba96357800b323a, type: 3}
   sleepingEffectParticle: {fileID: 5194597223711268548}
 --- !u!1 &6716463607099937132
 GameObject:
@@ -235,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56c90acc6183824aa77b99cfa406fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerCollider: {fileID: 0}
+  triggerCollider: {fileID: 7053907987064500584}
 --- !u!1 &6844267325578987286
 GameObject:
   m_ObjectHideFlags: 0

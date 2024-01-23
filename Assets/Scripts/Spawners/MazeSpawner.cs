@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeSpawner : MonoBehaviour
 {
     [SerializeField] private CellWallsCollector _cellPrefab;
-    [SerializeField] private GameObject _exitObjectPrefab;
-    [SerializeField] private GameObject _greenPointPrefab;
-    [SerializeField] private GameObject _enemyPrefab;
 
     private int _spawnedCyclesCount;
     private int _mazeWidth;
@@ -28,13 +24,23 @@ public class MazeSpawner : MonoBehaviour
         _pool = new ObjectPool<CellWallsCollector>(_cellPrefab);
     }
 
-    public void Spawn()
+    public void Spawn(int cyclesCount)
     {
         _mazeWidth = Random.Range(20, 36);
         _mazeHeight = Random.Range(15, 19);
         _maze = new MazeGenerator(_mazeWidth, _mazeHeight).Generate();
         _cellObjects = new List<CellWallsCollector>();
-        CreateCycles(_maze, UnityEngine.Random.Range(1, 5));
+        CreateCycles(_maze, cyclesCount);
+        SpawnCells(_maze);
+    }
+
+    public void Spawn(int cyclesCount, int mazeWidth, int mazeHeight)
+    {
+        _mazeWidth = mazeWidth;
+        _mazeHeight = mazeHeight;
+        _maze = new MazeGenerator(mazeWidth, mazeHeight).Generate();
+        _cellObjects = new List<CellWallsCollector>();
+        CreateCycles(_maze, cyclesCount);
         SpawnCells(_maze);
     }
 
@@ -79,8 +85,7 @@ public class MazeSpawner : MonoBehaviour
                 _spawnedCyclesCount++;
                 continue;
             }
-
-            if (maze[cellPositionX, cellPositionY].isHaveBottomtWall)
+            else if (maze[cellPositionX, cellPositionY].isHaveBottomtWall)
             {
                 maze[cellPositionX, cellPositionY].isHaveBottomtWall = false;
                 _spawnedCyclesCount++;

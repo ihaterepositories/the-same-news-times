@@ -18,9 +18,7 @@ public class EnemyTriggerZone : MonoBehaviour
     {
         triggerCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        sequence = DOTween.Sequence();
-
-        DoBreathing();
+        StartBreathingAnimation();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -45,11 +43,18 @@ public class EnemyTriggerZone : MonoBehaviour
         spriteRenderer.DOFade(alpha, 0.7f);
     }
 
-    private void DoBreathing()
+    public void StartBreathingAnimation()
+    {
+        triggerCollider.enabled = true;
+        transform.localScale = Vector2.zero;
+        sequence = DOTween.Sequence();
+        DoBreathingAnimation();
+    }
+
+    private void DoBreathingAnimation()
     {
         sequence.Append(transform.DOScale(4.5f, 1.5f));
-        sequence.Append(transform.DOScale(1.5f, 1f));
-
+        sequence.Append(transform.DOScale(0f, 1f));
         sequence.SetLoops(-1);
     }
 }

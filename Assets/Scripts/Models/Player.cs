@@ -2,15 +2,22 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(TrailRenderer))]
 
 public class Player : MonoBehaviour, IPoolable
 {
+    private TrailRenderer _trailRender;
     private float speed = 10f;
 
     public static Vector2 Position;
-    public GameObject GameObject => gameObject;
 
+    public GameObject GameObject => gameObject;
     public event Action<IPoolable> OnDestroyed;
+
+    private void Awake()
+    {
+        _trailRender = GetComponent<TrailRenderer>();
+    }
 
     private void FixedUpdate()
     {
@@ -20,18 +27,20 @@ public class Player : MonoBehaviour, IPoolable
 
     private void OnEnable()
     {
+        FinishLevelController.OnLevelFinished += ClearTrailRender;
         FinishLevelController.OnLevelFinished += Reset;
     }
 
     private void OnDisable()
     {
+        FinishLevelController.OnLevelFinished -= ClearTrailRender;
         FinishLevelController.OnLevelFinished -= Reset;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        var eatable = collision.gameObject.GetComponent<IEatable>();
-        if (eatable is not null) eatable.Eated();
+        var pickable = collision.gameObject.GetComponent<IPickable>();
+        if (pickable is not null) pickable.Pick();
     }
 
     public void Reset()
@@ -62,5 +71,10 @@ public class Player : MonoBehaviour, IPoolable
     private void SetPositionVariable()
     {
         Position = transform.position;
+    }
+
+    private void ClearTrailRender()
+    {
+        _trailRender.Clear();
     }
 }

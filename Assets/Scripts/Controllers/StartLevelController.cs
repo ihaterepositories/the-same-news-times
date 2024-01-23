@@ -1,22 +1,28 @@
+using DG.Tweening;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class StartLevelController : MonoBehaviour
 {
-    [SerializeField] private MazeSpawner _mazeSpawner;
-    [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private GreenScoresSpawner _greenScoresSpawner;
-    [SerializeField] private PinkScoreSpawner _pinkScoreSpawner;
-    [SerializeField] private PlayerSpawner _playerSpawner;
-    [SerializeField] private Timer _timer;
+    [SerializeField] private LevelSpawner _levelSpawner;
     [SerializeField] private InfoText _mazeInfoText;
-    [SerializeField] private MazeAppearanceAnimation _mazeAppearanceAnimation;
+    [SerializeField] private InfoText _levelDescriptionText;
 
     public static event Action OnAllSpawned;
 
+    private void Awake()
+    {
+        _levelDescriptionText.GetComponent<Text>().DOFade(0f, 0f);
+    }
+
     private void Start()
     {
-        InitializeDefaultLevel();
+        _levelSpawner.SpawnLevel();
+        SetMazeInfoText();
+        OnAllSpawned?.Invoke();
     }
 
     private void OnEnable()
@@ -31,29 +37,37 @@ public class StartLevelController : MonoBehaviour
 
     private void InitializeLevel()
     {
-        InitializeDefaultLevel();
-        CircleAnimation.Instance.Decrease();
+        _levelSpawner.SpawnLevel();
+        SetMazeInfoText();
+        SetLevelDescriptionText();
+        _levelDescriptionText.GetComponent<Text>().DOFade(1f, 0.5f);
+        StartCoroutine(StartingLevelCoroutine());
     }
 
-    private void InitializeDefaultLevel()
+    private IEnumerator StartingLevelCoroutine()
     {
-        _mazeSpawner.Spawn();
-        _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _enemySpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _playerSpawner.Spawn(_mazeSpawner.FirstCellCoordinates);
-
+        yield return new WaitForSeconds(2.5f);
+        _levelDescriptionText.GetComponent<Text>().DOFade(0f, 0.15f);
+        CircleAnimation.Instance.Decrease(0.2f);
         OnAllSpawned?.Invoke();
-        _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
-        SetMazeInfoText();
     }
 
     private void SetMazeInfoText()
     {
         _mazeInfoText.SetText(
-            $"maze size: {_mazeSpawner.MazeWidth}x{_mazeSpawner.MazeHeight}  /" +
-            $"  cycles: {_mazeSpawner.SpawnedCyclesCount}  /" +
-            $"  eatable points: {_greenScoresSpawner.GreenScoresCount}"
+            $"maze size: {_levelSpawner.MazeWidth}x{_levelSpawner.MazeHeight}  /" +
+            $"  cycles: {_levelSpawner.MazeCyclesCount}  /" +
+            $"  green tresaurs: {_levelSpawner.MazeGreenScoresCount}"
             );
+    }
+
+    private void SetLevelDescriptionTextVisibile(float visibility)
+    {
+        _levelDescriptionText.GetComponent<Text>().DOFade(visibility, 1f);
+    }
+
+    private void SetLevelDescriptionText()
+    {
+        _levelDescriptionText.SetText(_levelSpawner.LevelDescription);
     }
 }

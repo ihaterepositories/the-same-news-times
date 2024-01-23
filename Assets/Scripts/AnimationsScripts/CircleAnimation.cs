@@ -46,9 +46,21 @@ public class CircleAnimation : MonoBehaviour
         transform.DOScale(Vector2.zero, 1f);
     }
 
+    public void Decrease(float duration)
+    {
+        transform.localScale = new Vector2(50f, 50f);
+        transform.DOScale(Vector2.zero, duration);
+    }
+
     public void Increase()
     {
         transform.localScale = Vector2.zero;
         transform.DOScale(new Vector2(50f, 50f), 1f);
+    }
+
+    public void Increase(float duration)
+    {
+        transform.localScale = Vector2.zero;
+        transform.DOScale(new Vector2(50f, 50f), duration);
     }
 }
