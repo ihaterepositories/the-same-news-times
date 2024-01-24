@@ -19,7 +19,7 @@ public class LevelSpawner : MonoBehaviour
 
     public void SpawnLevel()
     {
-        int levelType = GetLevelType();
+        int levelType = LevelRarityController.GetLevelType();
 
         switch (levelType)
         {
@@ -28,7 +28,10 @@ public class LevelSpawner : MonoBehaviour
             case 3: SpawnAbandonedLevel(); break;
             case 4: SpawnEnemyLevel(); break;
             case 5: SpawnLockedLevel(); break;
-            default: Debug.Log("- undefined level type");  break;
+
+            default:
+                SpawnLevel();
+                Debug.Log("- level type error, trying to regenerate...");  break;
         }
 
         MazeWidth = _mazeSpawner.MazeWidth - 1;
@@ -36,30 +39,9 @@ public class LevelSpawner : MonoBehaviour
         MazeCyclesCount = _mazeSpawner.SpawnedCyclesCount;
         MazeGreenScoresCount = _greenScoresSpawner.GreenScoresCount;
         LevelDescription = LevelDescriptionController.GetDescription(levelType);
+
+        if (FindObjectOfType<Player>() == null)
         _playerSpawner.Spawn(_mazeSpawner.FirstCellCoordinates);
-    }
-
-    private int GetLevelType()
-    {
-        int num = Random.Range(1, 101);
-
-        int[] levelWeights = LevelRarityController.GetLevelSpawnRarity();
-
-        int cumulativeWeight = 0;
-        int selectedLevel = 0;
-
-        for (int i = 0; i < levelWeights.Length; i++)
-        {
-            cumulativeWeight += levelWeights[i];
-
-            if (num <= cumulativeWeight)
-            {
-                selectedLevel = i + 1;
-                break;
-            }
-        }
-
-        return selectedLevel;
     }
 
     private void SpawnDefaultLevel()

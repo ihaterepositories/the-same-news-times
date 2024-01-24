@@ -9,7 +9,7 @@ public class PressKeyToContinueText : MonoBehaviour
 {
     [SerializeField] private KeyCode _keyToPress;
     [SerializeField] private string _nextSceneString;
-    [SerializeField] private bool useAdditionalCircleAnimation;
+    [SerializeField] private bool _useCircleAnimation = true;
 
     private Text _text;
     private float _scaleX;
@@ -47,7 +47,7 @@ public class PressKeyToContinueText : MonoBehaviour
     {
         if (Input.GetKeyDown(_keyToPress))
         {
-            SceneLoadingController.Instance.LoadSceneAsync(_nextSceneString);
+            SceneLoadingController.Instance.LoadSceneAsync(_nextSceneString, _useCircleAnimation);
         }
     }
 }

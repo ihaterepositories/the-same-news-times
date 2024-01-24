@@ -21,14 +21,14 @@ public class SceneLoadingController : MonoBehaviour
         }
     }
 
-    public void LoadSceneAsync(string sceneName)
+    public void LoadSceneAsync(string sceneName, bool isAnimated = true)
     {
-        StartCoroutine(LoadSceneWithAnimationCoroutine(sceneName));
+        StartCoroutine(LoadSceneWithAnimationCoroutine(sceneName, isAnimated));
     }
 
-    private IEnumerator LoadSceneWithAnimationCoroutine(string sceneName)
+    private IEnumerator LoadSceneWithAnimationCoroutine(string sceneName, bool isAnimated)
     {
-        CircleAnimation.Instance.Increase();
+        if (isAnimated) { CircleAnimation.Instance.Increase(); }
         yield return new WaitForSeconds(1f);
         StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
     }

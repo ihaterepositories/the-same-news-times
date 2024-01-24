@@ -9,7 +9,7 @@ public class LevelDescriptionController
             case 3: return "Abandoned temple, there is nothing here...";
             case 4: return "Be careful, this temple is guarded by the temple keeper!";
             case 5: return "The exit of this temple is locked, find the key and be aware from traps!";
-            default: return "LEVEL TYPE ERROR, please send a bug report";
+            default: return "I don`t want to explain something now :(";
         }
     }
 }

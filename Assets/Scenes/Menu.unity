@@ -345,7 +345,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8208f10f421ff68459906a448b7c9bf3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 334492610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb74751d680709e4c8bfa59004314893, type: 3}
+  m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _keyCode: 100
@@ -783,7 +783,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3b0d26ca442a29d46b2fbfdcdccc2d53, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -804,7 +804,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 776679815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb74751d680709e4c8bfa59004314893, type: 3}
+  m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _keyCode: 119
@@ -1948,7 +1948,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: c597adb95aab690408048b7251eb14f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1969,7 +1969,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2031501483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb74751d680709e4c8bfa59004314893, type: 3}
+  m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _keyCode: 97
@@ -2046,7 +2046,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 89e0c21fa0010f54384f2d742656c007, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2067,7 +2067,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2044192279}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb74751d680709e4c8bfa59004314893, type: 3}
+  m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _keyCode: 115

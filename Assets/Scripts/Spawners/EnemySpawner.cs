@@ -21,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
             Cell cell = maze[spawnPositionX, spawnPositionY];
             Enemy enemy = GetEenemyObject();
             enemy.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
+            enemy.MakeEnemySleep();
         }
         else { Spawn(maze, mazeWidth, mazeHeight); }
     }

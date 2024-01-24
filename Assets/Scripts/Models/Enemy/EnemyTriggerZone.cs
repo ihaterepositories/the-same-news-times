@@ -1,5 +1,7 @@
 using DG.Tweening;
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
@@ -8,9 +10,9 @@ using UnityEngine;
 public class EnemyTriggerZone : MonoBehaviour
 {
     [SerializeField] private CircleCollider2D triggerCollider;
-
     private SpriteRenderer spriteRenderer;
-    private Sequence sequence;
+    private Coroutine _breathingCoroutine;
+    private bool _isBreathing;
 
     public event Action OnTriggerEnter;
 
@@ -18,23 +20,20 @@ public class EnemyTriggerZone : MonoBehaviour
     {
         triggerCollider = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        StartBreathingAnimation();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Player>() != null)
         {
-            sequence.Kill();
+            StopBreathing();
             triggerCollider.enabled = false;
-            Increase();
             OnTriggerEnter?.Invoke();
         }
     }
 
     private void Increase()
     {
-        transform.localScale = Vector2.zero;
         transform.DOScale(new Vector2(80f, 80f), 1f);
     }
 
@@ -43,18 +42,43 @@ public class EnemyTriggerZone : MonoBehaviour
         spriteRenderer.DOFade(alpha, 0.7f);
     }
 
-    public void StartBreathingAnimation()
+    public void StartBreathing()
     {
+        _isBreathing = true;
         triggerCollider.enabled = true;
         transform.localScale = Vector2.zero;
-        sequence = DOTween.Sequence();
-        DoBreathingAnimation();
+        _breathingCoroutine = StartCoroutine(DoBreathingCoroutine());
     }
 
-    private void DoBreathingAnimation()
+    private IEnumerator DoBreathingCoroutine()
     {
-        sequence.Append(transform.DOScale(4.5f, 1.5f));
-        sequence.Append(transform.DOScale(0f, 1f));
-        sequence.SetLoops(-1);
+        while (_isBreathing)
+        {
+            if (_isBreathing)
+            {
+                transform.DOScale(4.5f, 1.5f);
+                yield return new WaitForSeconds(1.5f);
+                if (_isBreathing)
+                {
+                    transform.DOScale(0f, 1f);
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+            else
+            {
+                yield break;
+            }
+        }
+    }
+
+    private void StopBreathing()
+    {
+        _isBreathing = false;
+        if (_breathingCoroutine != null)
+        {
+            StopCoroutine(_breathingCoroutine);
+            _breathingCoroutine = null;
+            Increase();
+        }
     }
 }

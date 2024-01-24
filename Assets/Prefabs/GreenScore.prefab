@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5258464106083680986}
   - component: {fileID: 8378945866881642606}
   - component: {fileID: 8851438598087151166}
-  - component: {fileID: 914991428256522524}
+  - component: {fileID: 4367625458451159447}
   m_Layer: 0
   m_Name: GreenScore
   m_TagString: Untagged
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50cc2e01f022db841b560d4301bd2177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &914991428256522524
+--- !u!114 &4367625458451159447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6394658373644960433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3e24fe0b9650314e981dac6205eb93d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c7b16d1ab4abab429434490209e8fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _keyCode: 101

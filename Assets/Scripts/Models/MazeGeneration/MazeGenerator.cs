@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,33 +16,43 @@ public class MazeGenerator
 
     public Cell[,] Generate()
     {
-        var labyrinths = new Cell[width, height];
+        Cell[,] maze = new Cell[width, height];
 
-        for (int i = 0; i < labyrinths.GetLength(0); i++)
+        for (int i = 0; i < maze.GetLength(0); i++)
         {
-            for (int j = 0; j < labyrinths.GetLength(1); j++)
+            for (int j = 0; j < maze.GetLength(1); j++)
             {
-                labyrinths[i, j] = new Cell { x = i, y = j };
+                maze[i, j] = new Cell { x = i, y = j };
             }
         }
 
-        // remove walls which are out of the maze
-        for (int x = 0; x < labyrinths.GetLength(0); x++)
+        RemoveExtraWalls(maze);
+        GenerateWay(maze);
+
+        try
         {
-            labyrinths[x, height - 1].isHaveLeftWall = false;
+            PlaceMazeExit(maze);
+        }
+        catch
+        {
+            Debug.Log("- maze exit generation error, trying to regenerate...");
+            Generate();
         }
 
-        for (int y = 0; y < labyrinths.GetLength(1); y++)
+        return maze;
+    }
+
+    private void RemoveExtraWalls(Cell[,] maze)
+    {
+        for (int x = 0; x < maze.GetLength(0); x++)
         {
-            labyrinths[width - 1, y].isHaveBottomtWall = false;
+            maze[x, height - 1].isHaveLeftWall = false;
         }
-        //
 
-        GenerateWay(labyrinths);
-
-        PlaceMazeExit(labyrinths);
-
-        return labyrinths;
+        for (int y = 0; y < maze.GetLength(1); y++)
+        {
+            maze[width - 1, y].isHaveBottomtWall = false;
+        }
     }
 
     private void GenerateWay(Cell[,] labyrinths)
@@ -98,26 +107,26 @@ public class MazeGenerator
         }
     }
 
-    private void PlaceMazeExit(Cell[,] labyrinths)
+    private void PlaceMazeExit(Cell[,] maze)
     {
-        Cell furthest = labyrinths[0, 0];
+        Cell furthest = maze[0, 0];
 
-        for (int x = 0; x < labyrinths.GetLength(1); x++)
+        for (int x = 0; x < maze.GetLength(1); x++)
         {
-            if (labyrinths[x, height - 2].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[x, height - 2];
-            if (labyrinths[x, 0].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[x, 0];
+            if (maze[x, height - 2].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[x, height - 2];
+            if (maze[x, 0].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[x, 0];
         }
 
-        for (int y = 0; y < labyrinths.GetLength(1); y++)
+        for (int y = 0; y < maze.GetLength(1); y++)
         {
-            if (labyrinths[width - 2, y].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[width - 2, y];
-            if (labyrinths[0, y].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = labyrinths[0, y];
+            if (maze[width - 2, y].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[width - 2, y];
+            if (maze[0, y].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[0, y];
         }
 
         if (furthest.x == 0) furthest.isHaveLeftWall = false;
         else if (furthest.y == 0) furthest.isHaveBottomtWall = false;
-        else if (furthest.x == width - 2) labyrinths[furthest.x + 1, furthest.y].isHaveLeftWall = false;
-        else if (furthest.y == height - 2) labyrinths[furthest.x, furthest.y + 1].isHaveBottomtWall = false;
+        else if (furthest.x == width - 2) maze[furthest.x + 1, furthest.y].isHaveLeftWall = false;
+        else if (furthest.y == height - 2) maze[furthest.x, furthest.y + 1].isHaveBottomtWall = false;
 
         ExitCell = new Cell();
         ExitCell.x = furthest.x;

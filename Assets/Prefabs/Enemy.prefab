@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726f727a462e4ca4ca88f8fe83d016ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 2931297921688927957}
   triggerZone: {fileID: 3292864324356559630}
   activeEnemySprite: {fileID: 21300000, guid: e7b4ed5b7ba832c4aa0fcea73b1eaeb9, type: 3}
   sleepingEnemySprite: {fileID: 21300000, guid: 00a9fb8e91fc17f48ba96357800b323a, type: 3}
@@ -287,7 +288,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

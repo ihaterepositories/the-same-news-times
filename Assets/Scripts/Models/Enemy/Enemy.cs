@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IPoolable
 {
+    [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private EnemyTriggerZone triggerZone;
     [SerializeField] private Sprite activeEnemySprite;
     [SerializeField] private Sprite sleepingEnemySprite;
@@ -13,7 +14,6 @@ public class Enemy : MonoBehaviour, IPoolable
     private float speed;
     private bool isSeePlayer;
     private bool isReachedPlayer;
-    private SpriteRenderer spriteRenderer;
 
     public GameObject GameObject => gameObject;
 
@@ -21,11 +21,6 @@ public class Enemy : MonoBehaviour, IPoolable
     public static event Action OnPlayerInDangeroues;
     public static event Action OnEndOfPlayerDangeroues;
     public event Action<IPoolable> OnDestroyed;
-
-    private void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
 
     private void FixedUpdate()
     {
@@ -40,22 +35,17 @@ public class Enemy : MonoBehaviour, IPoolable
     private void OnEnable()
     {
         triggerZone.OnTriggerEnter += WakeUpEnemy;
-        FinishLevelController.OnGameFinished += StopParticleEffect;
-        FinishLevelController.OnLevelFinished += StopParticleEffect;
         FinishLevelController.OnLevelFinished += Reset;
     }
 
     private void OnDisable()
     {
         triggerZone.OnTriggerEnter -= WakeUpEnemy;
-        FinishLevelController.OnGameFinished -= StopParticleEffect;
-        FinishLevelController.OnLevelFinished -= StopParticleEffect;
         FinishLevelController.OnLevelFinished -= Reset;
     }
 
     public void Reset()
     {
-        MakeEnemySleep();
         OnDestroyed?.Invoke(this);
     }
 
@@ -64,7 +54,6 @@ public class Enemy : MonoBehaviour, IPoolable
         isSeePlayer = true;
         sleepingEffectParticle.Stop();
         spriteRenderer.sprite = activeEnemySprite;
-        Debug.Log("detected player");
     }
 
     public void MakeEnemySleep()
@@ -74,7 +63,7 @@ public class Enemy : MonoBehaviour, IPoolable
         sleepingEffectParticle.Play();
         triggerZone.SetAlphaOfColor(0.15f);
         spriteRenderer.sprite = sleepingEnemySprite;
-        triggerZone.StartBreathingAnimation();
+        triggerZone.StartBreathing();
     }
 
     private float GetDistanceToPlayer()
@@ -115,10 +104,5 @@ public class Enemy : MonoBehaviour, IPoolable
             speed = 0.1f;
             triggerZone.SetAlphaOfColor(0);
         }
-    }
-
-    private void StopParticleEffect()
-    {
-        sleepingEffectParticle.Stop();
     }
 }

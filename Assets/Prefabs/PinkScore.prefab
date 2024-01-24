@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 514486970806978953}
   - component: {fileID: 4955844858528018543}
   - component: {fileID: 718040763666321197}
-  - component: {fileID: 3165791316719239163}
+  - component: {fileID: 2200172767240665949}
   m_Layer: 0
   m_Name: PinkScore
   m_TagString: Untagged
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.90588236, g: 0.3529412, b: 0.4862745, a: 1}
   m_FlipX: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb44b1005830b3499152987c5cc09cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3165791316719239163
+--- !u!114 &2200172767240665949
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4936072063466599147}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3e24fe0b9650314e981dac6205eb93d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c7b16d1ab4abab429434490209e8fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _keyCode: 113

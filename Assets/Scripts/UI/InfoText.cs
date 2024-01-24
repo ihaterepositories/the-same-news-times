@@ -1,8 +1,10 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Text))]
+
 public class InfoText : MonoBehaviour
 {
     [SerializeField] private bool isColorChangable;

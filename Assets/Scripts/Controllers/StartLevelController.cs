@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class StartLevelController : MonoBehaviour
 {
+    [SerializeField] private GameObject _educationalLevel;
     [SerializeField] private LevelSpawner _levelSpawner;
     [SerializeField] private InfoText _mazeInfoText;
     [SerializeField] private InfoText _levelDescriptionText;
@@ -18,21 +19,16 @@ public class StartLevelController : MonoBehaviour
         _levelDescriptionText.GetComponent<Text>().DOFade(0f, 0f);
     }
 
-    private void Start()
-    {
-        _levelSpawner.SpawnLevel();
-        SetMazeInfoText();
-        OnAllSpawned?.Invoke();
-    }
-
     private void OnEnable()
     {
         FinishLevelController.OnReadyToStartNewLevel += InitializeLevel;
+        FinishLevelController.OnLevelFinished += HideEducationalLevel;
     }
 
     private void OnDisable()
     {
         FinishLevelController.OnReadyToStartNewLevel -= InitializeLevel;
+        FinishLevelController.OnLevelFinished -= HideEducationalLevel;
     }
 
     private void InitializeLevel()
@@ -61,13 +57,13 @@ public class StartLevelController : MonoBehaviour
             );
     }
 
-    private void SetLevelDescriptionTextVisibile(float visibility)
-    {
-        _levelDescriptionText.GetComponent<Text>().DOFade(visibility, 1f);
-    }
-
     private void SetLevelDescriptionText()
     {
         _levelDescriptionText.SetText(_levelSpawner.LevelDescription);
+    }
+
+    private void HideEducationalLevel()
+    {
+        _educationalLevel.SetActive(false);
     }
 }
