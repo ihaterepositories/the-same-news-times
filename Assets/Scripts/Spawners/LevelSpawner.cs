@@ -16,6 +16,7 @@ public class LevelSpawner : MonoBehaviour
     public int MazeCyclesCount { get; private set; }
     public int MazeGreenScoresCount { get; private set; }
     public string LevelDescription { get; private set; }
+    public string RarityDescription { get; private set; }
 
     public void SpawnLevel()
     {
@@ -23,15 +24,15 @@ public class LevelSpawner : MonoBehaviour
 
         switch (levelType)
         {
-            case 1: SpawnLuckyLevel(); break;
-            case 2: SpawnDefaultLevel(); break;
-            case 3: SpawnAbandonedLevel(); break;
-            case 4: SpawnEnemyLevel(); break;
-            case 5: SpawnLockedLevel(); break;
+            case 11: SpawnLuckyLevel(); break;
+            case 21: SpawnDefaultLevel(); break;
+            case 31: SpawnAbandonedLevel(); break;
+            case 41: SpawnEnemyLevel(); break;
+            case 42: SpawnLockedLevel(); break;
 
             default:
                 SpawnLevel();
-                Debug.Log("- level type error, trying to regenerate...");  break;
+                Debug.Log("- level type error, trying to regenerate..."); break;
         }
 
         MazeWidth = _mazeSpawner.MazeWidth - 1;
@@ -39,6 +40,7 @@ public class LevelSpawner : MonoBehaviour
         MazeCyclesCount = _mazeSpawner.SpawnedCyclesCount;
         MazeGreenScoresCount = _greenScoresSpawner.GreenScoresCount;
         LevelDescription = LevelDescriptionController.GetDescription(levelType);
+        RarityDescription = LevelRarityController.RarityDescription;
 
         if (FindObjectOfType<Player>() == null)
         _playerSpawner.Spawn(_mazeSpawner.FirstCellCoordinates);
@@ -54,7 +56,7 @@ public class LevelSpawner : MonoBehaviour
 
     private void SpawnAbandonedLevel()
     {
-        _mazeSpawner.Spawn(Random.Range(15, 20), Random.Range(30, 36), Random.Range(15, 19));
+        _mazeSpawner.Spawn(Random.Range(20, 25), Random.Range(30, 36), Random.Range(15, 19));
         _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _greenScoresSpawner.GreenScoresCount = 0;
         _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
@@ -62,7 +64,7 @@ public class LevelSpawner : MonoBehaviour
 
     private void SpawnEnemyLevel()
     {
-        _mazeSpawner.Spawn(Random.Range(3, 7));
+        _mazeSpawner.Spawn(Random.Range(1, 5));
         _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _enemySpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
@@ -71,7 +73,7 @@ public class LevelSpawner : MonoBehaviour
 
     private void SpawnLockedLevel()
     {
-        _mazeSpawner.Spawn(Random.Range(7, 10));
+        _mazeSpawner.Spawn(Random.Range(10, 15));
         _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _lockSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _keySpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
@@ -87,11 +89,11 @@ public class LevelSpawner : MonoBehaviour
         _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
     }
 
-    public void SpawnTestLevel()
+    private void SpawnBiggestLevel()
     {
-        _mazeSpawner.Spawn(0, 30, 18);
+        _mazeSpawner.Spawn(Random.Range(15, 20), 36, 19);
         _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+        _greenScoresSpawner.GreenScoresCount = 0;
         _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
     }
 }

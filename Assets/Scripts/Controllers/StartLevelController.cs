@@ -1,16 +1,16 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class StartLevelController : MonoBehaviour
 {
-    [SerializeField] private GameObject _educationalLevel;
     [SerializeField] private LevelSpawner _levelSpawner;
     [SerializeField] private InfoText _mazeInfoText;
     [SerializeField] private InfoText _levelDescriptionText;
+    [SerializeField] private InfoText _levelRarityText;
 
     public static event Action OnAllSpawned;
 
@@ -19,16 +19,23 @@ public class StartLevelController : MonoBehaviour
         _levelDescriptionText.GetComponent<Text>().DOFade(0f, 0f);
     }
 
+    private void Start()
+    {
+        _levelSpawner.SpawnLevel();
+        SetMazeInfoText();
+        SetLevelDescriptionText();
+        SetLevelRarityText();
+        OnAllSpawned?.Invoke();
+    }
+
     private void OnEnable()
     {
         FinishLevelController.OnReadyToStartNewLevel += InitializeLevel;
-        FinishLevelController.OnLevelFinished += HideEducationalLevel;
     }
 
     private void OnDisable()
     {
         FinishLevelController.OnReadyToStartNewLevel -= InitializeLevel;
-        FinishLevelController.OnLevelFinished -= HideEducationalLevel;
     }
 
     private void InitializeLevel()
@@ -36,6 +43,7 @@ public class StartLevelController : MonoBehaviour
         _levelSpawner.SpawnLevel();
         SetMazeInfoText();
         SetLevelDescriptionText();
+        SetLevelRarityText();
         _levelDescriptionText.GetComponent<Text>().DOFade(1f, 0.5f);
         StartCoroutine(StartingLevelCoroutine());
     }
@@ -62,8 +70,17 @@ public class StartLevelController : MonoBehaviour
         _levelDescriptionText.SetText(_levelSpawner.LevelDescription);
     }
 
-    private void HideEducationalLevel()
+    private void SetLevelRarityText()
     {
-        _educationalLevel.SetActive(false);
+        _levelRarityText.SetText(_levelSpawner.RarityDescription);
+
+        switch (_levelSpawner.RarityDescription)
+        {
+            case "Legendary": _levelRarityText.SetColor(RarityColors.Legendary); break;
+            case "Epic": _levelRarityText.SetColor(RarityColors.Epic); break;
+            case "Rare": _levelRarityText.SetColor(RarityColors.Rare); break;
+            case "Default": _levelRarityText.SetColor(RarityColors.Default); break;
+            default: _levelRarityText.SetColor(Color.red); break;
+        }
     }
 }

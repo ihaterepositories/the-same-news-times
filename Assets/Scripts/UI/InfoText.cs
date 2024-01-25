@@ -50,4 +50,9 @@ public class InfoText : MonoBehaviour
     {
         _textObject.text = number.ToString();
     }
+
+    public void SetColor(Color color)
+    {
+        _textObject.color = color;
+    }
 }

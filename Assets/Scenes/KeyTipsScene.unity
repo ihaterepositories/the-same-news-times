@@ -1481,8 +1481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _keyToPress: 32
-  _nextSceneString: GameScene
-  useAdditionalCircleAnimation: 0
+  _nextSceneString: EducationalScene
+  _useCircleAnimation: 1
 --- !u!1 &1817923146
 GameObject:
   m_ObjectHideFlags: 0
