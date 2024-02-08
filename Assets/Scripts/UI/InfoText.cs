@@ -19,14 +19,14 @@ public class InfoText : MonoBehaviour
 
     private void OnEnable()
     {
-        Enemy.OnPlayerInDangeroues += SetLightColor;
-        Enemy.OnEndOfPlayerDangeroues += SetDarkColor;
+        TempleKeeper.OnPlayerInDangeroues += SetLightColor;
+        TempleKeeper.OnEndOfPlayerDangeroues += SetDarkColor;
     }
 
     private void OnDisable()
     {
-        Enemy.OnPlayerInDangeroues -= SetLightColor;
-        Enemy.OnEndOfPlayerDangeroues -= SetDarkColor;
+        TempleKeeper.OnPlayerInDangeroues -= SetLightColor;
+        TempleKeeper.OnEndOfPlayerDangeroues -= SetDarkColor;
     }
 
     private void SetLightColor()

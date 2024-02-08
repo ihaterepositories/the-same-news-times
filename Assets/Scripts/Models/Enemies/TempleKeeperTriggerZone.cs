@@ -1,13 +1,12 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 
-public class EnemyTriggerZone : MonoBehaviour
+public class TempleKeeperTriggerZone : MonoBehaviour
 {
     [SerializeField] private CircleCollider2D triggerCollider;
     private SpriteRenderer spriteRenderer;

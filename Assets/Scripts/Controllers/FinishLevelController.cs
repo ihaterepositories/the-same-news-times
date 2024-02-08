@@ -26,13 +26,17 @@ public class FinishLevelController : MonoBehaviour
     private void OnEnable()
     {
         InGameScoreController.OnPinkScoreUpdated += FinishLevel;
-        Enemy.OnReachedPlayer += FinishGame;
+        TempleKeeper.OnCatchedPlayer += FinishGame;
+        Ghost.OnCatchedPlayer += FinishGame;
+        Trap.OnCatchedPlayer += FinishGame;
     }
 
     private void OnDisable()
     {
         InGameScoreController.OnPinkScoreUpdated -= FinishLevel;
-        Enemy.OnReachedPlayer -= FinishGame;
+        TempleKeeper.OnCatchedPlayer -= FinishGame;
+        Ghost.OnCatchedPlayer -= FinishGame;
+        Trap.OnCatchedPlayer -= FinishGame;
     }
 
     private void EnableGameStopping()

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1785570707748149887}
   - component: {fileID: 2931297921688927957}
-  - component: {fileID: 6269977350963256909}
+  - component: {fileID: 3843236362802363343}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: TempleKeeper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6269977350963256909
+--- !u!114 &3843236362802363343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,11 +96,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6596613840098838541}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 726f727a462e4ca4ca88f8fe83d016ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f5ec3fcceb7b334a989f1cf492b090c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2931297921688927957}
-  triggerZone: {fileID: 3292864324356559630}
+  triggerZone: {fileID: 7704201843357828698}
   activeEnemySprite: {fileID: 21300000, guid: e7b4ed5b7ba832c4aa0fcea73b1eaeb9, type: 3}
   sleepingEnemySprite: {fileID: 21300000, guid: 00a9fb8e91fc17f48ba96357800b323a, type: 3}
   sleepingEffectParticle: {fileID: 5194597223711268548}
@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 8471924664965694087}
   - component: {fileID: 5405424421589076066}
   - component: {fileID: 7053907987064500584}
-  - component: {fileID: 3292864324356559630}
+  - component: {fileID: 7704201843357828698}
   m_Layer: 0
   m_Name: EnemyTriggerZone
   m_TagString: Untagged
@@ -225,7 +225,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &3292864324356559630
+--- !u!114 &7704201843357828698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6716463607099937132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c56c90acc6183824aa77b99cfa406fa0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ac832d9ff463784fbb982c7add359f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   triggerCollider: {fileID: 7053907987064500584}

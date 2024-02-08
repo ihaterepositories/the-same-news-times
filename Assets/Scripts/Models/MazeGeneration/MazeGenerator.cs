@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class MazeGenerator
 {
@@ -28,16 +27,7 @@ public class MazeGenerator
 
         RemoveExtraWalls(maze);
         GenerateWay(maze);
-
-        try
-        {
-            PlaceMazeExit(maze);
-        }
-        catch
-        {
-            Debug.Log("- maze exit generation error, trying to regenerate...");
-            Generate();
-        }
+        PlaceMazeExit(maze);
 
         return maze;
     }
@@ -111,7 +101,7 @@ public class MazeGenerator
     {
         Cell furthest = maze[0, 0];
 
-        for (int x = 0; x < maze.GetLength(1); x++)
+        for (int x = 0; x < maze.GetLength(0); x++)
         {
             if (maze[x, height - 2].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[x, height - 2];
             if (maze[x, 0].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[x, 0];

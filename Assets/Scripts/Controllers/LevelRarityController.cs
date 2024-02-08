@@ -20,11 +20,13 @@ public class LevelRarityController
 
         switch (levelRarity)
         {
-            case 1: RarityDescription = "Legendary"; return Random.Range(11, 12);
-            case 2: RarityDescription = "Epic"; return Random.Range(21, 22);
-            case 3: RarityDescription = "Rare"; return Random.Range(31, 32);
-            case 4: RarityDescription = "Default"; return Random.Range(41, 43);
+            case 1: RarityDescription = "Legendary"; break;
+            case 2: RarityDescription = "Epic"; break;
+            case 3: RarityDescription = "Rare"; break;
+            case 4: RarityDescription = "Default"; break;
             default: return 404;
         }
+
+        return levelRarity;
     }
 }

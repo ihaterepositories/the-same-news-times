@@ -3,10 +3,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 
-public class Enemy : MonoBehaviour, IPoolable
+public class TempleKeeper : MonoBehaviour, IPoolable
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private EnemyTriggerZone triggerZone;
+    [SerializeField] private TempleKeeperTriggerZone triggerZone;
     [SerializeField] private Sprite activeEnemySprite;
     [SerializeField] private Sprite sleepingEnemySprite;
     [SerializeField] private ParticleSystem sleepingEffectParticle;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour, IPoolable
 
     public GameObject GameObject => gameObject;
 
-    public static event Action OnReachedPlayer;
+    public static event Action OnCatchedPlayer;
     public static event Action OnPlayerInDangeroues;
     public static event Action OnEndOfPlayerDangeroues;
     public event Action<IPoolable> OnDestroyed;
@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour, IPoolable
     {
         if (GetDistanceToPlayer() <= 0.4f && !isReachedPlayer)
         {
-            OnReachedPlayer?.Invoke();
+            OnCatchedPlayer?.Invoke();
             isReachedPlayer = true;
         }
     }
@@ -91,17 +91,20 @@ public class Enemy : MonoBehaviour, IPoolable
         {
             speed = 0.3f;
             triggerZone.SetAlphaOfColor(1f);
+            triggerZone.transform.localScale = new Vector2(80f, 80f);
             OnPlayerInDangeroues?.Invoke();
         }
         else if (GetDistanceToPlayer() <= 5f)
         {
             speed = 0.2f;
             triggerZone.SetAlphaOfColor(0.75f);
+            triggerZone.transform.localScale = new Vector2(80f, 80f);
             OnEndOfPlayerDangeroues?.Invoke();
         }
         else if (GetDistanceToPlayer() > 5f)
         {
             speed = 0.1f;
+            triggerZone.transform.localScale = new Vector2(80f, 80f);
             triggerZone.SetAlphaOfColor(0);
         }
     }

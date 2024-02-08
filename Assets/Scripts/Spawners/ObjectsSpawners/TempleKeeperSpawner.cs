@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class TempleKeeperSpawner : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemyPrefab;
-    private ObjectPool<Enemy> _pool;
+    [SerializeField] private TempleKeeper _templeKeeperPrefab;
+    private ObjectPool<TempleKeeper> _pool;
 
     private void Awake()
     {
-        _pool = new ObjectPool<Enemy>(_enemyPrefab);
+        _pool = new ObjectPool<TempleKeeper>(_templeKeeperPrefab);
     }
 
     public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
@@ -19,16 +19,16 @@ public class EnemySpawner : MonoBehaviour
             spawnPositionY != MazeGenerator.ExitCell.y)
         {
             Cell cell = maze[spawnPositionX, spawnPositionY];
-            Enemy enemy = GetEenemyObject();
-            enemy.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
-            enemy.MakeEnemySleep();
+            TempleKeeper templeKeeper = GetTempleKeeperObject();
+            templeKeeper.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
+            templeKeeper.MakeEnemySleep();
         }
         else { Spawn(maze, mazeWidth, mazeHeight); }
     }
 
-    private Enemy GetEenemyObject()
+    private TempleKeeper GetTempleKeeperObject()
     {
         IPoolable poolable = _pool.GetFreeObject();
-        return poolable as Enemy;
+        return poolable as TempleKeeper;
     }
 }

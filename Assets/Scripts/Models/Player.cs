@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IPoolable
 {
+    [SerializeField] private GameObject _flashlightEffect;
+
     private TrailRenderer _trailRender;
     private float speed = 10f;
 
@@ -28,7 +30,7 @@ public class Player : MonoBehaviour, IPoolable
     private void OnEnable()
     {
         FinishLevelController.OnLevelFinished += ClearTrailRender;
-        FinishLevelController.OnLevelFinished += Reset;
+        FinishLevelController.OnLevelFinished += Reset;;
     }
 
     private void OnDisable()
@@ -76,5 +78,15 @@ public class Player : MonoBehaviour, IPoolable
     private void ClearTrailRender()
     {
         _trailRender.Clear();
+    }
+
+    private void OffFlashlightEffect()
+    {
+        _flashlightEffect.SetActive(false);
+    }
+
+    private void OnFlashlightEffect()
+    {
+        _flashlightEffect.SetActive(true);
     }
 }
