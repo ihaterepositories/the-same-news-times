@@ -59,9 +59,9 @@ public class Trap : MonoBehaviour, IPoolable
 
     private IEnumerator AppearingAnimationCoroutine()
     {
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        yield return new WaitForSeconds(Random.Range(1.5f, 3f));
         MakeActive(false);
-        yield return new WaitForSeconds(Random.Range(1f, 3f));
+        yield return new WaitForSeconds(Random.Range(1.5f, 3f));
         MakeActive(true);
         StartCoroutine(AppearingAnimationCoroutine());
     }

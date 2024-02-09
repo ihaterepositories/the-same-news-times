@@ -12,16 +12,19 @@ public class TempleKeeperSpawner : MonoBehaviour
 
     public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
     {
-        int spawnPositionX = Random.Range(5, mazeWidth - 1);
-        int spawnPositionY = Random.Range(5, mazeHeight - 1);
+        int xPosition = Random.Range(5, mazeWidth - 1);
+        int yPosition = Random.Range(5, mazeHeight - 1);
 
-        if (spawnPositionX != MazeGenerator.ExitCell.x &&
-            spawnPositionY != MazeGenerator.ExitCell.y)
+        if (xPosition != MazeGenerator.ExitCell.x &&
+            yPosition != MazeGenerator.ExitCell.y &&
+            PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
         {
-            Cell cell = maze[spawnPositionX, spawnPositionY];
+            Cell cell = maze[xPosition, yPosition];
             TempleKeeper templeKeeper = GetTempleKeeperObject();
             templeKeeper.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
             templeKeeper.MakeEnemySleep();
+
+            PositionBlockController.BlockPosition(xPosition, yPosition, true);
         }
         else { Spawn(maze, mazeWidth, mazeHeight); }
     }

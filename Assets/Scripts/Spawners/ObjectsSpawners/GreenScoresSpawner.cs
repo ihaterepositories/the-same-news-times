@@ -19,9 +19,9 @@ public class GreenScoresSpawner : MonoBehaviour
         _pool = new ObjectPool<GreenScore>(_greenScorePrefab);
     }
 
-    public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
+    public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight, int iterationsCoeficient = 1)
     {
-        int iterations = Random.Range(mazeWidth - 10, mazeHeight - 5);
+        int iterations = Random.Range(mazeWidth - 10, mazeHeight - 5) * iterationsCoeficient;
         _greenScoresCount = 0;
 
         for (int i = 0; i < iterations; i++)
@@ -30,12 +30,15 @@ public class GreenScoresSpawner : MonoBehaviour
             int yPosition = Random.Range(1, mazeHeight - 1);
 
             if (xPosition != MazeGenerator.ExitCell.x && 
-                yPosition != MazeGenerator.ExitCell.y)
+                yPosition != MazeGenerator.ExitCell.y &&
+                PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
             {
                 Cell cell = maze[xPosition, yPosition];
                 GreenScore greenScore = GetGreenScoreObject();
                 greenScore.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
                 _greenScoresCount++;
+
+                PositionBlockController.BlockPosition(xPosition, yPosition, false);
             }
             else { continue; }
         }

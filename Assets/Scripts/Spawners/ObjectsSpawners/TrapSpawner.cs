@@ -21,12 +21,15 @@ public class TrapSpawner : MonoBehaviour
             int yPosition = Random.Range(1, mazeHeight - 1);
 
             if (xPosition != MazeGenerator.ExitCell.x &&
-                yPosition != MazeGenerator.ExitCell.y)
+                yPosition != MazeGenerator.ExitCell.y &&
+                PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
             {
                 Cell cell = maze[xPosition, yPosition];
                 Trap trap = GetTrapObject();
                 trap.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
                 trap.PlayAppearingAnimation();
+
+                PositionBlockController.BlockPosition(xPosition, yPosition, true);
             }
             else { continue; }
         }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DefaultLevelsSpawner : MonoBehaviour
@@ -22,8 +23,8 @@ public class DefaultLevelsSpawner : MonoBehaviour
     {
         LevelSpawnDelegate[] levelSpawnDelegates =
         {
-            SpawnEnemyLevel,
-            SpawnLockedLevel,
+            //SpawnEnemyLevel,
+            //SpawnLockedLevel,
             SpawnUnvisibleLevel
         };
 
@@ -34,8 +35,8 @@ public class DefaultLevelsSpawner : MonoBehaviour
     {
         _mazeSpawner.Spawn(Random.Range(1, 5));
         _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _templeKeeperSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
         LevelDescription = "Be careful, this temple is guarded by the temple keeper!";
     }
@@ -47,7 +48,7 @@ public class DefaultLevelsSpawner : MonoBehaviour
         _lockSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _keySpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _trapSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight, 2);
         _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
         LevelDescription = "The exit of this temple is locked, find the key and be aware from traps!";
     }
@@ -57,6 +58,8 @@ public class DefaultLevelsSpawner : MonoBehaviour
         _mazeSpawner.Spawn(0, Random.Range(6, 10), Random.Range(6, 10));
         _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
         _ghostSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+        _mazeAppearanceAnimation.PlayForInvisibleLevel(_mazeSpawner.CellObjects);
         LevelDescription = "This temple have uvisible walls, be aware of ghosts from other dimension!";
     }
 }

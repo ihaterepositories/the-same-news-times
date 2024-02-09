@@ -17,11 +17,14 @@ public class KeySpawner : MonoBehaviour
         int yPosition = Random.Range(1, mazeHeight - 1);
 
         if (xPosition != MazeGenerator.ExitCell.x &&
-            yPosition != MazeGenerator.ExitCell.y)
+            yPosition != MazeGenerator.ExitCell.y &&
+            PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
         {
             Cell cell = maze[xPosition, yPosition];
             Key key = GetKeyObject();
             key.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
+
+            PositionBlockController.BlockPosition(xPosition, yPosition, true);
         }
         else { Spawn(maze, mazeWidth, mazeHeight); }
     }

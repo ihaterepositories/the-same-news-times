@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,13 @@ public class MazeAppearanceAnimation : MonoBehaviour
     {
         ShuffleCells(cells);
         StartCoroutine(AppearanceAnimationCoroutine(cells));
+    }
+
+    public void PlayForInvisibleLevel(List<CellWallsCollector> cells)
+    {
+        ShuffleCells(cells);
+        StartCoroutine(AppearanceAnimationCoroutine(cells));
+        StartCoroutine(DissappearanceAnimationCoroutine(cells));
     }
 
     private void ShuffleCells(List<CellWallsCollector> cells)
@@ -30,6 +38,17 @@ public class MazeAppearanceAnimation : MonoBehaviour
         {
             cell.PlayAppearanceAnimation(0.5f);
             yield return new WaitForSeconds(0.0001f);
+        }
+    }
+
+    private IEnumerator DissappearanceAnimationCoroutine(List<CellWallsCollector> cells)
+    {
+        yield return new WaitForSeconds(4f);
+
+        foreach (var cell in cells)
+        {
+            cell.bottomWallSpriteRenderer.DOFade(0, 1f);
+            cell.leftWallSpriteRenderer.DOFade(0, 1f);
         }
     }
 }

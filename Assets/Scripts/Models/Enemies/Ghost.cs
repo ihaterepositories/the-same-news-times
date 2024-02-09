@@ -8,15 +8,33 @@ public class Ghost : MonoBehaviour, IPoolable
 {
     [SerializeField] private SpriteRenderer _spriteRender;
 
-    private float maxXPosition;
-    private float maxYPosition;
-    private float minXPosition;
-    private float minYPosition;
+    private bool _isHunting;
+    private float _angularSpeed = 1f;
+    private float _circleRadius = 1f;
+    private Vector2 _fixedPoint;
+    private float _currentAngle;
+
+    private Coroutine _transparetyAnimationCoroutine;
 
     public GameObject GameObject => gameObject;
 
     public event Action<IPoolable> OnDestroyed;
     public static event Action OnCatchedPlayer;
+
+    private void Update()
+    {
+        /*if (_isHunting)*/ DoCircleMoving();
+    }
+
+    private void OnEnable()
+    {
+        FinishLevelController.OnLevelFinished += Reset;
+    }
+
+    private void OnDisable()
+    {
+        FinishLevelController.OnLevelFinished -= Reset;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,20 +42,33 @@ public class Ghost : MonoBehaviour, IPoolable
 
         if (player != null)
         {
-            player.Reset();
             OnCatchedPlayer?.Invoke();
         }
     }
 
     public void Reset()
     {
+        StopHunting();
         OnDestroyed?.Invoke(this);
+    }
+
+    private void StopHunting()
+    {
+        _isHunting = false;
+
+        if (_transparetyAnimationCoroutine != null)
+        {
+            StopCoroutine(_transparetyAnimationCoroutine);
+            _transparetyAnimationCoroutine = null;
+        }
     }
 
     public void StartHunting()
     {
-        StartCoroutine(TransparetyAnimationCoroutine());
-        StartCoroutine(MovingCoroutine());
+        _transparetyAnimationCoroutine = StartCoroutine(TransparetyAnimationCoroutine());
+        GenerateCircleMovingParametrs();
+        _isHunting = true;
+        _fixedPoint = transform.position;
     }
 
     private IEnumerator TransparetyAnimationCoroutine()
@@ -49,24 +80,16 @@ public class Ghost : MonoBehaviour, IPoolable
         StartCoroutine(TransparetyAnimationCoroutine());
     }
 
-    private IEnumerator MovingCoroutine()
+    private void GenerateCircleMovingParametrs()
     {
-        var newPosition = new Vector2(Random.Range(minXPosition, maxXPosition), Random.Range(minYPosition, maxYPosition));
-        yield return new WaitForSeconds(1);
-        transform.position = Vector3.Lerp(transform.position, newPosition, 1f * Time.deltaTime);
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(MovingCoroutine());
+        _angularSpeed = Random.Range(0.7f, 1.3f);
+        _circleRadius = Random.Range(2f, 4f);
     }
 
-    public void SetMaxPositions(float maxXPosition, float maxYPosition)
+    private void DoCircleMoving()
     {
-        this.maxXPosition = maxXPosition;
-        this.maxYPosition = maxYPosition;
-    }
-
-    public void SetMinPositions(float minXPosition, float minYPosition)
-    {
-        this.minXPosition = minXPosition;
-        this.minYPosition = minYPosition;
+        _currentAngle += _angularSpeed * Time.deltaTime;
+        Vector2 offset = new Vector2(Mathf.Sin(_currentAngle), Mathf.Cos(_currentAngle)) * _circleRadius;
+        transform.position = _fixedPoint + offset;
     }
 }

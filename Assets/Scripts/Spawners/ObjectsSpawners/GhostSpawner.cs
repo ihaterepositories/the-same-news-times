@@ -12,27 +12,13 @@ public class GhostSpawner : MonoBehaviour
 
     public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
     {
-        int spawnPositionX = Random.Range(5, mazeWidth - 1);
-        int spawnPositionY = Random.Range(5, mazeHeight - 1);
+        int spawnPositionX = Random.Range(2, mazeWidth - 1);
+        int spawnPositionY = Random.Range(2, mazeHeight - 1);
 
-        if (spawnPositionX != MazeGenerator.ExitCell.x &&
-            spawnPositionY != MazeGenerator.ExitCell.y)
-        {
-            Cell cell = maze[spawnPositionX, spawnPositionY];
-            Ghost ghost = GetGhostObject();
-            ghost.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
-
-            ghost.SetMaxPositions(
-                MazeSpawner.GetWorldCellCoordinates(maze[mazeWidth-1, mazeHeight-1], mazeWidth, mazeHeight).x,
-                MazeSpawner.GetWorldCellCoordinates(maze[mazeWidth-1, mazeHeight-1], mazeWidth, mazeHeight).y);
-
-            ghost.SetMinPositions(
-                MazeSpawner.GetWorldCellCoordinates(maze[0, 0], mazeWidth, mazeHeight).x,
-                MazeSpawner.GetWorldCellCoordinates(maze[0, 0], mazeWidth, mazeHeight).y);
-
-            ghost.StartHunting();
-        }
-        else { Spawn(maze, mazeWidth, mazeHeight); }
+        Cell cell = maze[spawnPositionX, spawnPositionY];
+        Ghost ghost = GetGhostObject();
+        ghost.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
+        ghost.StartHunting();
     }
 
     private Ghost GetGhostObject()

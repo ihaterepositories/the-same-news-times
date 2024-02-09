@@ -10,7 +10,6 @@ public class Key : MonoBehaviour, IPickable, IPoolable
 
     public void Pick()
     {
-        Debug.Log("Key picked");
         OnPicked?.Invoke();
         Reset();
     }
