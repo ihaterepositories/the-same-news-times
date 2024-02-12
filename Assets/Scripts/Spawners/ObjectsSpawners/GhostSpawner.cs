@@ -1,29 +1,33 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class GhostSpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private Ghost _ghostPrefab;
-    private ObjectPool<Ghost> _pool;
-
-    private void Awake()
+    public class GhostSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<Ghost>(_ghostPrefab);
-    }
+        [SerializeField] private Ghost ghostPrefab;
+        private ObjectPool<Ghost> _pool;
 
-    public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
-    {
-        int spawnPositionX = Random.Range(2, mazeWidth - 1);
-        int spawnPositionY = Random.Range(2, mazeHeight - 1);
+        private void Awake()
+        {
+            _pool = new ObjectPool<Ghost>(ghostPrefab);
+        }
 
-        Cell cell = maze[spawnPositionX, spawnPositionY];
-        Ghost ghost = GetGhostObject();
-        ghost.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
-        ghost.StartHunting();
-    }
+        public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
+        {
+            int spawnPositionX = Random.Range(2, mazeWidth - 1);
+            int spawnPositionY = Random.Range(2, mazeHeight - 1);
 
-    private Ghost GetGhostObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as Ghost;
+            Cell cell = maze[spawnPositionX, spawnPositionY];
+            Ghost ghost = GetGhostObject();
+            ghost.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
+            ghost.StartHunting();
+        }
+
+        private Ghost GetGhostObject()
+        {
+            IPoolable poolAble = _pool.GetFreeObject();
+            return poolAble as Ghost;
+        }
     }
 }

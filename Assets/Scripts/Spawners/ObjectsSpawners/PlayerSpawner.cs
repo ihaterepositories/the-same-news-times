@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Models;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour

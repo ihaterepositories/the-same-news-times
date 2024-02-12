@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Models;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]

@@ -1,12 +1,14 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Models;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Ghost : MonoBehaviour, IPoolable
 {
-    [SerializeField] private SpriteRenderer _spriteRender;
+    [SerializeField] private SpriteRenderer spriteRender;
 
     private bool _isHunting;
     private float _angularSpeed = 1f;
@@ -14,12 +16,12 @@ public class Ghost : MonoBehaviour, IPoolable
     private Vector2 _fixedPoint;
     private float _currentAngle;
 
-    private Coroutine _transparetyAnimationCoroutine;
+    private Coroutine _transparencyAnimationCoroutine;
 
     public GameObject GameObject => gameObject;
 
     public event Action<IPoolable> OnDestroyed;
-    public static event Action OnCatchedPlayer;
+    public static event Action OnCaughtPlayer;
 
     private void Update()
     {
@@ -42,7 +44,7 @@ public class Ghost : MonoBehaviour, IPoolable
 
         if (player != null)
         {
-            OnCatchedPlayer?.Invoke();
+            OnCaughtPlayer?.Invoke();
         }
     }
 
@@ -56,16 +58,16 @@ public class Ghost : MonoBehaviour, IPoolable
     {
         _isHunting = false;
 
-        if (_transparetyAnimationCoroutine != null)
+        if (_transparencyAnimationCoroutine != null)
         {
-            StopCoroutine(_transparetyAnimationCoroutine);
-            _transparetyAnimationCoroutine = null;
+            StopCoroutine(_transparencyAnimationCoroutine);
+            _transparencyAnimationCoroutine = null;
         }
     }
 
     public void StartHunting()
     {
-        _transparetyAnimationCoroutine = StartCoroutine(TransparetyAnimationCoroutine());
+        _transparencyAnimationCoroutine = StartCoroutine(TransparetyAnimationCoroutine());
         GenerateCircleMovingParametrs();
         _isHunting = true;
         _fixedPoint = transform.position;
@@ -74,9 +76,9 @@ public class Ghost : MonoBehaviour, IPoolable
     private IEnumerator TransparetyAnimationCoroutine()
     {
         yield return new WaitForSeconds(1);
-        _spriteRender.DOFade(0.3f, 1f);
+        spriteRender.DOFade(0.3f, 1f);
         yield return new WaitForSeconds(1);
-        _spriteRender.DOFade(1f, 1f);
+        spriteRender.DOFade(1f, 1f);
         StartCoroutine(TransparetyAnimationCoroutine());
     }
 

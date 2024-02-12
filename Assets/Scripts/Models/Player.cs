@@ -1,92 +1,84 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(TrailRenderer))]
-
-public class Player : MonoBehaviour, IPoolable
+namespace Models
 {
-    [SerializeField] private GameObject _flashlightEffect;
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(TrailRenderer))]
 
-    private TrailRenderer _trailRender;
-    private float speed = 10f;
-
-    public static Vector2 Position;
-
-    public GameObject GameObject => gameObject;
-    public event Action<IPoolable> OnDestroyed;
-
-    private void Awake()
+    public class Player : MonoBehaviour, IPoolable
     {
-        _trailRender = GetComponent<TrailRenderer>();
-    }
+        private TrailRenderer _trailRender;
+        private readonly float _speed = 10f;
 
-    private void FixedUpdate()
-    {
-        Move();
-        SetPositionVariable();
-    }
+        public static Vector2 Position;
 
-    private void OnEnable()
-    {
-        FinishLevelController.OnLevelFinished += ClearTrailRender;
-        FinishLevelController.OnLevelFinished += Reset;;
-    }
+        public GameObject GameObject => gameObject;
+        public event Action<IPoolable> OnDestroyed;
 
-    private void OnDisable()
-    {
-        FinishLevelController.OnLevelFinished -= ClearTrailRender;
-        FinishLevelController.OnLevelFinished -= Reset;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        var pickable = collision.gameObject.GetComponent<IPickable>();
-        if (pickable is not null) pickable.Pick();
-    }
-
-    public void Reset()
-    {
-        OnDestroyed?.Invoke(this);
-    }
-
-    private void Move()
-    {
-        if (Input.GetKey(KeyCode.W))
+        private void Awake()
         {
-            transform.Translate(Vector3.up * speed * Time.deltaTime);
+            _trailRender = GetComponent<TrailRenderer>();
         }
-        else if (Input.GetKey(KeyCode.S))
+
+        private void FixedUpdate()
         {
-            transform.Translate(Vector3.down * speed * Time.deltaTime);
+            Move();
+            SetPositionVariable();
         }
-        else if (Input.GetKey(KeyCode.D))
+
+        private void OnEnable()
         {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            FinishLevelController.OnLevelFinished += ClearTrailRender;
+            FinishLevelController.OnLevelFinished += Reset;;
         }
-        else if (Input.GetKey(KeyCode.A))
+
+        private void OnDisable()
         {
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
+            FinishLevelController.OnLevelFinished -= ClearTrailRender;
+            FinishLevelController.OnLevelFinished -= Reset;
         }
-    }
 
-    private void SetPositionVariable()
-    {
-        Position = transform.position;
-    }
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            var pickable = collision.gameObject.GetComponent<IPickable>();
+            if (pickable is not null) pickable.Pick();
+        }
 
-    private void ClearTrailRender()
-    {
-        _trailRender.Clear();
-    }
+        public void Reset()
+        {
+            OnDestroyed?.Invoke(this);
+        }
 
-    private void OffFlashlightEffect()
-    {
-        _flashlightEffect.SetActive(false);
-    }
+        private void Move()
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.Translate(Vector3.up * (_speed * Time.deltaTime));
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                transform.Translate(Vector3.down * (_speed * Time.deltaTime));
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                transform.Translate(Vector3.right * (_speed * Time.deltaTime));
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                transform.Translate(Vector3.left * (_speed * Time.deltaTime));
+            }
+        }
 
-    private void OnFlashlightEffect()
-    {
-        _flashlightEffect.SetActive(true);
+        private void SetPositionVariable()
+        {
+            Position = transform.position;
+        }
+
+        private void ClearTrailRender()
+        {
+            _trailRender.Clear();
+        }
     }
 }

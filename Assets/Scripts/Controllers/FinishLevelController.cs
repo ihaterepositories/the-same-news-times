@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,17 +27,19 @@ public class FinishLevelController : MonoBehaviour
     private void OnEnable()
     {
         InGameScoreController.OnPinkScoreUpdated += FinishLevel;
-        TempleKeeper.OnCatchedPlayer += FinishGame;
-        Ghost.OnCatchedPlayer += FinishGame;
-        Trap.OnCatchedPlayer += FinishGame;
+        TempleKeeper.OnCaughtPlayer += FinishGame;
+        Ghost.OnCaughtPlayer += FinishGame;
+        Trap.OnCaughtPlayer += FinishGame;
+        AfkDetector.OnObjectIsAfk += FinishGame;
     }
 
     private void OnDisable()
     {
         InGameScoreController.OnPinkScoreUpdated -= FinishLevel;
-        TempleKeeper.OnCatchedPlayer -= FinishGame;
-        Ghost.OnCatchedPlayer -= FinishGame;
-        Trap.OnCatchedPlayer -= FinishGame;
+        TempleKeeper.OnCaughtPlayer -= FinishGame;
+        Ghost.OnCaughtPlayer -= FinishGame;
+        Trap.OnCaughtPlayer -= FinishGame;
+        AfkDetector.OnObjectIsAfk -= FinishGame;
     }
 
     private void EnableGameStopping()

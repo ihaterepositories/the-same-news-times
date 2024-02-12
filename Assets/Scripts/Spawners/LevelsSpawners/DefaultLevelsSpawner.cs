@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Spawners.ObjectsSpawners;
 using UnityEngine;
 
 public class DefaultLevelsSpawner : MonoBehaviour

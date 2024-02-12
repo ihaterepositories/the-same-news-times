@@ -1,4 +1,5 @@
 using System;
+using Models;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -17,7 +18,7 @@ public class TempleKeeper : MonoBehaviour, IPoolable
 
     public GameObject GameObject => gameObject;
 
-    public static event Action OnCatchedPlayer;
+    public static event Action OnCaughtPlayer;
     public static event Action OnPlayerInDangeroues;
     public static event Action OnEndOfPlayerDangeroues;
     public event Action<IPoolable> OnDestroyed;
@@ -80,7 +81,7 @@ public class TempleKeeper : MonoBehaviour, IPoolable
     {
         if (GetDistanceToPlayer() <= 0.4f && !isReachedPlayer)
         {
-            OnCatchedPlayer?.Invoke();
+            OnCaughtPlayer?.Invoke();
             isReachedPlayer = true;
         }
     }

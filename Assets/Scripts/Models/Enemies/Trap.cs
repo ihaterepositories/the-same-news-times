@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Models;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +14,7 @@ public class Trap : MonoBehaviour, IPoolable
 
     public GameObject GameObject => gameObject;
 
-    public static event Action OnCatchedPlayer;
+    public static event Action OnCaughtPlayer;
     public event Action<IPoolable> OnDestroyed;
 
     private void OnEnable()
@@ -32,7 +33,7 @@ public class Trap : MonoBehaviour, IPoolable
 
         if (player != null)
         {
-            OnCatchedPlayer?.Invoke();
+            OnCaughtPlayer?.Invoke();
             player.Reset();
         }
     }
