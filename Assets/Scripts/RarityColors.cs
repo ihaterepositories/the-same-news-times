@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RarityColors
+public static class RarityColors
 {
     public static Color Legendary = new Color(0.8962264f, 0.82498f, 0.2170107f);
     public static Color Epic = new Color(0.6139323f, 0.315207f, 0.8018868f);

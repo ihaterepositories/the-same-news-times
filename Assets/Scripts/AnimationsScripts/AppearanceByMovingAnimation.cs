@@ -1,25 +1,28 @@
-using DG.Tweening;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
-[RequireComponent(typeof(RectTransform))]
-
-public class AppearanceByMovingAnimation : MonoBehaviour
+namespace AnimationsScripts
 {
-    [SerializeField] private float delayBeforeAnimationStart;
-    [SerializeField] private Vector3 positionToMove;
+    [RequireComponent(typeof(RectTransform))]
 
-    private RectTransform rectTransform;
-
-    private void Start()
+    public class AppearanceByMovingAnimation : MonoBehaviour
     {
-        rectTransform = GetComponent<RectTransform>();
-        StartCoroutine(MoveCoroutine());
-    }
+        [SerializeField] private float delayBeforeAnimationStart;
+        [SerializeField] private Vector3 positionToMove;
 
-    private IEnumerator MoveCoroutine()
-    {
-        yield return new WaitForSeconds(delayBeforeAnimationStart);
-        rectTransform.DOLocalMove(positionToMove, 0.5f);
+        private RectTransform _rectTransform;
+
+        private void Start()
+        {
+            _rectTransform = GetComponent<RectTransform>();
+            StartCoroutine(MoveCoroutine());
+        }
+
+        private IEnumerator MoveCoroutine()
+        {
+            yield return new WaitForSeconds(delayBeforeAnimationStart);
+            _rectTransform.DOLocalMove(positionToMove, 0.5f);
+        }
     }
 }

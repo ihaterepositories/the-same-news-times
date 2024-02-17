@@ -1,35 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using Spawners.ObjectsSpawners;
 using UnityEngine;
 
-public class EpicLevelsSpawner : MonoBehaviour
+namespace Spawners.LevelsSpawners
 {
-    [SerializeField] private MazeSpawner _mazeSpawner;
-    [SerializeField] private PinkScoreSpawner _pinkScoreSpawner;
-    [SerializeField] private GreenScoresSpawner _greenScoresSpawner;
-
-    [SerializeField] private MazeAppearanceAnimation _mazeAppearanceAnimation;
-
-    private delegate void LevelSpawnDelegate();
-
-    public string LevelDescription { get; private set; }
-
-    public void SpawnRandomLevel()
+    public class EpicLevelsSpawner : MonoBehaviour
     {
-        LevelSpawnDelegate[] levelSpawnDelegates =
+        [SerializeField] private MazeSpawner mazeSpawner;
+        [SerializeField] private PinkScoreSpawner pinkScoreSpawner;
+        [SerializeField] private GreenScoresSpawner greenScoresSpawner;
+
+        [SerializeField] private MazeAppearanceAnimation mazeAppearanceAnimation;
+
+        private delegate void LevelSpawnDelegate();
+
+        public string LevelDescription { get; private set; }
+
+        public void SpawnRandomLevel()
         {
-            SpawnDefaultLevel
-        };
+            LevelSpawnDelegate[] levelSpawnDelegates =
+            {
+                SpawnDefaultLevel
+            };
 
-        levelSpawnDelegates[Random.Range(0, levelSpawnDelegates.Length)]();
-    }
+            levelSpawnDelegates[Random.Range(0, levelSpawnDelegates.Length)]();
+        }
 
-    private void SpawnDefaultLevel()
-    {
-        _mazeSpawner.Spawn(Random.Range(3, 7));
-        _pinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _greenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-        _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
-        LevelDescription = "Default temple, just default temple...";
+        private void SpawnDefaultLevel()
+        {
+            mazeSpawner.Spawn(Random.Range(3, 7));
+            pinkScoreSpawner.Spawn(mazeSpawner.MazeWidth, mazeSpawner.MazeHeight);
+            greenScoresSpawner.Spawn(mazeSpawner.Maze, mazeSpawner.MazeWidth, mazeSpawner.MazeHeight);
+            mazeAppearanceAnimation.Play(mazeSpawner.CellObjects);
+            LevelDescription = "Default temple, just default temple...";
+        }
     }
 }

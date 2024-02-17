@@ -1,37 +1,52 @@
+using Controllers;
+using Models;
+using Models.Enemies;
+using Models.MazeGeneration;
 using UnityEngine;
 
-public class TempleKeeperSpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private TempleKeeper _templeKeeperPrefab;
-    private ObjectPool<TempleKeeper> _pool;
-
-    private void Awake()
+    public class TempleKeeperSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<TempleKeeper>(_templeKeeperPrefab);
-    }
+        [SerializeField] private TempleKeeper templeKeeperPrefab;
+        private ObjectPool<TempleKeeper> _pool;
 
-    public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
-    {
-        int xPosition = Random.Range(5, mazeWidth - 1);
-        int yPosition = Random.Range(5, mazeHeight - 1);
-
-        if (xPosition != MazeGenerator.ExitCell.x &&
-            yPosition != MazeGenerator.ExitCell.y &&
-            PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
+        private void Awake()
         {
-            Cell cell = maze[xPosition, yPosition];
-            TempleKeeper templeKeeper = GetTempleKeeperObject();
-            templeKeeper.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
-            templeKeeper.MakeEnemySleep();
-
-            PositionBlockController.BlockPosition(xPosition, yPosition, true);
+            _pool = new ObjectPool<TempleKeeper>(templeKeeperPrefab);
         }
-        else { Spawn(maze, mazeWidth, mazeHeight); }
-    }
 
-    private TempleKeeper GetTempleKeeperObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as TempleKeeper;
+        public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
+        {
+            while (true)
+            {
+                var xPosition = Random.Range(5, mazeWidth - 1);
+                var yPosition = Random.Range(5, mazeHeight - 1);
+
+                if (xPosition != MazeGenerator.ExitCell.X && 
+                    yPosition != MazeGenerator.ExitCell.Y && 
+                    PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
+                {
+                    var cell = maze[xPosition, yPosition];
+                    var templeKeeper = GetTempleKeeperObject();
+                    templeKeeper.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
+                    templeKeeper.MakeEnemySleep();
+
+                    PositionBlockController.BlockPosition(xPosition, yPosition, true);
+                }
+                else
+                {
+                    continue;
+                }
+
+                break;
+            }
+        }
+
+        private TempleKeeper GetTempleKeeperObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as TempleKeeper;
+        }
     }
 }

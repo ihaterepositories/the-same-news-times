@@ -1,45 +1,47 @@
 using System.Collections;
+using AnimationsScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoadingController : MonoBehaviour
+namespace Controllers
 {
-    private static SceneLoadingController _instance;
-
-    public static SceneLoadingController Instance {  get { return _instance; } }
-
-    private void Awake()
+    public class SceneLoadingController : MonoBehaviour
     {
-        if (_instance == null)
+        public static SceneLoadingController Instance { get; private set; }
+
+        private void Awake()
         {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        public void LoadSceneAsync(string sceneName, bool isAnimated = true)
         {
-            Destroy(gameObject);
+            StartCoroutine(LoadSceneWithAnimationCoroutine(sceneName, isAnimated));
         }
-    }
 
-    public void LoadSceneAsync(string sceneName, bool isAnimated = true)
-    {
-        StartCoroutine(LoadSceneWithAnimationCoroutine(sceneName, isAnimated));
-    }
-
-    private IEnumerator LoadSceneWithAnimationCoroutine(string sceneName, bool isAnimated)
-    {
-        if (isAnimated) { CircleAnimation.Instance.Increase(); }
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
-    }
-
-    private IEnumerator LoadSceneAsyncCoroutine(string sceneName)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-        while (!asyncLoad.isDone)
+        private IEnumerator LoadSceneWithAnimationCoroutine(string sceneName, bool isAnimated)
         {
-            yield return null;
+            if (isAnimated) { CircleAnimation.Instance.Increase(); }
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(LoadSceneAsyncCoroutine(sceneName));
+        }
+
+        private IEnumerator LoadSceneAsyncCoroutine(string sceneName)
+        {
+            var asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
         }
     }
 }

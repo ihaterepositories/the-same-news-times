@@ -1,27 +1,30 @@
 using System.Collections;
+using AnimationsScripts;
 using UnityEngine;
 
-public class FinishGameButton : MonoBehaviour
+namespace UI
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class FinishGameButton : MonoBehaviour
     {
-        CircleAnimation.Instance.Increase();
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            CircleAnimation.Instance.Increase();
+            StartCoroutine(ExitGameCoroutine());
+        }
 
-        StartCoroutine(ExitGameCoroutine());
-    }
+        private IEnumerator ExitGameCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            QuitGame();
+        }
 
-    private IEnumerator ExitGameCoroutine()
-    {
-        yield return new WaitForSeconds(1f);
-        QuitGame();
-    }
-
-    private void QuitGame()
-    {
-        #if UNITY_EDITOR
+        private void QuitGame()
+        {
+#if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#else
             Application.Quit();
-        #endif
+#endif
+        }
     }
 }

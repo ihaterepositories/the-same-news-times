@@ -1,125 +1,127 @@
 using System.Collections.Generic;
 
-public class MazeGenerator
+namespace Models.MazeGeneration
 {
-    private int width;
-    private int height;
-
-    public static Cell ExitCell {  get; private set; }
-
-    public MazeGenerator (int width, int height)
+    public class MazeGenerator
     {
-        this.width = width;
-        this.height = height;
-    }
+        private readonly int _width;
+        private readonly int _height;
 
-    public Cell[,] Generate()
-    {
-        Cell[,] maze = new Cell[width, height];
+        public static Cell ExitCell {  get; private set; }
 
-        for (int i = 0; i < maze.GetLength(0); i++)
+        public MazeGenerator (int width, int height)
         {
-            for (int j = 0; j < maze.GetLength(1); j++)
+            _width = width;
+            _height = height;
+        }
+
+        public Cell[,] Generate()
+        {
+            var maze = new Cell[_width, _height];
+
+            for (var i = 0; i < maze.GetLength(0); i++)
             {
-                maze[i, j] = new Cell { x = i, y = j };
+                for (var j = 0; j < maze.GetLength(1); j++)
+                {
+                    maze[i, j] = new Cell { X = i, Y = j };
+                }
+            }
+
+            RemoveExtraWalls(maze);
+            GenerateWay(maze);
+            PlaceMazeExit(maze);
+
+            return maze;
+        }
+
+        private void RemoveExtraWalls(Cell[,] maze)
+        {
+            for (var x = 0; x < maze.GetLength(0); x++)
+            {
+                maze[x, _height - 1].IsHaveLeftWall = false;
+            }
+
+            for (var y = 0; y < maze.GetLength(1); y++)
+            {
+                maze[_width - 1, y].IsHaveBottomWall = false;
             }
         }
 
-        RemoveExtraWalls(maze);
-        GenerateWay(maze);
-        PlaceMazeExit(maze);
-
-        return maze;
-    }
-
-    private void RemoveExtraWalls(Cell[,] maze)
-    {
-        for (int x = 0; x < maze.GetLength(0); x++)
+        private void GenerateWay(Cell[,] labyrinths)
         {
-            maze[x, height - 1].isHaveLeftWall = false;
-        }
+            var currentCell = labyrinths[0, 0];
+            currentCell.IsVisitedByGenerator = true;
+            currentCell.DistanceFromStartPoint = 0;
 
-        for (int y = 0; y < maze.GetLength(1); y++)
-        {
-            maze[width - 1, y].isHaveBottomtWall = false;
-        }
-    }
+            var stack = new Stack<Cell>();
 
-    private void GenerateWay(Cell[,] labyrinths)
-    {
-        Cell currentCell = labyrinths[0, 0];
-        currentCell.isVisitedByGenerator = true;
-        currentCell.distanceFromStartPoint = 0;
-
-        Stack<Cell> stack = new Stack<Cell>();
-
-        do
-        {
-            List<Cell> unvisitedNeighbourCells = new List<Cell>();
-
-            int x = currentCell.x;
-            int y = currentCell.y;
-
-            if (x > 0 && !labyrinths[x - 1, y].isVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x - 1, y]);
-            if (y > 0 && !labyrinths[x, y - 1].isVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x, y - 1]);
-            if (x < width - 2 && !labyrinths[x + 1, y].isVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x + 1, y]);
-            if (y < height - 2 && !labyrinths[x, y + 1].isVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x, y + 1]);
-
-            if (unvisitedNeighbourCells.Count > 0)
+            do
             {
-                Cell chosen = unvisitedNeighbourCells[UnityEngine.Random.Range(0, unvisitedNeighbourCells.Count)];
-                RemoveWall(currentCell, chosen);
+                var unvisitedNeighbourCells = new List<Cell>();
 
-                chosen.isVisitedByGenerator = true;
-                stack.Push(chosen);
-                currentCell = chosen;
-                chosen.distanceFromStartPoint = stack.Count;
+                var x = currentCell.X;
+                var y = currentCell.Y;
+
+                if (x > 0 && !labyrinths[x - 1, y].IsVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x - 1, y]);
+                if (y > 0 && !labyrinths[x, y - 1].IsVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x, y - 1]);
+                if (x < _width - 2 && !labyrinths[x + 1, y].IsVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x + 1, y]);
+                if (y < _height - 2 && !labyrinths[x, y + 1].IsVisitedByGenerator) unvisitedNeighbourCells.Add(labyrinths[x, y + 1]);
+
+                if (unvisitedNeighbourCells.Count > 0)
+                {
+                    var chosen = unvisitedNeighbourCells[UnityEngine.Random.Range(0, unvisitedNeighbourCells.Count)];
+                    RemoveWall(currentCell, chosen);
+
+                    chosen.IsVisitedByGenerator = true;
+                    stack.Push(chosen);
+                    currentCell = chosen;
+                    chosen.DistanceFromStartPoint = stack.Count;
+                }
+                else currentCell = stack.Pop();
+            }
+            while (stack.Count > 0);
+        }
+
+        private void RemoveWall(Cell a, Cell b)
+        {
+            if (a.X == b.X)
+            {
+                if (a.Y > b.Y) a.IsHaveBottomWall = false;
+                else b.IsHaveBottomWall = false;
             }
             else
             {
-                currentCell = stack.Pop();
+                if (a.X > b.X) a.IsHaveLeftWall = false;
+                else b.IsHaveLeftWall = false;
             }
         }
-        while (stack.Count > 0);
-    }
 
-    private void RemoveWall(Cell a, Cell b)
-    {
-        if (a.x == b.x)
+        private void PlaceMazeExit(Cell[,] maze)
         {
-            if (a.y > b.y) a.isHaveBottomtWall = false;
-            else b.isHaveBottomtWall = false;
+            var furthest = maze[0, 0];
+
+            for (var x = 0; x < maze.GetLength(0); x++)
+            {
+                if (maze[x, _height - 2].DistanceFromStartPoint > furthest.DistanceFromStartPoint) furthest = maze[x, _height - 2];
+                if (maze[x, 0].DistanceFromStartPoint > furthest.DistanceFromStartPoint) furthest = maze[x, 0];
+            }
+
+            for (var y = 0; y < maze.GetLength(1); y++)
+            {
+                if (maze[_width - 2, y].DistanceFromStartPoint > furthest.DistanceFromStartPoint) furthest = maze[_width - 2, y];
+                if (maze[0, y].DistanceFromStartPoint > furthest.DistanceFromStartPoint) furthest = maze[0, y];
+            }
+
+            if (furthest.X == 0) furthest.IsHaveLeftWall = false;
+            else if (furthest.Y == 0) furthest.IsHaveBottomWall = false;
+            else if (furthest.X == _width - 2) maze[furthest.X + 1, furthest.Y].IsHaveLeftWall = false;
+            else if (furthest.Y == _height - 2) maze[furthest.X, furthest.Y + 1].IsHaveBottomWall = false;
+
+            ExitCell = new Cell
+            {
+                X = furthest.X,
+                Y = furthest.Y
+            };
         }
-        else
-        {
-            if (a.x > b.x) a.isHaveLeftWall = false;
-            else b.isHaveLeftWall = false;
-        }
-    }
-
-    private void PlaceMazeExit(Cell[,] maze)
-    {
-        Cell furthest = maze[0, 0];
-
-        for (int x = 0; x < maze.GetLength(0); x++)
-        {
-            if (maze[x, height - 2].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[x, height - 2];
-            if (maze[x, 0].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[x, 0];
-        }
-
-        for (int y = 0; y < maze.GetLength(1); y++)
-        {
-            if (maze[width - 2, y].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[width - 2, y];
-            if (maze[0, y].distanceFromStartPoint > furthest.distanceFromStartPoint) furthest = maze[0, y];
-        }
-
-        if (furthest.x == 0) furthest.isHaveLeftWall = false;
-        else if (furthest.y == 0) furthest.isHaveBottomtWall = false;
-        else if (furthest.x == width - 2) maze[furthest.x + 1, furthest.y].isHaveLeftWall = false;
-        else if (furthest.y == height - 2) maze[furthest.x, furthest.y + 1].isHaveBottomtWall = false;
-
-        ExitCell = new Cell();
-        ExitCell.x = furthest.x;
-        ExitCell.y = furthest.y;
     }
 }

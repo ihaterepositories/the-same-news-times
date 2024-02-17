@@ -1475,9 +1475,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31642ad2a57da0c4da93eec97dbc0185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyToPress: 32
-  _nextSceneString: GameScene
-  _useCircleAnimation: 1
+  keyToPress: 32
+  nextSceneString: GameScene
+  useCircleAnimation: 1
 --- !u!114 &2042517222
 MonoBehaviour:
   m_ObjectHideFlags: 0

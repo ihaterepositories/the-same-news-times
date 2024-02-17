@@ -1,11 +1,14 @@
+using Models;
+using Models.Enemies;
+using Models.MazeGeneration;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Spawners.ObjectsSpawners
 {
     public class GhostSpawner : MonoBehaviour
     {
         [SerializeField] private Ghost ghostPrefab;
+        
         private ObjectPool<Ghost> _pool;
 
         private void Awake()
@@ -15,18 +18,18 @@ namespace Spawners.ObjectsSpawners
 
         public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
         {
-            int spawnPositionX = Random.Range(2, mazeWidth - 1);
-            int spawnPositionY = Random.Range(2, mazeHeight - 1);
+            var spawnPositionX = Random.Range(2, mazeWidth - 1);
+            var spawnPositionY = Random.Range(2, mazeHeight - 1);
 
-            Cell cell = maze[spawnPositionX, spawnPositionY];
-            Ghost ghost = GetGhostObject();
-            ghost.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
+            var cell = maze[spawnPositionX, spawnPositionY];
+            var ghost = GetGhostObject();
+            ghost.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
             ghost.StartHunting();
         }
 
         private Ghost GetGhostObject()
         {
-            IPoolable poolAble = _pool.GetFreeObject();
+            var poolAble = _pool.GetFreeObject();
             return poolAble as Ghost;
         }
     }

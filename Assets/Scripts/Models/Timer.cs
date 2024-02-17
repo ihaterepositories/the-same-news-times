@@ -1,50 +1,53 @@
 using System.Collections;
+using Controllers;
+using UI;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+namespace Models
 {
-    [SerializeField] private InfoText timerText;
-
-    private float gameDuration;
-    private Coroutine timerCoroutine;
-
-    public float GameDuration { get { return gameDuration; } }
-
-    private void OnEnable()
+    public class Timer : MonoBehaviour
     {
-        StartLevelController.OnAllSpawned += StartTimer;
-        FinishLevelController.OnLevelFinished += StopTimer;
-        FinishLevelController.OnGameFinished += StopTimer;
-    }
+        [SerializeField] private InfoText timerText;
 
-    private void OnDisable()
-    {
-        StartLevelController.OnAllSpawned -= StartTimer;
-        FinishLevelController.OnLevelFinished -= StopTimer;
-        FinishLevelController.OnGameFinished -= StopTimer;
-    }
+        private float _gameDuration;
+        private Coroutine _timerCoroutine;
 
-    public void StartTimer()
-    {
-        timerCoroutine = StartCoroutine(IncreaseTimeCoroutine());
-    }
+        public float GameDuration => _gameDuration;
 
-    public void StopTimer()
-    {
-        if (timerCoroutine != null)
+        private void OnEnable()
         {
-            StopCoroutine(timerCoroutine);
-            timerCoroutine = null;
+            StartLevelController.OnAllSpawned += StartTimer;
+            FinishLevelController.OnLevelFinished += StopTimer;
+            FinishLevelController.OnGameFinished += StopTimer;
         }
-    }
 
-    private IEnumerator IncreaseTimeCoroutine()
-    {
-        while (true)
+        private void OnDisable()
         {
-            gameDuration += Time.deltaTime;
-            timerText.SetText(TimeFormatter.Formate(gameDuration));
-            yield return null;
+            StartLevelController.OnAllSpawned -= StartTimer;
+            FinishLevelController.OnLevelFinished -= StopTimer;
+            FinishLevelController.OnGameFinished -= StopTimer;
+        }
+
+        private void StartTimer()
+        {
+            _timerCoroutine = StartCoroutine(IncreaseTimeCoroutine());
+        }
+
+        private void StopTimer()
+        {
+            if (_timerCoroutine == null) return;
+            StopCoroutine(_timerCoroutine);
+            _timerCoroutine = null;
+        }
+
+        private IEnumerator IncreaseTimeCoroutine()
+        {
+            while (true)
+            {
+                _gameDuration += Time.deltaTime;
+                timerText.SetText(TimeFormatter.Format(_gameDuration));
+                yield return null;
+            }
         }
     }
 }

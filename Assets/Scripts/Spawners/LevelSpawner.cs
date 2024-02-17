@@ -1,56 +1,58 @@
-using Models;
+using Controllers;
+using Spawners.LevelsSpawners;
+using Spawners.ObjectsSpawners;
 using UnityEngine;
 
-public class LevelSpawner : MonoBehaviour
+namespace Spawners
 {
-    [SerializeField] private DefaultLevelsSpawner _defaultLevelsSpawner;
-    [SerializeField] private RareLevelsSpawner _rareLevelsSpawner;
-    [SerializeField] private EpicLevelsSpawner _epicLevelsSpawner;
-    [SerializeField] private LegendaryLevelsSpawner _legendaryLevelsSpawner;
-
-    [SerializeField] private MazeSpawner _mazeSpawner;
-    [SerializeField] private GreenScoresSpawner _greenScoresSpawner;
-    [SerializeField] private PlayerSpawner _playerSpawner;
-
-    public int MazeWidth { get; private set; } 
-    public int MazeHeight { get; private set; } 
-    public int MazeCyclesCount { get; private set; }
-    public int MazeGreenScoresCount { get; private set; }
-    public string LevelDescription { get; private set; }
-    public string RarityDescription { get; private set; }
-
-    public void SpawnLevel()
-    {
-        int levelType = LevelRarityController.GetLevelType();
-
-        switch (levelType)
+        public class LevelSpawner : MonoBehaviour
         {
-            case 1: _legendaryLevelsSpawner.SpawnRandomLevel();
-                    LevelDescription = _legendaryLevelsSpawner.LevelDescription;
-                    break;
-            case 2: _epicLevelsSpawner.SpawnRandomLevel();
-                    LevelDescription = _epicLevelsSpawner.LevelDescription;
-                    break;
-            case 3: _rareLevelsSpawner.SpawnRandomLevel();
-                    LevelDescription = _rareLevelsSpawner.LevelDescription;
-                    break;
-            case 4: _defaultLevelsSpawner.SpawnRandomLevel();
-                    LevelDescription = _defaultLevelsSpawner.LevelDescription;
-                    break;
+                [SerializeField] private DefaultLevelsSpawner defaultLevelsSpawner;
+                [SerializeField] private RareLevelsSpawner rareLevelsSpawner;
+                [SerializeField] private EpicLevelsSpawner epicLevelsSpawner;
+                [SerializeField] private LegendaryLevelsSpawner legendaryLevelsSpawner;
 
-            default:
-                SpawnLevel();
-                Debug.Log("- level type error, trying to regenerate..."); 
-                break;
+                [SerializeField] private MazeSpawner mazeSpawner;
+                [SerializeField] private GreenScoresSpawner greenScoresSpawner;
+                [SerializeField] private PlayerSpawner playerSpawner;
+
+                public int MazeWidth { get; private set; } 
+                public int MazeHeight { get; private set; } 
+                public int MazeCyclesCount { get; private set; }
+                public int MazeGreenScoresCount { get; private set; }
+                public string LevelDescription { get; private set; }
+                public string RarityDescription { get; private set; }
+    
+                public void Spawn()
+                {
+                        int levelType = LevelRarityController.GetLevelType();
+
+                        switch (levelType)
+                        {
+                                case 1: legendaryLevelsSpawner.SpawnRandomLevel();
+                                        LevelDescription = legendaryLevelsSpawner.LevelDescription;
+                                        break;
+                                case 2: epicLevelsSpawner.SpawnRandomLevel();
+                                        LevelDescription = epicLevelsSpawner.LevelDescription;
+                                        break;
+                                case 3: rareLevelsSpawner.SpawnRandomLevel();
+                                        LevelDescription = rareLevelsSpawner.LevelDescription;
+                                        break;
+                                case 4: defaultLevelsSpawner.SpawnRandomLevel();
+                                        LevelDescription = defaultLevelsSpawner.LevelDescription;
+                                        break;
+
+                                default:
+                                        Debug.Log("- level type generating error"); 
+                                        break;
+                        }
+
+                        MazeWidth = mazeSpawner.MazeWidth - 1;
+                        MazeHeight = mazeSpawner.MazeHeight - 1;
+                        MazeCyclesCount = mazeSpawner.SpawnedCyclesCount;
+                        MazeGreenScoresCount = greenScoresSpawner.GreenScoresCount;
+                        RarityDescription = LevelRarityController.RarityDescription;
+                        playerSpawner.Spawn(mazeSpawner.FirstCellCoordinates);
+                }
         }
-
-        MazeWidth = _mazeSpawner.MazeWidth - 1;
-        MazeHeight = _mazeSpawner.MazeHeight - 1;
-        MazeCyclesCount = _mazeSpawner.SpawnedCyclesCount;
-        MazeGreenScoresCount = _greenScoresSpawner.GreenScoresCount;
-        RarityDescription = LevelRarityController.RarityDescription;
-
-        if (FindObjectOfType<Player>() == null)
-        _playerSpawner.Spawn(_mazeSpawner.FirstCellCoordinates);
-    }
 }

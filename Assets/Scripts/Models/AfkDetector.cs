@@ -1,60 +1,44 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Models
 {
     public class AfkDetector : MonoBehaviour
     {
-        private Vector3 _lastPosition;
-        private bool _isMoving;
-        private readonly float _movementThreshold = 0.01f;
-        private Coroutine _detectionCoroutine;
+        private readonly float _maxAfkTime = 30f;
+        private float _currentAfkTime;
+        private bool _isAfk;
+        
+        public static event Action<string> OnAfkDetected;
+        public static event Action OnPlayerIsAfk;
 
-        public static event Action<string> OnAfkDetected; 
-        public static event Action OnObjectIsAfk; 
-
-        private void OnEnable()
+        private void Update()
         {
-            StartLevelController.OnAllSpawned += DoDetection;
-            FinishLevelController.OnLevelFinished += StopDetection;
+            DoAfkDetection();
         }
 
-        private void OnDisable()
+        private void DoAfkDetection()
         {
-            StartLevelController.OnAllSpawned -= DoDetection;
-            FinishLevelController.OnLevelFinished -= StopDetection;
-        }
-
-        private void StopDetection()
-        {
-            if (_detectionCoroutine != null)
+            if (Input.anyKey)
             {
-                StopCoroutine(_detectionCoroutine);
-                _detectionCoroutine = null;
+                _currentAfkTime = 0f;
+                if (_isAfk) _isAfk = false;
             }
-        }
-        
-        private void DoDetection()
-        {
-            _detectionCoroutine = StartCoroutine(DoDetectionCoroutine());
-        }
-        
-        private IEnumerator DoDetectionCoroutine()
-        {
-            yield return new WaitForSeconds(30f);
-            
-            _isMoving = Vector3.Distance(transform.position, _lastPosition) > _movementThreshold;
-            _lastPosition = transform.localPosition;
+            else
+            {
+                _currentAfkTime += Time.deltaTime;
 
-            StartCoroutine(_isMoving ? DoDetectionCoroutine() : AfkNotifyingCoroutine());
-        }
-
-        private IEnumerator AfkNotifyingCoroutine()
-        {
-            OnAfkDetected?.Invoke("You are AFK, game will be finished soon...");
-            yield return new WaitForSeconds(10f);
-            OnObjectIsAfk?.Invoke();
+                if (_currentAfkTime >= 15f)
+                {
+                    OnAfkDetected?.Invoke($"You are afk, game will be finished in {(int)(_maxAfkTime - _currentAfkTime)} seconds.");
+                }
+                
+                if (_currentAfkTime >= _maxAfkTime && !_isAfk)
+                {
+                    _isAfk = true;
+                    OnPlayerIsAfk?.Invoke();   
+                }
+            }
         }
     }
 }

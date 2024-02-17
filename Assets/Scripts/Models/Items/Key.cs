@@ -1,21 +1,25 @@
 using System;
+using Interfaces;
 using UnityEngine;
 
-public class Key : MonoBehaviour, IPickable, IPoolable
+namespace Models.Items
 {
-    public GameObject GameObject => gameObject;
-
-    public event Action<IPoolable> OnDestroyed;
-    public static event Action OnPicked;
-
-    public void Pick()
+    public class Key : MonoBehaviour, IPickAble, IPoolAble
     {
-        OnPicked?.Invoke();
-        Reset();
-    }
+        public GameObject GameObject => gameObject;
 
-    public void Reset()
-    {
-        OnDestroyed?.Invoke(this);
+        public event Action<IPoolAble> OnDestroyed;
+        public static event Action OnPicked;
+
+        public void Pick()
+        {
+            OnPicked?.Invoke();
+            Reset();
+        }
+
+        public void Reset()
+        {
+            OnDestroyed?.Invoke(this);
+        }
     }
 }

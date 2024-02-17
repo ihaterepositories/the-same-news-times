@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 100
+  keyCode: 100
 --- !u!4 &448768635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4925587518825017218, guid: 005256168d959ef4ea4b02d566d17c1a, type: 3}
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 119
+  keyCode: 119
 --- !u!1 &949702294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1972,7 +1972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 97
+  keyCode: 97
 --- !u!1 &2044192279
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,7 +2070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 115
+  keyCode: 115
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

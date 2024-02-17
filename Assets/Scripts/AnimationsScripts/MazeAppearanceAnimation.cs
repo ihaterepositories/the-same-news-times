@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Models.MazeGeneration;
 using UnityEngine;
 
 public class MazeAppearanceAnimation : MonoBehaviour

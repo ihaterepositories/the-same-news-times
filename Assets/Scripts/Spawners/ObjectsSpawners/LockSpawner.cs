@@ -1,25 +1,31 @@
+using Models;
+using Models.Items;
+using Models.MazeGeneration;
 using UnityEngine;
 
-public class LockSpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private Lock _lockPrefab;
-
-    private ObjectPool<Lock> _pool;
-
-    private void Awake()
+    public class LockSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<Lock>(_lockPrefab);
-    }
+        [SerializeField] private Lock lockPrefab;
 
-    public void Spawn(int mazeWitdh, int mazeHeight)
-    {
-        Lock lockObject = GetLockObject();
-        lockObject.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(MazeGenerator.ExitCell, mazeWitdh, mazeHeight);
-    }
+        private ObjectPool<Lock> _pool;
 
-    private Lock GetLockObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as Lock;
+        private void Awake()
+        {
+            _pool = new ObjectPool<Lock>(lockPrefab);
+        }
+
+        public void Spawn(int mazeWidth, int mazeHeight)
+        {
+            var lockObject = GetLockObject();
+            lockObject.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(MazeGenerator.ExitCell, mazeWidth, mazeHeight);
+        }
+
+        private Lock GetLockObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as Lock;
+        }
     }
 }

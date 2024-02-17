@@ -1,10 +1,13 @@
 using System;
 
-public static class TimeFormatter
+namespace UI
 {
-    public static string Formate(float time)
+    public static class TimeFormatter
     {
-        TimeSpan t = TimeSpan.FromSeconds(time);
-        return string.Format("{0:00}:{1:00}:{2:00}", (int)t.TotalHours, t.Minutes, t.Seconds);
+        public static string Format(float time)
+        {
+            TimeSpan t = TimeSpan.FromSeconds(time);
+            return $"{(int)t.TotalHours:00}:{t.Minutes:00}:{t.Seconds:00}";
+        }
     }
 }

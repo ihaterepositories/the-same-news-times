@@ -1,45 +1,54 @@
 using System.Collections.Generic;
+using Interfaces;
 using UnityEngine;
 
-public class ObjectPool<T> where T : Component, IPoolable
+namespace Models
 {
-    public readonly List<IPoolable> _freeObjects;
-    private readonly Transform _container;
-    private readonly T _prefab;
-
-    public ObjectPool(T prefab)
+    public class ObjectPool<T> where T : Component, IPoolAble
     {
-        _freeObjects = new List<IPoolable>();
-        _container = new GameObject().transform;
-        _container.name = prefab.GameObject.name;
-        _prefab = prefab;
-    }
+        private readonly List<IPoolAble> _freeObjects;
+        private readonly Transform _container;
+        private readonly T _prefab;
 
-    public IPoolable GetFreeObject()
-    {
-        IPoolable poolable;
-
-        if (_freeObjects.Count > 0)
+        public ObjectPool(T prefab)
         {
-            poolable = _freeObjects[0] as T;
-            _freeObjects.RemoveAt(0);
-        }
-        else
-        {
-            poolable = Object.Instantiate(_prefab, _container);
+            _freeObjects = new List<IPoolAble>();
+            _container = new GameObject().transform;
+            _container.name = prefab.GameObject.name;
+            _prefab = prefab;
         }
 
-        poolable.GameObject.SetActive(true);
-        poolable.OnDestroyed += ReturnToPool;
+        public IPoolAble GetFreeObject()
+        {
+            IPoolAble poolAble;
+
+            if (_freeObjects.Count > 0)
+            {
+                poolAble = _freeObjects[0] as T;
+                _freeObjects.RemoveAt(0);
+            }
+            else
+            {
+                poolAble = Object.Instantiate(_prefab, _container);
+            }
+
+            if (poolAble == null)
+            {
+                throw new System.Exception("PoolAble object is null");
+            }
+            
+            poolAble.GameObject.SetActive(true);
+            poolAble.OnDestroyed += ReturnToPool;
         
-        return poolable;
-    }
+            return poolAble;
+        }
 
-    private void ReturnToPool(IPoolable poolable)
-    {
-        _freeObjects.Add(poolable);
-        poolable.OnDestroyed -= ReturnToPool;
-        poolable.GameObject.SetActive(false);
-        poolable.GameObject.transform.SetParent(_container);
+        private void ReturnToPool(IPoolAble poolAble)
+        {
+            _freeObjects.Add(poolAble);
+            poolAble.OnDestroyed -= ReturnToPool;
+            poolAble.GameObject.SetActive(false);
+            poolAble.GameObject.transform.SetParent(_container);
+        }
     }
 }

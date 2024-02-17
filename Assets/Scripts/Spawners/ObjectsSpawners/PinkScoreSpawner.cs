@@ -1,24 +1,31 @@
+using Models;
+using Models.Items;
+using Models.MazeGeneration;
 using UnityEngine;
 
-public class PinkScoreSpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private PinkScore _pinkScorePrefab;
-    private ObjectPool<PinkScore> _pool;
-
-    private void Awake()
+    public class PinkScoreSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<PinkScore>(_pinkScorePrefab);
-    }
+        [SerializeField] private PinkScore pinkScorePrefab;
+        
+        private ObjectPool<PinkScore> _pool;
 
-    public void Spawn(int mazeWitdh, int mazeHeight)
-    {
-        PinkScore pinkScore = GetPinkScoreObject();
-        pinkScore.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(MazeGenerator.ExitCell, mazeWitdh, mazeHeight);
-    }
+        private void Awake()
+        {
+            _pool = new ObjectPool<PinkScore>(pinkScorePrefab);
+        }
 
-    private PinkScore GetPinkScoreObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as PinkScore;
+        public void Spawn(int mazeWidth, int mazeHeight)
+        {
+            var pinkScore = GetPinkScoreObject();
+            pinkScore.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(MazeGenerator.ExitCell, mazeWidth, mazeHeight);
+        }
+
+        private PinkScore GetPinkScoreObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as PinkScore;
+        }
     }
 }

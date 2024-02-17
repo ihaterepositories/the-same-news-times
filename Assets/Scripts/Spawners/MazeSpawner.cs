@@ -1,100 +1,102 @@
 using System.Collections.Generic;
+using Models;
+using Models.MazeGeneration;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class MazeSpawner : MonoBehaviour
+namespace Spawners
 {
-    [SerializeField] private CellWallsCollector _cellPrefab;
-
-    private int _spawnedCyclesCount;
-    private int _mazeWidth;
-    private int _mazeHeight;
-    private Cell[,] _maze;
-    private List<CellWallsCollector> _cellObjects;
-    private ObjectPool<CellWallsCollector> _pool;
-
-    public Vector2 FirstCellCoordinates { get { return new Vector2(-(_mazeWidth / 2) + 0.9f, -(_mazeHeight / 2) + 0.9f); } }
-    public int MazeWidth { get { return _mazeWidth; } }
-    public int MazeHeight { get { return _mazeHeight; } }
-    public int SpawnedCyclesCount { get { return _spawnedCyclesCount; } }
-    public Cell[,] Maze { get { return _maze; } }
-    public List<CellWallsCollector> CellObjects { get { return _cellObjects; } }
-
-    private void Awake()
+    public class MazeSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<CellWallsCollector>(_cellPrefab);
-    }
+        [SerializeField] private CellWallsCollector cellPrefab;
 
-    public void Spawn(int cyclesCount)
-    {
-        _mazeWidth = Random.Range(20, 36);
-        _mazeHeight = Random.Range(15, 19);
-        _maze = new MazeGenerator(_mazeWidth, _mazeHeight).Generate();
-        _cellObjects = new List<CellWallsCollector>();
-        CreateCycles(_maze, cyclesCount);
-        SpawnCells(_maze);
-    }
+        private ObjectPool<CellWallsCollector> _pool;
 
-    public void Spawn(int cyclesCount, int mazeWidth, int mazeHeight)
-    {
-        _mazeWidth = mazeWidth;
-        _mazeHeight = mazeHeight;
-        _maze = new MazeGenerator(mazeWidth, mazeHeight).Generate();
-        _cellObjects = new List<CellWallsCollector>();
-        CreateCycles(_maze, cyclesCount);
-        SpawnCells(_maze);
-    }
+        public Vector2 FirstCellCoordinates => new(-(MazeWidth / 2f) + 0.9f, -(MazeHeight / 2f) + 0.9f);
+        public int MazeWidth { get; private set; }
+        public int MazeHeight { get; private set; }
+        public int SpawnedCyclesCount { get; private set; }
+        public Cell[,] Maze { get; private set; }
+        public List<CellWallsCollector> CellObjects { get; private set; }
 
-    private void SpawnCells(Cell[,] maze)
-    {
-        for (int cellPositionX = 0; cellPositionX < maze.GetLength(0); cellPositionX++)
+        private void Awake()
         {
-            for (int cellPositionY = 0; cellPositionY < maze.GetLength(1); cellPositionY++)
+            _pool = new ObjectPool<CellWallsCollector>(cellPrefab);
+        }
+        
+        public void Spawn(int cyclesCount)
+        {
+            MazeWidth = Random.Range(20, 36);
+            MazeHeight = Random.Range(15, 19);
+            Maze = new MazeGenerator(MazeWidth, MazeHeight).Generate();
+            CellObjects = new List<CellWallsCollector>();
+            CreateCycles(Maze, cyclesCount);
+            SpawnCells(Maze);
+        }
+
+        public void Spawn(int cyclesCount, int mazeWidth, int mazeHeight)
+        {
+            MazeWidth = mazeWidth;
+            MazeHeight = mazeHeight;
+            Maze = new MazeGenerator(mazeWidth, mazeHeight).Generate();
+            CellObjects = new List<CellWallsCollector>();
+            CreateCycles(Maze, cyclesCount);
+            SpawnCells(Maze);
+        }
+
+        // Delete some random walls, which are closer to the maze center, to create cycles
+        private void CreateCycles(Cell[,] maze, int cyclesCount)
+        {
+            for (int i = 0; i < cyclesCount; i++)
             {
-                CellWallsCollector cell = GetCellObject();
-                cell.transform.localPosition = new Vector2(
-                    cellPositionX - (_mazeWidth / 2) + 0.5f, 
-                    cellPositionY - (_mazeHeight / 2) + 0.5f);
+                int cellPositionX = Random.Range(3, MazeWidth - 2);
+                int cellPositionY = Random.Range(3, MazeHeight - 2);
 
-                cell.ChangeTransparety(0);
+                if (maze[cellPositionX, cellPositionY].IsHaveLeftWall)
+                {
+                    maze[cellPositionX, cellPositionY].IsHaveLeftWall = false;
+                    SpawnedCyclesCount++;
+                    continue;
+                }
 
-                cell.leftWall.SetActive(maze[cellPositionX, cellPositionY].isHaveLeftWall);
-                cell.bottomWall.SetActive(maze[cellPositionX, cellPositionY].isHaveBottomtWall);
-
-                _cellObjects.Add(cell);
+                if (maze[cellPositionX, cellPositionY].IsHaveBottomWall)
+                {
+                    maze[cellPositionX, cellPositionY].IsHaveBottomWall = false;
+                    SpawnedCyclesCount++;
+                }
             }
         }
-    }
-
-    private CellWallsCollector GetCellObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as CellWallsCollector;
-    }
-
-    // Delete some random walls, which are closer to the maze center, to create cycles
-    private void CreateCycles(Cell[,] maze, int cyclesCount)
-    {
-        for (int i = 0; i < cyclesCount; i++)
+        
+        private void SpawnCells(Cell[,] maze)
         {
-            int cellPositionX = UnityEngine.Random.Range(3, _mazeWidth - 2);
-            int cellPositionY = UnityEngine.Random.Range(3, _mazeHeight - 2);
+            for (int cellPositionX = 0; cellPositionX < maze.GetLength(0); cellPositionX++)
+            {
+                for (int cellPositionY = 0; cellPositionY < maze.GetLength(1); cellPositionY++)
+                {
+                    CellWallsCollector cell = GetCellObject();
+                    cell.transform.localPosition = new Vector2(
+                        cellPositionX - (MazeWidth / 2f) + 0.5f, 
+                        cellPositionY - (MazeHeight / 2f) + 0.5f);
 
-            if (maze[cellPositionX, cellPositionY].isHaveLeftWall)
-            {
-                maze[cellPositionX, cellPositionY].isHaveLeftWall = false;
-                _spawnedCyclesCount++;
-                continue;
-            }
-            else if (maze[cellPositionX, cellPositionY].isHaveBottomtWall)
-            {
-                maze[cellPositionX, cellPositionY].isHaveBottomtWall = false;
-                _spawnedCyclesCount++;
+                    cell.ChangeTransparency(0);
+
+                    cell.leftWall.SetActive(maze[cellPositionX, cellPositionY].IsHaveLeftWall);
+                    cell.bottomWall.SetActive(maze[cellPositionX, cellPositionY].IsHaveBottomWall);
+
+                    CellObjects.Add(cell);
+                }
             }
         }
-    }
 
-    public static Vector2 GetWorldCellCoordinates(Cell cell, int mazeWidth, int mazeHeight)
-    {
-        return new Vector2(cell.x - (mazeWidth / 2) + 0.9f, cell.y - (mazeHeight / 2) + 0.9f);
+        private CellWallsCollector GetCellObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as CellWallsCollector;
+        }
+        
+        public static Vector2 GetCellWorldCoordinates(Cell cell, int mazeWidth, int mazeHeight)
+        {
+            return new Vector2(cell.X - (mazeWidth / 2f) + 0.9f, cell.Y - (mazeHeight / 2f) + 0.9f);
+        }
     }
 }

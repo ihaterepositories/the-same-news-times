@@ -2,65 +2,62 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CircleAnimation : MonoBehaviour
+namespace AnimationsScripts
 {
-    private static CircleAnimation _instance;
-    private SpriteRenderer _spriteRenderer;
-
-    public int SortingOrder { set { _spriteRenderer.sortingOrder = value; } }
-    public static CircleAnimation Instance {  get { return _instance; } }
-
-    private void Awake()
+    public class CircleAnimation : MonoBehaviour
     {
-        if (_instance == null)
+        public static CircleAnimation Instance { get; private set; }
+
+        private void Awake()
         {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        private void OnEnable()
         {
-            Destroy(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Decrease();
+        }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+        private void Decrease()
+        {
+            transform.localScale = new Vector2(50f, 50f);
+            transform.DOScale(Vector2.zero, 1f);
+        }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Decrease();
-    }
+        public void Decrease(float duration)
+        {
+            transform.localScale = new Vector2(50f, 50f);
+            transform.DOScale(Vector2.zero, duration);
+        }
 
-    public void Decrease()
-    {
-        transform.localScale = new Vector2(50f, 50f);
-        transform.DOScale(Vector2.zero, 1f);
-    }
+        public void Increase()
+        {
+            transform.localScale = Vector2.zero;
+            transform.DOScale(new Vector2(50f, 50f), 1f);
+        }
 
-    public void Decrease(float duration)
-    {
-        transform.localScale = new Vector2(50f, 50f);
-        transform.DOScale(Vector2.zero, duration);
-    }
-
-    public void Increase()
-    {
-        transform.localScale = Vector2.zero;
-        transform.DOScale(new Vector2(50f, 50f), 1f);
-    }
-
-    public void Increase(float duration)
-    {
-        transform.localScale = Vector2.zero;
-        transform.DOScale(new Vector2(50f, 50f), duration);
+        public void Increase(float duration)
+        {
+            transform.localScale = Vector2.zero;
+            transform.DOScale(new Vector2(50f, 50f), duration);
+        }
     }
 }

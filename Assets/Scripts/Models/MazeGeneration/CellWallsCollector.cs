@@ -1,52 +1,56 @@
-using DG.Tweening;
 using System;
+using Controllers;
+using DG.Tweening;
+using Interfaces;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class CellWallsCollector : MonoBehaviour, IPoolable
+namespace Models.MazeGeneration
 {
-    public GameObject leftWall;
-    public GameObject bottomWall;
-
-    public SpriteRenderer leftWallSpriteRenderer;
-    public SpriteRenderer bottomWallSpriteRenderer;
-
-    public GameObject GameObject => gameObject;
-    public event Action<IPoolable> OnDestroyed;
-
-    private void OnEnable()
+    public class CellWallsCollector : MonoBehaviour, IPoolAble
     {
-        FinishLevelController.OnLevelFinished += Reset;
-    }
+        public GameObject leftWall;
+        public GameObject bottomWall;
 
-    private void OnDisable()
-    {
-        FinishLevelController.OnLevelFinished -= Reset;
-    }
+        public SpriteRenderer leftWallSpriteRenderer;
+        public SpriteRenderer bottomWallSpriteRenderer;
 
-    public void Reset()
-    {
-        OnDestroyed?.Invoke(this);
-    }
+        public GameObject GameObject => gameObject;
+        public event Action<IPoolAble> OnDestroyed;
 
-    public void PlayAppearanceAnimation(float duration)
-    {
-        bottomWallSpriteRenderer.DOFade(1, duration);
-        leftWallSpriteRenderer.DOFade(1, duration);
-    }
+        private void OnEnable()
+        {
+            FinishLevelController.OnLevelFinished += Reset;
+        }
 
-    public void ChangeTransparety(float transparety)
-    {
-        bottomWallSpriteRenderer.color = new Color(
-                    bottomWallSpriteRenderer.color.r,
-                    bottomWallSpriteRenderer.color.g,
-                    bottomWallSpriteRenderer.color.b,
-                    transparety);
+        private void OnDisable()
+        {
+            FinishLevelController.OnLevelFinished -= Reset;
+        }
 
-        leftWallSpriteRenderer.color = new Color(
-                    bottomWallSpriteRenderer.color.r,
-                    bottomWallSpriteRenderer.color.g,
-                    bottomWallSpriteRenderer.color.b,
-                    transparety);
+        public void Reset()
+        {
+            OnDestroyed?.Invoke(this);
+        }
+
+        public void PlayAppearanceAnimation(float duration)
+        {
+            bottomWallSpriteRenderer.DOFade(1, duration);
+            leftWallSpriteRenderer.DOFade(1, duration);
+        }
+
+        public void ChangeTransparency(float transparency)
+        {
+            bottomWallSpriteRenderer.color = new Color(
+                bottomWallSpriteRenderer.color.r,
+                bottomWallSpriteRenderer.color.g,
+                bottomWallSpriteRenderer.color.b,
+                transparency);
+
+            leftWallSpriteRenderer.color = new Color(
+                bottomWallSpriteRenderer.color.r,
+                bottomWallSpriteRenderer.color.g,
+                bottomWallSpriteRenderer.color.b,
+                transparency);
+        }
     }
 }

@@ -1,58 +1,60 @@
 using DG.Tweening;
-using System.Collections;
+using Models.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
-
-public class InfoText : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private bool isColorChangable;
-    private Text _textObject;
+    [RequireComponent(typeof(Text))]
 
-    public Text TextObject { get { return _textObject; } }
-
-    private void Awake()
+    public class InfoText : MonoBehaviour
     {
-        _textObject = GetComponent<Text>();
-    }
+        [SerializeField] private bool isColorChangeable;
+        
+        private Text _textObject;
 
-    private void OnEnable()
-    {
-        TempleKeeper.OnPlayerInDangeroues += SetLightColor;
-        TempleKeeper.OnEndOfPlayerDangeroues += SetDarkColor;
-    }
+        private void Awake()
+        {
+            _textObject = GetComponent<Text>();
+        }
 
-    private void OnDisable()
-    {
-        TempleKeeper.OnPlayerInDangeroues -= SetLightColor;
-        TempleKeeper.OnEndOfPlayerDangeroues -= SetDarkColor;
-    }
+        private void OnEnable()
+        {
+            TempleKeeper.OnPlayerInDangerous += SetLightColor;
+            TempleKeeper.OnEndOfPlayerDangerous += SetDarkColor;
+        }
 
-    private void SetLightColor()
-    {
-        if (isColorChangable)
-        _textObject.DOColor(new Color(0.9490196f, 0.9607843f, 0.9176471f), 1f);
-    }
+        private void OnDisable()
+        {
+            TempleKeeper.OnPlayerInDangerous -= SetLightColor;
+            TempleKeeper.OnEndOfPlayerDangerous -= SetDarkColor;
+        }
 
-    private void SetDarkColor()
-    {
-        if (isColorChangable)
-        _textObject.DOColor(new Color(0.1647059f, 0.2078431f, 0.2509804f), 1f);
-    }
+        private void SetLightColor()
+        {
+            if (isColorChangeable)
+                _textObject.DOColor(new Color(0.9490196f, 0.9607843f, 0.9176471f), 1f);
+        }
 
-    public void SetText(string text)
-    {
-        _textObject.text = text;
-    }
+        private void SetDarkColor()
+        {
+            if (isColorChangeable)
+                _textObject.DOColor(new Color(0.1647059f, 0.2078431f, 0.2509804f), 1f);
+        }
 
-    public void SetText(int number)
-    {
-        _textObject.text = number.ToString();
-    }
+        public void SetText(string text)
+        {
+            _textObject.text = text;
+        }
 
-    public void SetColor(Color color)
-    {
-        _textObject.color = color;
+        public void SetText(int number)
+        {
+            _textObject.text = number.ToString();
+        }
+
+        public void SetColor(Color color)
+        {
+            _textObject.color = color;
+        }
     }
 }

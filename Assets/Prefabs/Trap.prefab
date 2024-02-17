@@ -143,5 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a310687ef7d16cc47982d524cd504acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 5867739833026791703}
-  _spriteRenderer: {fileID: 6258744848802255255}
+  trapCollider: {fileID: 5867739833026791703}
+  spriteRenderer: {fileID: 6258744848802255255}

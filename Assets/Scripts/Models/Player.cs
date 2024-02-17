@@ -1,21 +1,22 @@
 using System;
+using Controllers;
+using Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Models
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(TrailRenderer))]
 
-    public class Player : MonoBehaviour, IPoolable
+    public class Player : MonoBehaviour, IPoolAble
     {
         private TrailRenderer _trailRender;
-        private readonly float _speed = 10f;
+        private const float Speed = 10f;
 
         public static Vector2 Position;
 
         public GameObject GameObject => gameObject;
-        public event Action<IPoolable> OnDestroyed;
+        public event Action<IPoolAble> OnDestroyed;
 
         private void Awake()
         {
@@ -31,7 +32,7 @@ namespace Models
         private void OnEnable()
         {
             FinishLevelController.OnLevelFinished += ClearTrailRender;
-            FinishLevelController.OnLevelFinished += Reset;;
+            FinishLevelController.OnLevelFinished += Reset;
         }
 
         private void OnDisable()
@@ -42,8 +43,8 @@ namespace Models
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            var pickable = collision.gameObject.GetComponent<IPickable>();
-            if (pickable is not null) pickable.Pick();
+            var pickAble = collision.gameObject.GetComponent<IPickAble>();
+            pickAble?.Pick();
         }
 
         public void Reset()
@@ -55,19 +56,19 @@ namespace Models
         {
             if (Input.GetKey(KeyCode.W))
             {
-                transform.Translate(Vector3.up * (_speed * Time.deltaTime));
+                transform.Translate(Vector3.up * (Speed * Time.deltaTime));
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                transform.Translate(Vector3.down * (_speed * Time.deltaTime));
+                transform.Translate(Vector3.down * (Speed * Time.deltaTime));
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                transform.Translate(Vector3.right * (_speed * Time.deltaTime));
+                transform.Translate(Vector3.right * (Speed * Time.deltaTime));
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                transform.Translate(Vector3.left * (_speed * Time.deltaTime));
+                transform.Translate(Vector3.left * (Speed * Time.deltaTime));
             }
         }
 

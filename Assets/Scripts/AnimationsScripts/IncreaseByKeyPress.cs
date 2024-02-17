@@ -1,36 +1,39 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class IncreaseByKeyPress : MonoBehaviour
+namespace AnimationsScripts
 {
-    [SerializeField] private KeyCode _keyCode;
-    private Vector3 _standartScale;
-
-    private void Awake()
+    public class IncreaseByKeyPress : MonoBehaviour
     {
-        _standartScale = transform.localScale;
-    }
+        [SerializeField] private KeyCode keyCode;
+        private Vector3 _standardScale;
 
-    private void Update()
-    {
-        if (Input.GetKey(_keyCode))
+        private void Awake()
         {
-            DoIncrease();
+            _standardScale = transform.localScale;
         }
-        else
+
+        private void Update()
         {
-            DoDecrease();
+            if (Input.GetKey(keyCode))
+            {
+                DoIncrease();
+            }
+            else
+            {
+                DoDecrease();
+            }
         }
-    }
 
-    private void DoIncrease()
-    {
-        transform.DOScale(_standartScale + new Vector3(0.5f, 0.5f, 0.5f), 0.5f);
-    }
+        private void DoIncrease()
+        {
+            transform.DOScale(_standardScale + new Vector3(0.5f, 0.5f, 0.5f), 0.5f);
+        }
 
-    private void DoDecrease()
-    {
-        if (transform.localScale != _standartScale)
-        transform.DOScale(_standartScale, 0.5f);
+        private void DoDecrease()
+        {
+            if (transform.localScale != _standardScale)
+                transform.DOScale(_standardScale, 0.5f);
+        }
     }
 }

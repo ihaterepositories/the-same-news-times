@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 27
+  keyCode: 27
 --- !u!1 &390486732
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 97
+  keyCode: 97
 --- !u!1 &535785975
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 101
+  keyCode: 101
 --- !u!1 &779047271
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 100
+  keyCode: 100
 --- !u!1 &842171649
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 119
+  keyCode: 119
 --- !u!1 &872318198
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,7 +841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 115
+  keyCode: 115
 --- !u!1 &987002380
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 113
+  keyCode: 113
 --- !u!212 &987002383
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1480,9 +1480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31642ad2a57da0c4da93eec97dbc0185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyToPress: 32
-  _nextSceneString: EducationalScene
-  _useCircleAnimation: 1
+  keyToPress: 32
+  nextSceneString: EducationalScene
+  useCircleAnimation: 1
 --- !u!1 &1817923146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ab3f26c6867fc4ea9f3f94b36394dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _keyCode: 32
+  keyCode: 32
 --- !u!1 &2033302561
 GameObject:
   m_ObjectHideFlags: 0

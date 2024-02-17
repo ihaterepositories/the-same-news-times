@@ -1,28 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using Models;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerSpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private Player _playerPrefab;
-
-    private ObjectPool<Player> _pool;
-
-    private void Awake()
+    public class PlayerSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<Player>(_playerPrefab);
-    }
+        [SerializeField] private Player playerPrefab;
 
-    public void Spawn(Vector2 position)
-    {
-        Player player = GetPlayerObject();
-        player.transform.localPosition = position;
-    }
+        private ObjectPool<Player> _pool;
 
-    private Player GetPlayerObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as Player;
+        private void Awake()
+        {
+            _pool = new ObjectPool<Player>(playerPrefab);
+        }
+
+        public void Spawn(Vector2 position)
+        {
+            var player = GetPlayerObject();
+            player.transform.localPosition = position;
+        }
+
+        private Player GetPlayerObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as Player;
+        }
     }
 }

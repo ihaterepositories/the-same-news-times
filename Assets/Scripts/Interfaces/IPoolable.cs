@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 
-public interface IPoolable
+namespace Interfaces
 {
-    GameObject GameObject { get; }
-    event Action<IPoolable> OnDestroyed;
-
-    void Reset();
+    public interface IPoolAble
+    {
+        GameObject GameObject { get; }
+        event Action<IPoolAble> OnDestroyed;
+        void Reset();
+    }
 }

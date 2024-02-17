@@ -1,60 +1,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PositionBlockController : MonoBehaviour
+namespace Controllers
 {
-    private static List<int> positionsX;
-    private static List<int> positionsY;
-
-    private void Awake()
+    public class PositionBlockController : MonoBehaviour
     {
-        positionsX = new List<int>();
-        positionsY = new List<int>();
-    }
+        private static List<int> _positionsX;
+        private static List<int> _positionsY;
 
-    private void OnEnable()
-    {
-        FinishLevelController.OnLevelFinished += ClearBlockedPositions;
-    }
-
-    private void OnDisable()
-    {
-        FinishLevelController.OnLevelFinished -= ClearBlockedPositions;
-    }
-
-    private void ClearBlockedPositions()
-    {
-        positionsX.Clear();
-        positionsY.Clear();
-    }
-
-    public static void BlockPosition(int x, int y, bool isBlockNearestPositions)
-    {
-        positionsX.Add(x);
-        positionsY.Add(y);
-   
-        if (isBlockNearestPositions )
+        private void Awake()
         {
-            positionsX.Add(x + 1);
-            positionsX.Add(x - 1);
-            positionsY.Add(y + 1);
-            positionsY.Add(y - 1);
+            _positionsX = new List<int>();
+            _positionsY = new List<int>();
         }
-    }
 
-    public static bool CheckPositionAvailability(int x, int y)
-    {
-        for (int i = 0; i < positionsX.Count; i++)
+        private void OnEnable()
         {
-            if (positionsX[i] == x)
+            FinishLevelController.OnLevelFinished += ClearBlockedPositions;
+        }
+
+        private void OnDisable()
+        {
+            FinishLevelController.OnLevelFinished -= ClearBlockedPositions;
+        }
+
+        private void ClearBlockedPositions()
+        {
+            _positionsX.Clear();
+            _positionsY.Clear();
+        }
+
+        public static void BlockPosition(int x, int y, bool isBlockNearestPositions)
+        {
+            _positionsX.Add(x);
+            _positionsY.Add(y);
+   
+            if (isBlockNearestPositions )
             {
-                for (int j = 0; j < positionsY.Count; j++)
-                {
-                    if (positionsY[j] == y) return false;
-                }
+                _positionsX.Add(x + 1);
+                _positionsX.Add(x - 1);
+                _positionsY.Add(y + 1);
+                _positionsY.Add(y - 1);
             }
         }
 
-        return true;
+        public static bool CheckPositionAvailability(int x, int y)
+        {
+            for (var i = 0; i < _positionsX.Count; i++)
+            {
+                if (_positionsX[i] == x)
+                {
+                    for (var j = 0; j < _positionsY.Count; j++)
+                    {
+                        if (_positionsY[j] == y) return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

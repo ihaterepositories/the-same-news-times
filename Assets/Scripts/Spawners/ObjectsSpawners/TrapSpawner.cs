@@ -1,43 +1,49 @@
+using Controllers;
+using Models;
+using Models.Enemies;
+using Models.MazeGeneration;
 using UnityEngine;
 
-public class TrapSpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private Trap _trapPrefab;
-
-    private ObjectPool<Trap> _pool;
-
-    private void Awake()
+    public class TrapSpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<Trap>(_trapPrefab);
-    }
+        [SerializeField] private Trap trapPrefab;
 
-    public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
-    {
-        int iterations = Random.Range(mazeWidth - 15, mazeHeight - 5);
+        private ObjectPool<Trap> _pool;
 
-        for (int i = 0; i < iterations; i++)
+        private void Awake()
         {
-            int xPosition = Random.Range(1, mazeWidth - 1);
-            int yPosition = Random.Range(1, mazeHeight - 1);
-
-            if (xPosition != MazeGenerator.ExitCell.x &&
-                yPosition != MazeGenerator.ExitCell.y &&
-                PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
-            {
-                Cell cell = maze[xPosition, yPosition];
-                Trap trap = GetTrapObject();
-                trap.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
-                trap.PlayAppearingAnimation();
-
-                PositionBlockController.BlockPosition(xPosition, yPosition, true);
-            }
-            else { continue; }
+            _pool = new ObjectPool<Trap>(trapPrefab);
         }
-    }
 
-    private Trap GetTrapObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as Trap;
+        public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
+        {
+            var iterations = Random.Range(mazeWidth - 15, mazeHeight - 5);
+
+            for (var i = 0; i < iterations; i++)
+            {
+                int xPosition = Random.Range(1, mazeWidth - 1);
+                int yPosition = Random.Range(1, mazeHeight - 1);
+
+                if (xPosition != MazeGenerator.ExitCell.X &&
+                    yPosition != MazeGenerator.ExitCell.Y &&
+                    PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
+                {
+                    var cell = maze[xPosition, yPosition];
+                    var trap = GetTrapObject();
+                    trap.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
+                    trap.PlayAppearingAnimation();
+
+                    PositionBlockController.BlockPosition(xPosition, yPosition, true);
+                }
+            }
+        }
+
+        private Trap GetTrapObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as Trap;
+        }
     }
 }

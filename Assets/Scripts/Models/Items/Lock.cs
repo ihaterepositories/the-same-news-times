@@ -1,24 +1,28 @@
 using System;
+using Interfaces;
 using UnityEngine;
 
-public class Lock : MonoBehaviour, IPoolable
+namespace Models.Items
 {
-    public GameObject GameObject => gameObject;
-
-    public event Action<IPoolable> OnDestroyed;
-
-    private void OnEnable()
+    public class Lock : MonoBehaviour, IPoolAble
     {
-        Key.OnPicked += Reset;
-    }
+        public GameObject GameObject => gameObject;
 
-    private void OnDisable()
-    {
-        Key.OnPicked -= Reset;
-    }
+        public event Action<IPoolAble> OnDestroyed;
 
-    public void Reset()
-    {
-        OnDestroyed?.Invoke(this);
+        private void OnEnable()
+        {
+            Key.OnPicked += Reset;
+        }
+
+        private void OnDisable()
+        {
+            Key.OnPicked -= Reset;
+        }
+
+        public void Reset()
+        {
+            OnDestroyed?.Invoke(this);
+        }
     }
 }

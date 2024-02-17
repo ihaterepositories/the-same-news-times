@@ -1,13 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using Controllers;
 using UnityEngine;
 
-public class CollisionButton : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private string nextSceneName;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class CollisionButton : MonoBehaviour
     {
-        SceneLoadingController.Instance.LoadSceneAsync(nextSceneName);
+        [SerializeField] private string nextSceneName;
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            SceneLoadingController.Instance.LoadSceneAsync(nextSceneName);
+        }
     }
 }

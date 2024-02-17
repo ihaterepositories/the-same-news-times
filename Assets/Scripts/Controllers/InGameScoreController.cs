@@ -1,119 +1,117 @@
 using System;
+using Models;
+using Models.Items;
+using UI;
 using UnityEngine;
 
-public class InGameScoreController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField] private InfoText _greenScoreText;
-    [SerializeField] private InfoText _pinkScoreText;
-    [SerializeField] private Timer _gameDurationTimer;
-
-    private int _greenScore = 0;
-    private int _pinkScore = 0;
-    private int _totalScore = 0;
-
-    public static event Action OnPinkScoreUpdated;
-
-    private void Start()
+    public class InGameScoreController : MonoBehaviour
     {
-        _greenScoreText.SetText(_greenScore);
-        _pinkScoreText.SetText(_pinkScore);
-    }
+        [SerializeField] private InfoText greenScoreText;
+        [SerializeField] private InfoText pinkScoreText;
+        [SerializeField] private Timer gameDurationTimer;
 
-    private void OnEnable()
-    {
-        GreenScore.OnPicked += UpdateGreenScore;
-        PinkScore.OnPicked += UpdatePinkScore;
-    }
+        private int _greenScore;
+        private int _pinkScore;
+        private int _totalScore;
 
-    private void OnDisable()
-    {
-        GreenScore.OnPicked -= UpdateGreenScore;
-        PinkScore.OnPicked -= UpdatePinkScore;
-    }
+        public static event Action OnPinkScoreUpdated;
 
-    private void UpdateGreenScore()
-    {
-        _greenScore++;
-        _greenScoreText.SetText(_greenScore);
-    }
-
-    private void UpdatePinkScore()
-    {
-        _pinkScore++;
-        _pinkScoreText.SetText(_pinkScore);
-        PlayerPrefs.SetInt("TotalMazesCompleted", PlayerPrefs.GetInt("TotalMazesCompleted", 0) + 1);
-        PlayerPrefs.Save();
-        OnPinkScoreUpdated?.Invoke();
-    }
-
-    private string GetPinkScore()
-    {
-        int bestPinkScore = PlayerPrefs.GetInt("BestPinkScore", 0);
-        string scoreString = $"pink score: {_pinkScore}";
-
-        if (_pinkScore > bestPinkScore)
+        private void Start()
         {
+            greenScoreText.SetText(_greenScore);
+            pinkScoreText.SetText(_pinkScore);
+        }
+
+        private void OnEnable()
+        {
+            GreenScore.OnPicked += UpdateGreenScore;
+            PinkScore.OnPicked += UpdatePinkScore;
+        }
+
+        private void OnDisable()
+        {
+            GreenScore.OnPicked -= UpdateGreenScore;
+            PinkScore.OnPicked -= UpdatePinkScore;
+        }
+
+        private void UpdateGreenScore()
+        {
+            _greenScore++;
+            greenScoreText.SetText(_greenScore);
+        }
+
+        private void UpdatePinkScore()
+        {
+            _pinkScore++;
+            pinkScoreText.SetText(_pinkScore);
+            PlayerPrefs.SetInt("TotalMazesCompleted", PlayerPrefs.GetInt("TotalMazesCompleted", 0) + 1);
+            PlayerPrefs.Save();
+            OnPinkScoreUpdated?.Invoke();
+        }
+
+        private string GetPinkScore()
+        {
+            var bestPinkScore = PlayerPrefs.GetInt("BestPinkScore", 0);
+            var scoreString = $"pink score: {_pinkScore}";
+
+            if (_pinkScore <= bestPinkScore) return scoreString;
+            
             PlayerPrefs.SetInt("BestPinkScore", _pinkScore);
             PlayerPrefs.Save();
             scoreString = $"new best pink score: {_pinkScore} !";
+            return scoreString;
         }
 
-        return scoreString;
-    }
-
-    private string GetGreenScore()
-    {
-        int bestGreenScore = PlayerPrefs.GetInt("BestGreenScore", 0);
-        string scoreString = $"green score: {_greenScore}";
-
-        if (_greenScore > bestGreenScore)
+        private string GetGreenScore()
         {
+            var bestGreenScore = PlayerPrefs.GetInt("BestGreenScore", 0);
+            var scoreString = $"green score: {_greenScore}";
+
+            if (_greenScore <= bestGreenScore) return scoreString;
+            
             PlayerPrefs.SetInt("BestGreenScore", _greenScore);
             PlayerPrefs.Save();
             scoreString = $"new best green score: {_greenScore} !";
+            return scoreString;
         }
 
-        return scoreString;
-    }
-
-    private string GetTotalScore()
-    {
-        _totalScore = (_pinkScore * _greenScore) + (int)_gameDurationTimer.GameDuration;
-
-        int bestTotalScore = PlayerPrefs.GetInt("BestTotalScore", 0);
-        string scoreString = $"total score: {_totalScore}";
-
-        if (_totalScore > bestTotalScore)
+        private string GetTotalScore()
         {
+            _totalScore = (_pinkScore * _greenScore) + (int)gameDurationTimer.GameDuration;
+
+            var bestTotalScore = PlayerPrefs.GetInt("BestTotalScore", 0);
+            var scoreString = $"total score: {_totalScore}";
+
+            if (_totalScore <= bestTotalScore) return scoreString;
+            
             PlayerPrefs.SetInt("BestTotalScore", _totalScore);
             PlayerPrefs.Save();
             scoreString = $"new best total score: {_totalScore} !";
+            return scoreString;
         }
 
-        return scoreString;
-    }
-
-    private string GetGameDuration()
-    {
-        float currentGameDuration = _gameDurationTimer.GameDuration;
-        float bestGameDuration = PlayerPrefs.GetFloat("BestGameDuration", 0f);
-
-        string gameDurationString = $"game duration: {TimeFormatter.Formate(currentGameDuration)}";
-
-        if (currentGameDuration > bestGameDuration)
+        private string GetGameDuration()
         {
+            var currentGameDuration = gameDurationTimer.GameDuration;
+            var bestGameDuration = PlayerPrefs.GetFloat("BestGameDuration", 0f);
+
+            var gameDurationString = $"game duration: {TimeFormatter.Format(currentGameDuration)}";
+
+            if (!(currentGameDuration > bestGameDuration)) return gameDurationString;
+            
             PlayerPrefs.SetFloat("BestGameDuration", currentGameDuration);
-            gameDurationString = $"new longest game record: {TimeFormatter.Formate(currentGameDuration)} !";
+            gameDurationString = $"new longest game record: {TimeFormatter.Format(currentGameDuration)} !";
+            return gameDurationString;
         }
 
-        return gameDurationString;
-    }
-
-    public string GetCurrentGameScore()
-    {
-        return GetPinkScore() + "\n" + "\n" +
-               GetGreenScore() + "\n" + "\n" +
-               GetTotalScore() + "\n" + "\n" +
-               GetGameDuration();
+        public string GetCurrentGameScore()
+        {
+            return GetPinkScore() + "\n" + "\n" +
+                   GetGreenScore() + "\n" + "\n" +
+                   GetTotalScore() + "\n" + "\n" +
+                   GetGameDuration();
+        }
     }
 }

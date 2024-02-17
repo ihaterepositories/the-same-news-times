@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Cell
+namespace Models.MazeGeneration
 {
-    public int x;
-    public int y;
-    public int distanceFromStartPoint;
+    public class Cell
+    {
+        public int X;
+        public int Y;
+        public int DistanceFromStartPoint;
 
-    public bool isHaveLeftWall = true;
-    public bool isHaveBottomtWall = true;
-    public bool isVisitedByGenerator = false;
+        public bool IsHaveLeftWall = true;
+        public bool IsHaveBottomWall = true;
+        public bool IsVisitedByGenerator = false;
+    }
 }

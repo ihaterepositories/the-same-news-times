@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using Models;
 using UnityEngine;
@@ -29,10 +30,5 @@ namespace UI
             _textObject.DOFade(1f, 1f);
             _textObject.text = text;
         }
-
-        // private void HideText()
-        // {
-        //     _textObject.DOFade(0f, 1f);
-        // }
     }
 }

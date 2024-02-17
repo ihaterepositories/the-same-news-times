@@ -1,37 +1,52 @@
+using Controllers;
+using Models;
+using Models.Items;
+using Models.MazeGeneration;
 using UnityEngine;
 
-public class KeySpawner : MonoBehaviour
+namespace Spawners.ObjectsSpawners
 {
-    [SerializeField] private Key _keyPrefab;
-
-    private ObjectPool<Key> _pool;
-
-    private void Awake()
+    public class KeySpawner : MonoBehaviour
     {
-        _pool = new ObjectPool<Key>(_keyPrefab);
-    }
+        [SerializeField] private Key keyPrefab;
 
-    public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
-    {
-        int xPosition = Random.Range(1, mazeWidth - 1);
-        int yPosition = Random.Range(1, mazeHeight - 1);
+        private ObjectPool<Key> _pool;
 
-        if (xPosition != MazeGenerator.ExitCell.x &&
-            yPosition != MazeGenerator.ExitCell.y &&
-            PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
+        private void Awake()
         {
-            Cell cell = maze[xPosition, yPosition];
-            Key key = GetKeyObject();
-            key.transform.localPosition = MazeSpawner.GetWorldCellCoordinates(cell, mazeWidth, mazeHeight);
-
-            PositionBlockController.BlockPosition(xPosition, yPosition, true);
+            _pool = new ObjectPool<Key>(keyPrefab);
         }
-        else { Spawn(maze, mazeWidth, mazeHeight); }
-    }
 
-    private Key GetKeyObject()
-    {
-        IPoolable poolable = _pool.GetFreeObject();
-        return poolable as Key;
+        public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
+        {
+            while (true)
+            {
+                var xPosition = Random.Range(1, mazeWidth - 1);
+                var yPosition = Random.Range(1, mazeHeight - 1);
+
+                if (xPosition != MazeGenerator.ExitCell.X && 
+                    yPosition != MazeGenerator.ExitCell.Y && 
+                    PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
+                {
+                    var cell = maze[xPosition, yPosition];
+                    var key = GetKeyObject();
+                    key.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
+
+                    PositionBlockController.BlockPosition(xPosition, yPosition, true);
+                }
+                else
+                {
+                    continue;
+                }
+
+                break;
+            }
+        }
+
+        private Key GetKeyObject()
+        {
+            var poolAble = _pool.GetFreeObject();
+            return poolAble as Key;
+        }
     }
 }

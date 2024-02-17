@@ -1,6 +1,7 @@
-using System;
-
-public interface IPickable
+namespace Interfaces
 {
-    public void Pick();
+    public interface IPickAble
+    {
+        public void Pick();
+    }
 }

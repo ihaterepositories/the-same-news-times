@@ -1,33 +1,36 @@
-using DG.Tweening;
 using System;
-using System.Collections;
+using Controllers;
+using Interfaces;
 using UnityEngine;
 
-public class GreenScore : MonoBehaviour, IPickable, IPoolable
+namespace Models.Items
 {
-    public GameObject GameObject => gameObject;
-
-    public static event Action OnPicked;
-    public event Action<IPoolable> OnDestroyed;
-
-    private void OnEnable()
+    public class GreenScore : MonoBehaviour, IPickAble, IPoolAble
     {
-        FinishLevelController.OnLevelFinished += Reset;
-    }
+        public GameObject GameObject => gameObject;
 
-    private void OnDisable()
-    {
-        FinishLevelController.OnLevelFinished -= Reset;
-    }
+        public static event Action OnPicked;
+        public event Action<IPoolAble> OnDestroyed;
 
-    public void Pick()
-    {
-        OnPicked?.Invoke();
-        Reset();
-    }
+        private void OnEnable()
+        {
+            FinishLevelController.OnLevelFinished += Reset;
+        }
 
-    public void Reset()
-    {
-        OnDestroyed?.Invoke(this);
+        private void OnDisable()
+        {
+            FinishLevelController.OnLevelFinished -= Reset;
+        }
+
+        public void Pick()
+        {
+            OnPicked?.Invoke();
+            Reset();
+        }
+        
+        public void Reset()
+        {
+            OnDestroyed?.Invoke(this);
+        }
     }
 }

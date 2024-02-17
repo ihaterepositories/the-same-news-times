@@ -1,97 +1,91 @@
-using DG.Tweening;
 using System;
 using System.Collections;
-using Models;
+using Controllers;
+using DG.Tweening;
+using Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class Ghost : MonoBehaviour, IPoolable
+namespace Models.Enemies
 {
-    [SerializeField] private SpriteRenderer spriteRender;
-
-    private bool _isHunting;
-    private float _angularSpeed = 1f;
-    private float _circleRadius = 1f;
-    private Vector2 _fixedPoint;
-    private float _currentAngle;
-
-    private Coroutine _transparencyAnimationCoroutine;
-
-    public GameObject GameObject => gameObject;
-
-    public event Action<IPoolable> OnDestroyed;
-    public static event Action OnCaughtPlayer;
-
-    private void Update()
+    public class Ghost : MonoBehaviour, IPoolAble
     {
-        /*if (_isHunting)*/ DoCircleMoving();
-    }
+        [SerializeField] private SpriteRenderer spriteRender;
+        
+        private float _angularSpeed = 1f;
+        private float _circleRadius = 1f;
+        private Vector2 _fixedPoint;
+        private float _currentAngle;
 
-    private void OnEnable()
-    {
-        FinishLevelController.OnLevelFinished += Reset;
-    }
+        private Coroutine _transparencyAnimationCoroutine;
 
-    private void OnDisable()
-    {
-        FinishLevelController.OnLevelFinished -= Reset;
-    }
+        public GameObject GameObject => gameObject;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        var player = collision.gameObject.GetComponent<Player>();
+        public event Action<IPoolAble> OnDestroyed;
+        public static event Action OnCaughtPlayer;
 
-        if (player != null)
+        private void Update()
         {
-            OnCaughtPlayer?.Invoke();
+            DoCircleMoving();
         }
-    }
 
-    public void Reset()
-    {
-        StopHunting();
-        OnDestroyed?.Invoke(this);
-    }
-
-    private void StopHunting()
-    {
-        _isHunting = false;
-
-        if (_transparencyAnimationCoroutine != null)
+        private void OnEnable()
         {
+            FinishLevelController.OnLevelFinished += Reset;
+        }
+
+        private void OnDisable()
+        {
+            FinishLevelController.OnLevelFinished -= Reset;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            var player = collision.gameObject.GetComponent<Player>();
+            if (player != null) OnCaughtPlayer?.Invoke();
+        }
+
+        public void Reset()
+        {
+            StopHunting();
+            OnDestroyed?.Invoke(this);
+        }
+        
+        private void DoCircleMoving()
+        {
+            _currentAngle += _angularSpeed * Time.deltaTime;
+            Vector2 offset = new Vector2(Mathf.Sin(_currentAngle), Mathf.Cos(_currentAngle)) * _circleRadius;
+            transform.position = _fixedPoint + offset;
+        }
+
+        private void StopHunting()
+        {
+            if (_transparencyAnimationCoroutine == null) return;
             StopCoroutine(_transparencyAnimationCoroutine);
             _transparencyAnimationCoroutine = null;
         }
-    }
 
-    public void StartHunting()
-    {
-        _transparencyAnimationCoroutine = StartCoroutine(TransparetyAnimationCoroutine());
-        GenerateCircleMovingParametrs();
-        _isHunting = true;
-        _fixedPoint = transform.position;
-    }
+        public void StartHunting()
+        {
+            _transparencyAnimationCoroutine = StartCoroutine(TransparencyAnimationCoroutine());
+            GenerateCircleMovingParameters();
+            _fixedPoint = transform.position;
+        }
 
-    private IEnumerator TransparetyAnimationCoroutine()
-    {
-        yield return new WaitForSeconds(1);
-        spriteRender.DOFade(0.3f, 1f);
-        yield return new WaitForSeconds(1);
-        spriteRender.DOFade(1f, 1f);
-        StartCoroutine(TransparetyAnimationCoroutine());
-    }
+        // ReSharper disable once FunctionRecursiveOnAllPaths
+        private IEnumerator TransparencyAnimationCoroutine()
+        {
+            yield return new WaitForSeconds(1);
+            spriteRender.DOFade(0.3f, 1f);
+            yield return new WaitForSeconds(1);
+            spriteRender.DOFade(1f, 1f);
+            StartCoroutine(TransparencyAnimationCoroutine());
+        }
 
-    private void GenerateCircleMovingParametrs()
-    {
-        _angularSpeed = Random.Range(0.7f, 1.3f);
-        _circleRadius = Random.Range(2f, 4f);
-    }
-
-    private void DoCircleMoving()
-    {
-        _currentAngle += _angularSpeed * Time.deltaTime;
-        Vector2 offset = new Vector2(Mathf.Sin(_currentAngle), Mathf.Cos(_currentAngle)) * _circleRadius;
-        transform.position = _fixedPoint + offset;
+        private void GenerateCircleMovingParameters()
+        {
+            _angularSpeed = Random.Range(0.7f, 1.3f);
+            _circleRadius = Random.Range(2f, 4f);
+        }
     }
 }
