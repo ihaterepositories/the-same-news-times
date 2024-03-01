@@ -592,8 +592,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundtracks:
   - {fileID: 8300000, guid: 9d2ae9fc51065a64ebfd78a2e47db580, type: 3}
-  - {fileID: 8300000, guid: 72e2ecee09787a64f9e598cca04223fa, type: 3}
+  - {fileID: 8300000, guid: 63d74243ad79e9f4185d6b1d3a203c27, type: 3}
   - {fileID: 8300000, guid: a52ede8d494ef6a42920293ccc428c7e, type: 3}
+  - {fileID: 8300000, guid: f4aa8417a2e5bef42b27c3ad4f41dcfc, type: 3}
+  - {fileID: 8300000, guid: 2e8365b185733ec4aac3acacbfbb8378, type: 3}
+  - {fileID: 8300000, guid: 6efdc5451d7267e4098c6aaddc4da53c, type: 3}
   audioSource: {fileID: 352208901}
 --- !u!4 &352208903
 Transform:
@@ -1917,7 +1920,7 @@ MonoBehaviour:
   audioSource: {fileID: 1342309255}
   gameOverSound: {fileID: 8300000, guid: a297592053a218049b7d54a37a62ec8c, type: 3}
   itemPickedSound: {fileID: 8300000, guid: 9e9a5f5b549bbc842a66f3e147148c8e, type: 3}
-  levelFinishedSound: {fileID: 8300000, guid: cd0dc1f6327205a46829cdd320e85998, type: 3}
+  toolPickedSound: {fileID: 8300000, guid: 2778cb4d0c0f83a47a8c13a8eeb30072, type: 3}
 --- !u!82 &1342309255
 AudioSource:
   m_ObjectHideFlags: 0

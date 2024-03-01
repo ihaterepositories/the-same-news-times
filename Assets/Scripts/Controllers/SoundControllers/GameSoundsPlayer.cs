@@ -1,3 +1,4 @@
+using System;
 using Models.Items;
 using UnityEngine;
 
@@ -9,20 +10,30 @@ namespace Controllers.SoundControllers
 
         [SerializeField] private AudioClip gameOverSound;
         [SerializeField] private AudioClip itemPickedSound;
-        [SerializeField] private AudioClip levelFinishedSound;
-        
+        [SerializeField] private AudioClip toolPickedSound;
+
+        private void Start()
+        {
+            if (PlayerPrefs.GetInt("PlayGameSounds", 1) == 0)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
         private void OnEnable()
         {
             FinishLevelController.OnGameFinished += PlayGameOverSound;
             GreenScore.OnPicked += PlayItemPickedSound;
-            PinkScore.OnPicked += PlayLevelFinishedSound;
+            PinkScore.OnPicked += PlayItemPickedSound;
+            Key.OnPicked += PlayToolPickedSound;
         }
         
         private void OnDisable()
         {
             FinishLevelController.OnGameFinished -= PlayGameOverSound;
             GreenScore.OnPicked -= PlayItemPickedSound;
-            PinkScore.OnPicked -= PlayLevelFinishedSound;
+            PinkScore.OnPicked -= PlayItemPickedSound;
+            Key.OnPicked -= PlayToolPickedSound;
         }
         
         private void PlayGameOverSound()
@@ -35,9 +46,9 @@ namespace Controllers.SoundControllers
             audioSource.PlayOneShot(itemPickedSound);
         }
         
-        private void PlayLevelFinishedSound()
+        private void PlayToolPickedSound()
         {
-            audioSource.PlayOneShot(levelFinishedSound);
+            audioSource.PlayOneShot(toolPickedSound);
         }
     }
 }

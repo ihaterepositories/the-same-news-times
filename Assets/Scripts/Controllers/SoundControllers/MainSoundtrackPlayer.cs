@@ -9,9 +9,12 @@ namespace Controllers.SoundControllers
         [SerializeField] private AudioSource soundtrack;
         
         private static MainSoundtrackPlayer _instance;
+        private float _startVolume;
         
         private void Awake()
         {
+            _startVolume = soundtrack.volume;
+            
             if (_instance == null)
             {
                 _instance = this;
@@ -31,6 +34,15 @@ namespace Controllers.SoundControllers
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (PlayerPrefs.GetInt("PlaySoundtracks", 1) == 0)
+            {
+                soundtrack.volume = 0;
+            }
+            else
+            {
+                soundtrack.volume = _startVolume;
+            }
+            
             if (scene.name != "GameScene")
             {
                 if (!soundtrack.isPlaying) soundtrack.Play();

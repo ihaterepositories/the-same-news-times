@@ -14,6 +14,11 @@ namespace Controllers.SoundControllers
         
         private void Start()
         {
+            if (PlayerPrefs.GetInt("PlaySoundtracks", 1) == 0)
+            {
+                gameObject.SetActive(false);
+            }
+            
             _startVolume = audioSource.volume;
             
             if (soundtracks.Length > 0)
