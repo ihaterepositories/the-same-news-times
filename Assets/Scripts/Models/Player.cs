@@ -33,12 +33,14 @@ namespace Models
         {
             FinishLevelController.OnLevelFinished += ClearTrailRender;
             FinishLevelController.OnLevelFinished += Reset;
+            FinishLevelController.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
             FinishLevelController.OnLevelFinished -= ClearTrailRender;
             FinishLevelController.OnLevelFinished -= Reset;
+            FinishLevelController.OnGameFinished -= Reset;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

@@ -23,11 +23,13 @@ namespace Models.Enemies
         private void OnEnable()
         {
             FinishLevelController.OnLevelFinished += Reset;
+            FinishLevelController.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
             FinishLevelController.OnLevelFinished -= Reset;
+            FinishLevelController.OnGameFinished -= Reset;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

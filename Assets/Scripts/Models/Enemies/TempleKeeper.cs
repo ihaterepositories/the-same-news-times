@@ -38,12 +38,14 @@ namespace Models.Enemies
         {
             triggerZone.OnTriggerEnter += WakeUpEnemy;
             FinishLevelController.OnLevelFinished += Reset;
+            FinishLevelController.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
             triggerZone.OnTriggerEnter -= WakeUpEnemy;
             FinishLevelController.OnLevelFinished -= Reset;
+            FinishLevelController.OnGameFinished -= Reset;
         }
 
         public void Reset()
