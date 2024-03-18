@@ -1,4 +1,5 @@
 using Controllers;
+using Controllers.InGameControllers;
 using Spawners.LevelsSpawners;
 using Spawners.ObjectsSpawners;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace Spawners
     
                 public void Spawn()
                 {
-                        int levelType = LevelRarityController.GetLevelType();
+                        int levelType = LevelRarityGenerator.GetLevelType();
 
                         switch (levelType)
                         {
@@ -51,7 +52,7 @@ namespace Spawners
                         MazeHeight = mazeSpawner.MazeHeight - 1;
                         MazeCyclesCount = mazeSpawner.SpawnedCyclesCount;
                         MazeGreenScoresCount = greenScoresSpawner.GreenScoresCount;
-                        RarityDescription = LevelRarityController.RarityDescription;
+                        RarityDescription = LevelRarityGenerator.RarityDescription;
                         playerSpawner.Spawn(mazeSpawner.FirstCellCoordinates);
                 }
         }

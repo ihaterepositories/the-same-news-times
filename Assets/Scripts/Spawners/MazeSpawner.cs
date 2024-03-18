@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Controllers.InGameControllers;
 using Models;
 using Models.MazeGeneration;
 using UnityEngine;

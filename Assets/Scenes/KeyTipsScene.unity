@@ -1399,7 +1399,7 @@ GameObject:
   - component: {fileID: 1802777404}
   - component: {fileID: 1802777406}
   m_Layer: 5
-  m_Name: PressSpaceToContinueText
+  m_Name: PressKeyToContinueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1457,7 +1457,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Press space to continue
+  m_Text: 'Press enter to continue
 
 '
 --- !u!222 &1802777405
@@ -1480,7 +1480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31642ad2a57da0c4da93eec97dbc0185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyToPress: 32
+  keyToPress: 13
   nextSceneString: EducationalScene
   useCircleAnimation: 1
 --- !u!1 &1817923146
@@ -1726,7 +1726,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7450394b7739a3c4693ecb56ef96cf09, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0bf133a3b0999074a80c8d6adce63039, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

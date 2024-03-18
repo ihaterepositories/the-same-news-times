@@ -52,7 +52,7 @@ namespace UI
         {
             if (Input.GetKeyDown(keyToPress))
             {
-                SceneLoadingController.Instance.LoadSceneAsync(nextSceneString, useCircleAnimation);
+                ScenesLoader.Instance.LoadSceneAsync(nextSceneString, useCircleAnimation);
             }
         }
     }

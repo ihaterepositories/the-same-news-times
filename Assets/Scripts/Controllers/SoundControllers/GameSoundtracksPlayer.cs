@@ -1,4 +1,5 @@
 using System.Collections;
+using Controllers.InGameControllers;
 using UnityEngine;
 
 namespace Controllers.SoundControllers
@@ -37,12 +38,12 @@ namespace Controllers.SoundControllers
 
         private void OnEnable()
         {
-            FinishLevelController.OnGameFinished += FadeOutMusic;
+            LevelFinisher.OnGameFinished += FadeOutMusic;
         }
         
         private void OnDisable()
         {
-            FinishLevelController.OnGameFinished -= FadeOutMusic;
+            LevelFinisher.OnGameFinished -= FadeOutMusic;
         }
 
         private void PlayNextTrack()

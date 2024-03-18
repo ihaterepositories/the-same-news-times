@@ -215,51 +215,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &556994038
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 556994039}
-  - component: {fileID: 556994040}
-  m_Layer: 0
-  m_Name: RecordsSceneController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &556994039
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556994038}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &556994040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556994038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79bd8197e5d7edf4489796af193f65cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  recordsText: {fileID: 1418109338}
 --- !u!1 &1418109334
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,10 +304,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1418109334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac5426329bd62a45b791b9c424ed19b, type: 3}
+  m_Script: {fileID: 11500000, guid: 30ea6123258b4092946a5298717aaa9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isColorChangable: 0
+  recordsText: {fileID: 1418109336}
 --- !u!1 &1651181085
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +492,7 @@ GameObject:
   - component: {fileID: 2138339878}
   - component: {fileID: 2138339880}
   m_Layer: 5
-  m_Name: PressSpaceToLeaveText
+  m_Name: PressKeyToContinueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -584,18 +539,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c1da372925ce7c64396ad32829cf5892, type: 3}
-    m_FontSize: 30
+    m_FontSize: 25
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press space to leave
+  m_Text: Press enter to leave
 --- !u!222 &2138339879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -616,7 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31642ad2a57da0c4da93eec97dbc0185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyToPress: 32
+  keyToPress: 13
   nextSceneString: Menu
   useCircleAnimation: 1
 --- !u!1660057539 &9223372036854775807
@@ -624,6 +579,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 537525226}
-  - {fileID: 556994039}
   - {fileID: 1651181089}
   - {fileID: 1657533662}

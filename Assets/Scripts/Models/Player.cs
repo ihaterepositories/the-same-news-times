@@ -1,5 +1,6 @@
 using System;
 using Controllers;
+using Controllers.InGameControllers;
 using Interfaces;
 using UnityEngine;
 
@@ -31,16 +32,16 @@ namespace Models
 
         private void OnEnable()
         {
-            FinishLevelController.OnLevelFinished += ClearTrailRender;
-            FinishLevelController.OnLevelFinished += Reset;
-            FinishLevelController.OnGameFinished += Reset;
+            LevelFinisher.OnLevelFinished += ClearTrailRender;
+            LevelFinisher.OnLevelFinished += Reset;
+            LevelFinisher.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
-            FinishLevelController.OnLevelFinished -= ClearTrailRender;
-            FinishLevelController.OnLevelFinished -= Reset;
-            FinishLevelController.OnGameFinished -= Reset;
+            LevelFinisher.OnLevelFinished -= ClearTrailRender;
+            LevelFinisher.OnLevelFinished -= Reset;
+            LevelFinisher.OnGameFinished -= Reset;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

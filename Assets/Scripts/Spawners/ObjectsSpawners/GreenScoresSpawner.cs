@@ -1,4 +1,5 @@
 using Controllers;
+using Controllers.InGameControllers;
 using Models;
 using Models.Items;
 using Models.MazeGeneration;
@@ -32,14 +33,14 @@ namespace Spawners.ObjectsSpawners
 
                 if (xPosition != MazeGenerator.ExitCell.X && 
                     yPosition != MazeGenerator.ExitCell.Y &&
-                    PositionBlockController.CheckPositionAvailability(xPosition, yPosition))
+                    PositionBlocker.CheckPositionAvailability(xPosition, yPosition))
                 {
                     var cell = maze[xPosition, yPosition];
                     var greenScore = GetGreenScoreObject();
                     greenScore.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
                     _greenScoresCount++;
 
-                    PositionBlockController.BlockPosition(xPosition, yPosition, false);
+                    PositionBlocker.BlockPosition(xPosition, yPosition, false);
                 }
             }
         }

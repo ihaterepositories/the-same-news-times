@@ -1,5 +1,6 @@
 using System;
 using Controllers;
+using Controllers.InGameControllers;
 using Interfaces;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ namespace Models.Items
 
         private void OnEnable()
         {
-            FinishLevelController.OnLevelFinished += Reset;
+            LevelFinisher.OnLevelFinished += Reset;
         }
 
         private void OnDisable()
         {
-            FinishLevelController.OnLevelFinished -= Reset;
+            LevelFinisher.OnLevelFinished -= Reset;
         }
 
         public void Pick()

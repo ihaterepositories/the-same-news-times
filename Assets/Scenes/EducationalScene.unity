@@ -1438,7 +1438,7 @@ GameObject:
   - component: {fileID: 2042517222}
   - component: {fileID: 2042517221}
   m_Layer: 5
-  m_Name: PressSpaceToContinueText
+  m_Name: PressKeyToContinueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1475,7 +1475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31642ad2a57da0c4da93eec97dbc0185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyToPress: 32
+  keyToPress: 13
   nextSceneString: GameScene
   useCircleAnimation: 1
 --- !u!114 &2042517222
@@ -1511,7 +1511,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Press space to continue
+  m_Text: 'Press enter to continue
 
 '
 --- !u!222 &2042517223

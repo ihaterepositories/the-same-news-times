@@ -1,5 +1,6 @@
 using System;
 using Controllers;
+using Controllers.InGameControllers;
 using Interfaces;
 using UnityEngine;
 
@@ -37,15 +38,15 @@ namespace Models.Enemies
         private void OnEnable()
         {
             triggerZone.OnTriggerEnter += WakeUpEnemy;
-            FinishLevelController.OnLevelFinished += Reset;
-            FinishLevelController.OnGameFinished += Reset;
+            LevelFinisher.OnLevelFinished += Reset;
+            LevelFinisher.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
             triggerZone.OnTriggerEnter -= WakeUpEnemy;
-            FinishLevelController.OnLevelFinished -= Reset;
-            FinishLevelController.OnGameFinished -= Reset;
+            LevelFinisher.OnLevelFinished -= Reset;
+            LevelFinisher.OnGameFinished -= Reset;
         }
 
         public void Reset()

@@ -1,4 +1,5 @@
 using System;
+using Controllers.InGameControllers;
 using Models.Items;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace Controllers.SoundControllers
 
         private void OnEnable()
         {
-            FinishLevelController.OnGameFinished += PlayGameOverSound;
+            LevelFinisher.OnGameFinished += PlayGameOverSound;
             GreenScore.OnPicked += PlayItemPickedSound;
             PinkScore.OnPicked += PlayItemPickedSound;
             Key.OnPicked += PlayToolPickedSound;
@@ -30,7 +31,7 @@ namespace Controllers.SoundControllers
         
         private void OnDisable()
         {
-            FinishLevelController.OnGameFinished -= PlayGameOverSound;
+            LevelFinisher.OnGameFinished -= PlayGameOverSound;
             GreenScore.OnPicked -= PlayItemPickedSound;
             PinkScore.OnPicked -= PlayItemPickedSound;
             Key.OnPicked -= PlayToolPickedSound;

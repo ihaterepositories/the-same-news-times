@@ -1,3 +1,4 @@
+using Controllers.InGameControllers;
 using Models;
 using Models.Enemies;
 using Models.MazeGeneration;

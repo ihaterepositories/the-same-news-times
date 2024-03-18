@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Controllers;
+using Controllers.InGameControllers;
 using DG.Tweening;
 using Interfaces;
 using UnityEngine;
@@ -22,14 +23,14 @@ namespace Models.Enemies
 
         private void OnEnable()
         {
-            FinishLevelController.OnLevelFinished += Reset;
-            FinishLevelController.OnGameFinished += Reset;
+            LevelFinisher.OnLevelFinished += Reset;
+            LevelFinisher.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
-            FinishLevelController.OnLevelFinished -= Reset;
-            FinishLevelController.OnGameFinished -= Reset;
+            LevelFinisher.OnLevelFinished -= Reset;
+            LevelFinisher.OnGameFinished -= Reset;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
