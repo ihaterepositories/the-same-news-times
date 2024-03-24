@@ -1,4 +1,5 @@
 using System;
+using Controllers;
 using Interfaces;
 using UnityEngine;
 
@@ -10,14 +11,11 @@ namespace Models.Items
 
         public event Action<IPoolAble> OnDestroyed;
 
-        private void OnEnable()
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            Key.OnPicked += Reset;
-        }
-
-        private void OnDisable()
-        {
-            Key.OnPicked -= Reset;
+            if (other.gameObject.GetComponent<Player>() == null) return;
+            Inventory.KeysCount--;
+            Reset();
         }
 
         public void Reset()

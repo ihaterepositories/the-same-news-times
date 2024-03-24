@@ -18,6 +18,7 @@ namespace Models
 
         public GameObject GameObject => gameObject;
         public event Action<IPoolAble> OnDestroyed;
+        public static event Action OnDestroyedByEnemy;
 
         private void Awake()
         {
@@ -44,10 +45,20 @@ namespace Models
             LevelFinisher.OnGameFinished -= Reset;
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            var pickAble = collision.gameObject.GetComponent<IPickAble>();
-            pickAble?.Pick();
+            other.gameObject.GetComponent<IPickAble>()?.Pick();
+            
+            var enemy = other.gameObject.GetComponent<IEnemy>();
+            if (enemy != null && Inventory.LifeSaversCount == 0)
+            {
+                enemy.CaughtPlayer();
+                OnDestroyedByEnemy?.Invoke();
+            }
+            else
+            {
+                Inventory.LifeSaversCount--;
+            }
         }
 
         public void Reset()

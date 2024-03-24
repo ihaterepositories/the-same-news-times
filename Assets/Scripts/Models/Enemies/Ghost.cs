@@ -9,12 +9,12 @@ using Random = UnityEngine.Random;
 
 namespace Models.Enemies
 {
-    public class Ghost : MonoBehaviour, IPoolAble
+    public class Ghost : MonoBehaviour, IPoolAble, IEnemy
     {
         [SerializeField] private SpriteRenderer spriteRender;
         
-        private float _angularSpeed = 1f;
-        private float _circleRadius = 1f;
+        private float _angularSpeed;
+        private float _circleRadius;
         private Vector2 _fixedPoint;
         private float _currentAngle;
 
@@ -23,7 +23,6 @@ namespace Models.Enemies
         public GameObject GameObject => gameObject;
 
         public event Action<IPoolAble> OnDestroyed;
-        public static event Action OnCaughtPlayer;
 
         private void Update()
         {
@@ -41,11 +40,10 @@ namespace Models.Enemies
             LevelFinisher.OnLevelFinished -= Reset;
             LevelFinisher.OnGameFinished -= Reset;
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
+        
+        public void CaughtPlayer()
         {
-            var player = collision.gameObject.GetComponent<Player>();
-            if (player != null) OnCaughtPlayer?.Invoke();
+            Reset();
         }
 
         public void Reset()

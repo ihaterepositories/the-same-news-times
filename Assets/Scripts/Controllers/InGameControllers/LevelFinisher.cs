@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using AnimationsScripts;
+using Models;
 using Models.Enemies;
 using UI;
 using UnityEngine;
@@ -31,18 +32,14 @@ namespace Controllers.InGameControllers
         private void OnEnable()
         {
             ScoresCounter.OnPinkScoreUpdated += FinishLevel;
-            TempleKeeper.OnCaughtPlayer += FinishGame;
-            Ghost.OnCaughtPlayer += FinishGame;
-            Trap.OnCaughtPlayer += FinishGame;
+            Player.OnDestroyedByEnemy += FinishGame;
             AfkDetector.OnPlayerIsAfk += FinishGame;
         }
 
         private void OnDisable()
         {
             ScoresCounter.OnPinkScoreUpdated -= FinishLevel;
-            TempleKeeper.OnCaughtPlayer -= FinishGame;
-            Ghost.OnCaughtPlayer -= FinishGame;
-            Trap.OnCaughtPlayer -= FinishGame;
+            Player.OnDestroyedByEnemy -= FinishGame;
             AfkDetector.OnPlayerIsAfk -= FinishGame;
         }
 

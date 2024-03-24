@@ -8,7 +8,7 @@ namespace Models.Enemies
 {
     [RequireComponent(typeof(SpriteRenderer))]
 
-    public class TempleKeeper : MonoBehaviour, IPoolAble
+    public class TempleKeeper : MonoBehaviour, IPoolAble, IEnemy
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private TempleKeeperTriggerZone triggerZone;
@@ -18,11 +18,10 @@ namespace Models.Enemies
 
         private float _speed;
         private bool _isSeePlayer;
-        private bool _isReachedPlayer;
+        // private bool _isReachedPlayer;
 
         public GameObject GameObject => gameObject;
 
-        public static event Action OnCaughtPlayer;
         public static event Action OnPlayerInDangerous;
         public static event Action OnEndOfPlayerDangerous;
         public event Action<IPoolAble> OnDestroyed;
@@ -31,7 +30,7 @@ namespace Models.Enemies
         {
             if (!_isSeePlayer) return;
             FollowPlayer();
-            CheckPlayerReaching();
+            // CheckPlayerReaching();
             MakeTriggerZoneFading();
         }
 
@@ -49,6 +48,11 @@ namespace Models.Enemies
             LevelFinisher.OnGameFinished -= Reset;
         }
 
+        public void CaughtPlayer()
+        {
+            Reset();
+        }
+        
         public void Reset()
         {
             OnDestroyed?.Invoke(this);
@@ -64,7 +68,7 @@ namespace Models.Enemies
         public void MakeEnemySleep()
         {
             _isSeePlayer = false;
-            _isReachedPlayer = false;
+            // _isReachedPlayer = false;
             sleepingEffectParticle.Play();
             triggerZone.SetAlphaOfColor(0.15f);
             spriteRenderer.sprite = sleepingEnemySprite;
@@ -81,14 +85,14 @@ namespace Models.Enemies
             transform.position = Vector3.Lerp(transform.position, Player.Position, _speed * Time.deltaTime);
         }
 
-        private void CheckPlayerReaching()
-        {
-            if (GetDistanceToPlayer() <= 0.4f && !_isReachedPlayer)
-            {
-                OnCaughtPlayer?.Invoke();
-                _isReachedPlayer = true;
-            }
-        }
+        // private void CheckPlayerReaching()
+        // {
+        //     if (GetDistanceToPlayer() <= 0.4f && !_isReachedPlayer)
+        //     {
+        //         OnCaughtPlayer?.Invoke();
+        //         _isReachedPlayer = true;
+        //     }
+        // }
 
         private void MakeTriggerZoneFading()
         {

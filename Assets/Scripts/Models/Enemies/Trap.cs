@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Models.Enemies
 {
-    public class Trap : MonoBehaviour, IPoolAble
+    public class Trap : MonoBehaviour, IPoolAble, IEnemy
     {
         [SerializeField] private Collider2D trapCollider;
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -17,8 +17,7 @@ namespace Models.Enemies
         private Coroutine _appearingCoroutine;
 
         public GameObject GameObject => gameObject;
-
-        public static event Action OnCaughtPlayer;
+        
         public event Action<IPoolAble> OnDestroyed;
 
         private void OnEnable()
@@ -32,14 +31,10 @@ namespace Models.Enemies
             LevelFinisher.OnLevelFinished -= Reset;
             LevelFinisher.OnGameFinished -= Reset;
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
+        
+        public void CaughtPlayer()
         {
-            var player = collision.gameObject.GetComponent<Player>();
-
-            if (player == null) return;
-            OnCaughtPlayer?.Invoke();
-            player.Reset();
+            Reset();
         }
 
         public void Reset()
