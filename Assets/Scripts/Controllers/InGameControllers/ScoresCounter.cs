@@ -1,11 +1,11 @@
 using System;
 using DataModels;
-using Models;
 using Models.Items;
 using Requests;
 using UI;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using Zenject;
 
 namespace Controllers.InGameControllers
 {
@@ -19,10 +19,16 @@ namespace Controllers.InGameControllers
         private int _greenScore;
         private int _pinkScore;
         private int _totalScore;
-        
         private bool _isNewBestRecord;
+        private UpdateBestRecordRequest _updateBestRecordRequest;
 
         public static event Action OnPinkScoreUpdated;
+
+        [Inject]
+        private void Construct(UpdateBestRecordRequest updateBestRecordRequest)
+        {
+            _updateBestRecordRequest = updateBestRecordRequest;
+        }
 
         private void Start()
         {
@@ -141,8 +147,7 @@ namespace Controllers.InGameControllers
             
             if (_isNewBestRecord)
             {
-                StartCoroutine(
-                    UpdateBestRecordRequest.UpdateRecord(bestRecordData, ProcessUpdateBestRecordRequestResult));
+                StartCoroutine(_updateBestRecordRequest.UpdateRecord(bestRecordData, ProcessUpdateBestRecordRequestResult));
             }
         }
 

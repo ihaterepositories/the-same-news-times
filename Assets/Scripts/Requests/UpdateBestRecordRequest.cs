@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 
 namespace Requests
 {
-    public static class UpdateBestRecordRequest
+    public class UpdateBestRecordRequest
     {
-        public static IEnumerator UpdateRecord(BestRecordData bestRecordData, System.Action<StatusCode, string> callback)
+        public IEnumerator UpdateRecord(BestRecordData bestRecordData, System.Action<StatusCode, string> callback)
         {
             var apiUrl = "http://localhost:5139/api/BestRecord/Update";
 

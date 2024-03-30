@@ -1,7 +1,6 @@
 using Controllers.InGameControllers;
 using Models.Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Controllers.SoundControllers
 {

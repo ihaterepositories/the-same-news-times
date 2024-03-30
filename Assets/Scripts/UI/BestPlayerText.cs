@@ -2,16 +2,24 @@ using DataModels;
 using Requests;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
     public class BestPlayerText : MonoBehaviour
     {
         [SerializeField] private Text bestPlayerText;
-
+        private BestPlayerRequest _bestPlayerRequest;
+        
+        [Inject]
+        private void Construct(BestPlayerRequest bestPlayerRequest)
+        {
+            _bestPlayerRequest = bestPlayerRequest;
+        }
+        
         private void Start()
         {
-            StartCoroutine(BestPlayerRequest.GetCoroutine(ProcessBestPlayerRequestResult));
+            StartCoroutine(_bestPlayerRequest.GetCoroutine(ProcessBestPlayerRequestResult));
         }
         
         private void ProcessBestPlayerRequestResult(string jsonData)

@@ -1,6 +1,4 @@
-using Controllers;
 using Controllers.InGameControllers;
-using Models;
 using Models.Items;
 using Models.MazeGeneration;
 using UnityEngine;

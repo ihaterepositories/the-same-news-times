@@ -4,6 +4,7 @@ using UI;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Controllers
 {
@@ -14,7 +15,17 @@ namespace Controllers
         [SerializeField] private InputField passwordInputField;
         [SerializeField] private Text requestStatusText;
         [SerializeField] private InfoText loggedInUserText;
+        
+        private RegisterPlayerRequest _registerPlayerRequest;
+        private LoginPlayerRequest _loginPlayerRequest;
 
+        [Inject]
+        private void Construct(RegisterPlayerRequest registerPlayerRequest, LoginPlayerRequest loginPlayerRequest)
+        {
+            _registerPlayerRequest = registerPlayerRequest;
+            _loginPlayerRequest = loginPlayerRequest;
+        }
+        
         private void Start()
         {
             loggedInUserText.SetText(
@@ -32,7 +43,7 @@ namespace Controllers
                 bestRecordId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
             };
             
-            StartCoroutine(RegisterPlayerRequest.PostRequestCoroutine(playerRegistrationData, ProcessRegistrationRequestResult));
+            StartCoroutine(_registerPlayerRequest.PostRequestCoroutine(playerRegistrationData, ProcessRegistrationRequestResult));
         }
         
         public void SendLoginRequest()
@@ -43,7 +54,7 @@ namespace Controllers
                 password = passwordInputField.text
             };
             
-            StartCoroutine(LoginPlayerRequest.PostRequestCoroutine(playerLoginData, ProcessLoginRequestResult));
+            StartCoroutine(_loginPlayerRequest.PostRequestCoroutine(playerLoginData, ProcessLoginRequestResult));
         }
         
         private void ProcessRegistrationRequestResult(StatusCode statusCode, string message)

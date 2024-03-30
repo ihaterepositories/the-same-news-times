@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 
 namespace Requests
 {
-    public static class RegisterPlayerRequest
+    public class RegisterPlayerRequest
     {
-        public static IEnumerator PostRequestCoroutine(PlayerRegistrationData playerRegistrationData, System.Action<StatusCode, string> callback)
+        public IEnumerator PostRequestCoroutine(PlayerRegistrationData playerRegistrationData, System.Action<StatusCode, string> callback)
         {
             var url = "http://localhost:5139/api/Player/Register";
             

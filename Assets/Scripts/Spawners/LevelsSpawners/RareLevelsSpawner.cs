@@ -1,6 +1,4 @@
-using Spawners.ObjectsSpawners;
 using UnityEngine;
-using Zenject;
 
 namespace Spawners.LevelsSpawners
 {

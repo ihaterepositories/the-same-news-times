@@ -3,9 +3,9 @@ using UnityEngine.Networking;
 
 namespace Requests
 {
-    public static class BestPlayerRequest
+    public class BestPlayerRequest
     {
-        public static IEnumerator GetCoroutine(System.Action<string> callback)
+        public IEnumerator GetCoroutine(System.Action<string> callback)
         {
             var url = "http://localhost:5139/api/Player/GetBestPlayer";
             

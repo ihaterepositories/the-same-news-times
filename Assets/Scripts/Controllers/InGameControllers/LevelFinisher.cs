@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using AnimationsScripts;
 using Models;
-using Models.Enemies;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
