@@ -65,10 +65,11 @@ namespace Controllers.InGameControllers
         {
             if (KeysCount <= 0)
             {
-                notificationText.ShowNotification("No keys left");
+                notificationText.ShowNotification("no keys left");
                 return;
             }
             KeysCount--;
+            notificationText.ShowNotification("key used, exit unlocked");
             lockObject.Reset();
         }
         
@@ -76,12 +77,12 @@ namespace Controllers.InGameControllers
         {
             if (LifeSaversCount <= 0)
             {
-                notificationText.ShowNotification("No life savers left");
+                notificationText.ShowNotification("no life savers left");
                 return;
             }
             
             LifeSaversCount--;
-            notificationText.ShowNotification("Life saver used, yo`re teleported");
+            notificationText.ShowNotification("life saver used, yo`re teleported");
             OnLifeSaverUsed?.Invoke();
         }
 
@@ -89,12 +90,12 @@ namespace Controllers.InGameControllers
         {
             if (BoostersCount <= 0)
             {
-                notificationText.ShowNotification("No boosters left");
+                notificationText.ShowNotification("no boosters left");
                 return;
             }
 
             BoostersCount--;
-            notificationText.ShowNotification("Booster used, you`re faster for 5 seconds");
+            notificationText.ShowNotification("booster used, you`re faster for 5 seconds");
             OnBoosterUsed?.Invoke();
         }
     }

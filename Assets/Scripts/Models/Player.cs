@@ -15,9 +15,7 @@ namespace Models
         private float _speed = 9f;
 
         public static Vector2 Position;
-        // public GameObject GameObject => gameObject;
-        //
-        // public event Action<IPoolAble> OnDestroyed;
+        
         public static event Action OnDestroyedByEnemy;
 
         private void Awake()
@@ -35,16 +33,12 @@ namespace Models
         {
             Inventory.OnBoosterUsed += Boost;
             LevelFinisher.OnLevelFinished += ClearTrailRender;
-            // LevelFinisher.OnLevelFinished += Reset;
-            // LevelFinisher.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
             Inventory.OnBoosterUsed -= Boost;
             LevelFinisher.OnLevelFinished -= ClearTrailRender;
-            // LevelFinisher.OnLevelFinished -= Reset;
-            // LevelFinisher.OnGameFinished -= Reset;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -68,11 +62,6 @@ namespace Models
             yield return new WaitForSeconds(3f);
             _speed = 9f;
         }
-        
-        // public void Reset()
-        // {
-        //     OnDestroyed?.Invoke(this);
-        // }
 
         private void Move()
         {

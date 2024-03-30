@@ -99,7 +99,7 @@ namespace Models.Enemies
             }
             else if (GetDistanceToPlayer() > 5f)
             {
-                _speed = 0.3f;
+                _speed = 0.25f;
                 triggerZone.transform.localScale = new Vector2(80f, 80f);
                 triggerZone.SetAlphaOfColor(0);
             }

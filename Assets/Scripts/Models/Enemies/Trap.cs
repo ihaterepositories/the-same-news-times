@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Controllers;
 using Controllers.InGameControllers;
 using DG.Tweening;
 using Interfaces;
@@ -67,8 +66,8 @@ namespace Models.Enemies
 
         private void MakeActive(bool isActive)
         {
+            spriteRenderer.DOFade(isActive ? 1 : 0, 0.3f);
             trapCollider.enabled = isActive;
-            spriteRenderer.DOFade(isActive ? 1 : 0, 0.5f);
         }
     }
 }
