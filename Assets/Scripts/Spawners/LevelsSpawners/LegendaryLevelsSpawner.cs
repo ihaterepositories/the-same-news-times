@@ -1,20 +1,24 @@
-using Spawners.ObjectsSpawners;
 using UnityEngine;
+using Zenject;
 
 namespace Spawners.LevelsSpawners
 {
-    public class LegendaryLevelsSpawner : MonoBehaviour
+    public class LegendaryLevelsSpawner
     {
-        [SerializeField] private MazeSpawner mazeSpawner;
-        [SerializeField] private PinkScoreSpawner pinkScoreSpawner;
-        [SerializeField] private GreenScoresSpawner greenScoresSpawner;
-
-        [SerializeField] private MazeAppearanceAnimation mazeAppearanceAnimation;
-
+        private readonly MazeSpawner _mazeSpawner;
+        private readonly ObjectsSpawner _objectsSpawner;
+        private readonly MazeAppearanceAnimation _mazeAppearanceAnimation;
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
 
+        public LegendaryLevelsSpawner(MazeSpawner mazeSpawner, ObjectsSpawner objectsSpawner, MazeAppearanceAnimation mazeAppearanceAnimation)
+        {
+            _mazeSpawner = mazeSpawner;
+            _objectsSpawner = objectsSpawner;
+            _mazeAppearanceAnimation = mazeAppearanceAnimation;
+        }
+        
         public void SpawnRandomLevel()
         {
             LevelSpawnDelegate[] levelSpawnDelegates =
@@ -27,10 +31,10 @@ namespace Spawners.LevelsSpawners
 
         private void SpawnLuckyLevel()
         {
-            mazeSpawner.Spawn(0, Random.Range(5, 9), Random.Range(5, 9));
-            pinkScoreSpawner.Spawn(mazeSpawner.MazeWidth, mazeSpawner.MazeHeight);
-            greenScoresSpawner.LuckySpawn(mazeSpawner.Maze, mazeSpawner.MazeWidth, mazeSpawner.MazeHeight);
-            mazeAppearanceAnimation.Play(mazeSpawner.CellObjects);
+            _mazeSpawner.Spawn(0, Random.Range(5, 9), Random.Range(5, 9));
+            _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+            _objectsSpawner.GreenScoresSpawner.LuckySpawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+            _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
             LevelDescription = "Congratulations, this is lucky temple, no enemies, no difficulties, just treasures!";
         }
     }

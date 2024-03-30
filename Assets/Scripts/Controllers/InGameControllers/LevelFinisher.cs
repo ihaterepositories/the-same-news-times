@@ -32,6 +32,7 @@ namespace Controllers.InGameControllers
         private void OnEnable()
         {
             ScoresCounter.OnPinkScoreUpdated += FinishLevel;
+            Inventory.OnLifeSaverUsed += FinishLevel;
             Player.OnDestroyedByEnemy += FinishGame;
             AfkDetector.OnPlayerIsAfk += FinishGame;
         }
@@ -39,6 +40,7 @@ namespace Controllers.InGameControllers
         private void OnDisable()
         {
             ScoresCounter.OnPinkScoreUpdated -= FinishLevel;
+            Inventory.OnLifeSaverUsed -= FinishLevel;
             Player.OnDestroyedByEnemy -= FinishGame;
             AfkDetector.OnPlayerIsAfk -= FinishGame;
         }

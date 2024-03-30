@@ -3,6 +3,7 @@ using Controllers;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
@@ -17,7 +18,14 @@ namespace UI
         private Text _text;
         private float _scaleX;
         private float _scaleY;
+        private ScenesLoader _scenesLoader;
 
+        [Inject]
+        private void Construct(ScenesLoader scenesLoader)
+        {
+            _scenesLoader = scenesLoader;
+        }
+        
         private void Awake()
         {
             _text = GetComponent<Text>();
@@ -52,7 +60,7 @@ namespace UI
         {
             if (Input.GetKeyDown(keyToPress))
             {
-                ScenesLoader.Instance.LoadSceneAsync(nextSceneString, useCircleAnimation);
+                StartCoroutine(_scenesLoader.LoadSceneCoroutine(nextSceneString, useCircleAnimation));
             }
         }
     }

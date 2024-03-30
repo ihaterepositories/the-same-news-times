@@ -1,5 +1,4 @@
 using System;
-using Controllers;
 using Controllers.InGameControllers;
 using Interfaces;
 using UnityEngine;
@@ -18,7 +17,6 @@ namespace Models.Enemies
 
         private float _speed;
         private bool _isSeePlayer;
-        // private bool _isReachedPlayer;
 
         public GameObject GameObject => gameObject;
 
@@ -30,7 +28,6 @@ namespace Models.Enemies
         {
             if (!_isSeePlayer) return;
             FollowPlayer();
-            // CheckPlayerReaching();
             MakeTriggerZoneFading();
         }
 
@@ -68,7 +65,6 @@ namespace Models.Enemies
         public void MakeEnemySleep()
         {
             _isSeePlayer = false;
-            // _isReachedPlayer = false;
             sleepingEffectParticle.Play();
             triggerZone.SetAlphaOfColor(0.15f);
             spriteRenderer.sprite = sleepingEnemySprite;
@@ -85,20 +81,11 @@ namespace Models.Enemies
             transform.position = Vector3.Lerp(transform.position, Player.Position, _speed * Time.deltaTime);
         }
 
-        // private void CheckPlayerReaching()
-        // {
-        //     if (GetDistanceToPlayer() <= 0.4f && !_isReachedPlayer)
-        //     {
-        //         OnCaughtPlayer?.Invoke();
-        //         _isReachedPlayer = true;
-        //     }
-        // }
-
         private void MakeTriggerZoneFading()
         {
             if (GetDistanceToPlayer() <= 3f)
             {
-                _speed = 0.3f;
+                _speed = 0.15f;
                 triggerZone.SetAlphaOfColor(1f);
                 triggerZone.transform.localScale = new Vector2(80f, 80f);
                 OnPlayerInDangerous?.Invoke();
@@ -112,7 +99,7 @@ namespace Models.Enemies
             }
             else if (GetDistanceToPlayer() > 5f)
             {
-                _speed = 0.1f;
+                _speed = 0.3f;
                 triggerZone.transform.localScale = new Vector2(80f, 80f);
                 triggerZone.SetAlphaOfColor(0);
             }

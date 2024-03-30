@@ -1,5 +1,5 @@
 using System;
-using Controllers;
+using Controllers.InGameControllers;
 using Interfaces;
 using UnityEngine;
 
@@ -10,12 +10,12 @@ namespace Models.Items
         public GameObject GameObject => gameObject;
 
         public event Action<IPoolAble> OnDestroyed;
+        public static event Action<Lock> OnUnlockTry;
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.GetComponent<Player>() == null) return;
-            Inventory.KeysCount--;
-            Reset();
+            OnUnlockTry?.Invoke(this);
         }
 
         public void Reset()

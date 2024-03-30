@@ -1,5 +1,5 @@
 using System;
-using Controllers;
+using System.Collections;
 using Controllers.InGameControllers;
 using Interfaces;
 using UnityEngine;
@@ -9,15 +9,15 @@ namespace Models
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(TrailRenderer))]
 
-    public class Player : MonoBehaviour, IPoolAble
+    public class Player : MonoBehaviour
     {
         private TrailRenderer _trailRender;
-        private const float Speed = 10f;
+        private float _speed = 9f;
 
         public static Vector2 Position;
-
-        public GameObject GameObject => gameObject;
-        public event Action<IPoolAble> OnDestroyed;
+        // public GameObject GameObject => gameObject;
+        //
+        // public event Action<IPoolAble> OnDestroyed;
         public static event Action OnDestroyedByEnemy;
 
         private void Awake()
@@ -33,16 +33,18 @@ namespace Models
 
         private void OnEnable()
         {
+            Inventory.OnBoosterUsed += Boost;
             LevelFinisher.OnLevelFinished += ClearTrailRender;
-            LevelFinisher.OnLevelFinished += Reset;
-            LevelFinisher.OnGameFinished += Reset;
+            // LevelFinisher.OnLevelFinished += Reset;
+            // LevelFinisher.OnGameFinished += Reset;
         }
 
         private void OnDisable()
         {
+            Inventory.OnBoosterUsed -= Boost;
             LevelFinisher.OnLevelFinished -= ClearTrailRender;
-            LevelFinisher.OnLevelFinished -= Reset;
-            LevelFinisher.OnGameFinished -= Reset;
+            // LevelFinisher.OnLevelFinished -= Reset;
+            // LevelFinisher.OnGameFinished -= Reset;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -50,39 +52,45 @@ namespace Models
             other.gameObject.GetComponent<IPickAble>()?.Pick();
             
             var enemy = other.gameObject.GetComponent<IEnemy>();
-            if (enemy != null && Inventory.LifeSaversCount == 0)
-            {
-                enemy.CaughtPlayer();
-                OnDestroyedByEnemy?.Invoke();
-            }
-            else
-            {
-                Inventory.LifeSaversCount--;
-            }
+            if (enemy == null) return;
+            enemy.CaughtPlayer();
+            OnDestroyedByEnemy?.Invoke();
         }
 
-        public void Reset()
+        private void Boost()
         {
-            OnDestroyed?.Invoke(this);
+            StartCoroutine(BoostCoroutine());
         }
+        
+        private IEnumerator BoostCoroutine()
+        {
+            _speed = 11f;
+            yield return new WaitForSeconds(3f);
+            _speed = 9f;
+        }
+        
+        // public void Reset()
+        // {
+        //     OnDestroyed?.Invoke(this);
+        // }
 
         private void Move()
         {
             if (Input.GetKey(KeyCode.W))
             {
-                transform.Translate(Vector3.up * (Speed * Time.deltaTime));
+                transform.Translate(Vector3.up * (_speed * Time.deltaTime));
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                transform.Translate(Vector3.down * (Speed * Time.deltaTime));
+                transform.Translate(Vector3.down * (_speed * Time.deltaTime));
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                transform.Translate(Vector3.right * (Speed * Time.deltaTime));
+                transform.Translate(Vector3.right * (_speed * Time.deltaTime));
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                transform.Translate(Vector3.left * (Speed * Time.deltaTime));
+                transform.Translate(Vector3.left * (_speed * Time.deltaTime));
             }
         }
 
@@ -91,9 +99,14 @@ namespace Models
             Position = transform.position;
         }
 
-        private void ClearTrailRender()
+        public void ClearTrailRender()
         {
             _trailRender.Clear();
+        }
+        
+        public void SetPosition(Vector2 newPosition)
+        {
+            transform.position = newPosition;
         }
     }
 }

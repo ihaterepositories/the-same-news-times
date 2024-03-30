@@ -1,19 +1,24 @@
 using Spawners.ObjectsSpawners;
 using UnityEngine;
+using Zenject;
 
 namespace Spawners.LevelsSpawners
 {
-    public class RareLevelsSpawner : MonoBehaviour
+    public class RareLevelsSpawner
     {
-        [SerializeField] private MazeSpawner mazeSpawner;
-        [SerializeField] private PinkScoreSpawner pinkScoreSpawner;
-        [SerializeField] private GreenScoresSpawner greenScoresSpawner;
-
-        [SerializeField] private MazeAppearanceAnimation mazeAppearanceAnimation;
-
+        private readonly MazeSpawner _mazeSpawner;
+        private readonly ObjectsSpawner _objectsSpawner;
+        private readonly MazeAppearanceAnimation _mazeAppearanceAnimation;
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
+        
+        public RareLevelsSpawner(MazeSpawner mazeSpawner, ObjectsSpawner objectsSpawner, MazeAppearanceAnimation mazeAppearanceAnimation)
+        {
+            _mazeSpawner = mazeSpawner;
+            _objectsSpawner = objectsSpawner;
+            _mazeAppearanceAnimation = mazeAppearanceAnimation;
+        }
 
         public void SpawnRandomLevel()
         {
@@ -27,10 +32,14 @@ namespace Spawners.LevelsSpawners
 
         private void SpawnAbandonedLevel()
         {
-            mazeSpawner.Spawn(Random.Range(20, 25), Random.Range(30, 36), Random.Range(15, 19));
-            pinkScoreSpawner.Spawn(mazeSpawner.MazeWidth, mazeSpawner.MazeHeight);
-            greenScoresSpawner.GreenScoresCount = 0;
-            mazeAppearanceAnimation.Play(mazeSpawner.CellObjects);
+            _mazeSpawner.Spawn(Random.Range(20, 25), Random.Range(30, 36), Random.Range(15, 19));
+            _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+            if (Random.Range(0, 5) == 0)
+            {
+                _objectsSpawner.LifeSaverSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+            }
+            _objectsSpawner.GreenScoresSpawner.GreenScoresCount = 0;
+            _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
             LevelDescription = "Abandoned temple, there is nothing here...";
         }
     }

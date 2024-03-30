@@ -8,7 +8,7 @@ namespace Controllers.SoundControllers
     {
         [SerializeField] private AudioSource soundtrack;
         
-        private static MainSoundtrackPlayer _instance;
+        private MainSoundtrackPlayer _instance;
         private float _startVolume;
         
         private void Awake()

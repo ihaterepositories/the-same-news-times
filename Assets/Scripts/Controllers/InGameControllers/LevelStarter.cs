@@ -6,18 +6,26 @@ using Spawners;
 using UI;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Controllers.InGameControllers
 {
     public class LevelStarter : MonoBehaviour
     {
-        [SerializeField] private LevelSpawner levelSpawner;
         [SerializeField] private InfoText mazeInfoText;
         [SerializeField] private InfoText levelDescriptionText;
         [SerializeField] private InfoText levelRarityText;
 
+        private LevelSpawner _levelSpawner;
+        
         public static event Action OnAllSpawned;
 
+        [Inject]
+        private void Construct(LevelSpawner levelSpawner)
+        {
+            _levelSpawner = levelSpawner;
+        }
+        
         private void Awake()
         {
             levelDescriptionText.GetComponent<Text>().DOFade(0f, 0f);
@@ -25,7 +33,7 @@ namespace Controllers.InGameControllers
 
         private void Start()
         {
-            levelSpawner.Spawn();
+            _levelSpawner.Spawn();
             SetMazeInfoText();
             SetLevelDescriptionText();
             SetLevelRarityText();
@@ -44,7 +52,7 @@ namespace Controllers.InGameControllers
 
         private void InitializeLevel()
         {
-            levelSpawner.Spawn();
+            _levelSpawner.Spawn();
             SetMazeInfoText();
             SetLevelDescriptionText();
             SetLevelRarityText();
@@ -63,22 +71,22 @@ namespace Controllers.InGameControllers
         private void SetMazeInfoText()
         {
             mazeInfoText.SetText(
-                $"maze size: {levelSpawner.MazeWidth}x{levelSpawner.MazeHeight}  /" +
-                $"  cycles: {levelSpawner.MazeCyclesCount}  /" +
-                $"  green treasures: {levelSpawner.MazeGreenScoresCount}"
+                $"maze size: {_levelSpawner.MazeWidth}x{_levelSpawner.MazeHeight}  /" +
+                $"  cycles: {_levelSpawner.MazeCyclesCount}  /" +
+                $"  green treasures: {_levelSpawner.MazeGreenScoresCount}"
             );
         }
 
         private void SetLevelDescriptionText()
         {
-            levelDescriptionText.SetText(levelSpawner.LevelDescription);
+            levelDescriptionText.SetText(_levelSpawner.LevelDescription);
         }
 
         private void SetLevelRarityText()
         {
-            levelRarityText.SetText(levelSpawner.RarityDescription);
+            levelRarityText.SetText(_levelSpawner.RarityDescription);
 
-            switch (levelSpawner.RarityDescription)
+            switch (_levelSpawner.RarityDescription)
             {
                 case "Legendary": levelRarityText.SetColor(RarityColors.Legendary); break;
                 case "Epic": levelRarityText.SetColor(RarityColors.Epic); break;

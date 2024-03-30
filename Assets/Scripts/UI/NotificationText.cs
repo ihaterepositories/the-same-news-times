@@ -16,18 +16,25 @@ namespace UI
 
         private void OnEnable()
         {
-            AfkDetector.OnAfkDetected += SetText;
+            AfkDetector.OnAfkDetected += ShowNotification;
+            LevelStarter.OnAllSpawned += HideNotification;
         }
 
         private void OnDisable()
         {
-            AfkDetector.OnAfkDetected -= SetText;
+            AfkDetector.OnAfkDetected -= ShowNotification;
+            LevelStarter.OnAllSpawned -= HideNotification;
         }
 
-        private void SetText(string text)
+        public void ShowNotification(string text)
         {
             _textObject.DOFade(1f, 1f);
             _textObject.text = text;
+        }
+        
+        private void HideNotification()
+        {
+            _textObject.DOFade(0f, 1.5f);
         }
     }
 }

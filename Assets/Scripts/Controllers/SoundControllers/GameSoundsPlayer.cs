@@ -1,7 +1,7 @@
-using System;
 using Controllers.InGameControllers;
 using Models.Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Controllers.SoundControllers
 {
@@ -10,8 +10,8 @@ namespace Controllers.SoundControllers
         [SerializeField] private AudioSource audioSource;
 
         [SerializeField] private AudioClip gameOverSound;
+        [SerializeField] private AudioClip scorePickedSound;
         [SerializeField] private AudioClip itemPickedSound;
-        [SerializeField] private AudioClip toolPickedSound;
 
         private void Start()
         {
@@ -44,12 +44,12 @@ namespace Controllers.SoundControllers
         
         private void PlayItemPickedSound()
         {
-            audioSource.PlayOneShot(itemPickedSound);
+            audioSource.PlayOneShot(scorePickedSound);
         }
         
         private void PlayToolPickedSound()
         {
-            audioSource.PlayOneShot(toolPickedSound);
+            audioSource.PlayOneShot(itemPickedSound);
         }
     }
 }

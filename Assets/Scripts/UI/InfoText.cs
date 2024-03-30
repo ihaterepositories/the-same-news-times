@@ -1,5 +1,3 @@
-using DG.Tweening;
-using Models.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,37 +7,11 @@ namespace UI
 
     public class InfoText : MonoBehaviour
     {
-        [SerializeField] private bool isColorChangeable;
-        
         private Text _textObject;
 
         private void Awake()
         {
             _textObject = GetComponent<Text>();
-        }
-
-        private void OnEnable()
-        {
-            TempleKeeper.OnPlayerInDangerous += SetLightColor;
-            TempleKeeper.OnEndOfPlayerDangerous += SetDarkColor;
-        }
-
-        private void OnDisable()
-        {
-            TempleKeeper.OnPlayerInDangerous -= SetLightColor;
-            TempleKeeper.OnEndOfPlayerDangerous -= SetDarkColor;
-        }
-
-        private void SetLightColor()
-        {
-            if (isColorChangeable)
-                _textObject.DOColor(new Color(0.9490196f, 0.9607843f, 0.9176471f), 1f);
-        }
-
-        private void SetDarkColor()
-        {
-            if (isColorChangeable)
-                _textObject.DOColor(new Color(0.1647059f, 0.2078431f, 0.2509804f), 1f);
         }
 
         public void SetText(string text)

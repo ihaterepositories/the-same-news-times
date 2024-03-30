@@ -1,7 +1,5 @@
 using System;
-using Controllers;
 using Interfaces;
-using UI;
 using UnityEngine;
 
 namespace Models.Items
@@ -15,7 +13,6 @@ namespace Models.Items
 
         public void Pick()
         {
-            Inventory.KeysCount++;
             OnPicked?.Invoke();
             Reset();
         }
