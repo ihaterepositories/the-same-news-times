@@ -15,6 +15,10 @@ namespace Infrastructure
             Container
                 .Bind<BestPlayerRequest>()
                 .AsSingle();
+            
+            Container
+                .Bind<BestPlayersRequest>()
+                .AsSingle();
 
             Container
                 .Bind<LoginPlayerRequest>()
