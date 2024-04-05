@@ -1,9 +1,9 @@
 using System;
 using DataModels;
+using Enums;
 using Models.Items;
 using Requests;
 using UI;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using Zenject;
 
@@ -21,13 +21,15 @@ namespace Controllers.InGameControllers
         private int _totalScore;
         private bool _isNewBestRecord;
         private UpdateBestRecordRequest _updateBestRecordRequest;
+        private ScoresFormatter _scoresFormatter;
 
         public static event Action OnPinkScoreUpdated;
 
         [Inject]
-        private void Construct(UpdateBestRecordRequest updateBestRecordRequest)
+        private void Construct(UpdateBestRecordRequest updateBestRecordRequest, ScoresFormatter scoresFormatter)
         {
             _updateBestRecordRequest = updateBestRecordRequest;
+            _scoresFormatter = scoresFormatter;
         }
 
         private void Start()
@@ -59,13 +61,13 @@ namespace Controllers.InGameControllers
         private string CalculatePinkScoreRecord()
         {
             var bestPinkScore = PlayerPrefs.GetInt("BestPinkScore", 0);
-            var scoreString = $"pink score: {_pinkScore}";
+            var scoreString = $"pink score: {_scoresFormatter.FormatNumber(_pinkScore)}";
 
             if (_pinkScore <= bestPinkScore) return scoreString;
             
             PlayerPrefs.SetInt("BestPinkScore", _pinkScore);
             PlayerPrefs.Save();
-            scoreString = $"new best pink score: {_pinkScore} !";
+            scoreString = $"new best pink score: {_scoresFormatter.FormatNumber(_pinkScore)} !";
             _isNewBestRecord = true;
             return scoreString;
         }
@@ -73,13 +75,13 @@ namespace Controllers.InGameControllers
         private string CalculateGreenScoreRecord()
         {
             var bestGreenScore = PlayerPrefs.GetInt("BestGreenScore", 0);
-            var scoreString = $"green score: {_greenScore}";
+            var scoreString = $"green score: {_scoresFormatter.FormatNumber(_greenScore)}";
 
             if (_greenScore <= bestGreenScore) return scoreString;
             
             PlayerPrefs.SetInt("BestGreenScore", _greenScore);
             PlayerPrefs.Save();
-            scoreString = $"new best green score: {_greenScore} !";
+            scoreString = $"new best green score: {_scoresFormatter.FormatNumber(_greenScore)} !";
             _isNewBestRecord = true;
             return scoreString;
         }
@@ -89,13 +91,13 @@ namespace Controllers.InGameControllers
             _totalScore = (_pinkScore * _greenScore) + (int)gameDurationTimer.GameDuration;
 
             var bestTotalScore = PlayerPrefs.GetInt("BestTotalScore", 0);
-            var scoreString = $"total score: {_totalScore}";
+            var scoreString = $"total score: {_scoresFormatter.FormatNumber(_totalScore)}";
 
             if (_totalScore <= bestTotalScore) return scoreString;
             
             PlayerPrefs.SetInt("BestTotalScore", _totalScore);
             PlayerPrefs.Save();
-            scoreString = $"new best total score: {_totalScore} !";
+            scoreString = $"new best total score: {_scoresFormatter.FormatNumber(_totalScore)} !";
             _isNewBestRecord = true;
             return scoreString;
         }
@@ -117,13 +119,13 @@ namespace Controllers.InGameControllers
         private void UpdateGreenScore()
         {
             _greenScore++;
-            greenScoreText.SetText(_greenScore);
+            greenScoreText.SetText(_scoresFormatter.FormatNumber(_greenScore));
         }
 
         private void UpdatePinkScore()
         {
             _pinkScore++;
-            pinkScoreText.SetText(_pinkScore);
+            pinkScoreText.SetText(_scoresFormatter.FormatNumber(_pinkScore));
             PlayerPrefs.SetInt("TotalMazesCompleted", PlayerPrefs.GetInt("TotalMazesCompleted", 0) + 1);
             PlayerPrefs.Save();
             OnPinkScoreUpdated?.Invoke();

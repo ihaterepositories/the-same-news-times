@@ -13,6 +13,7 @@ namespace Controllers.InGameControllers
         public int LifeSaversCount { get; private set; }
         public int BoostersCount { get; private set; }
         
+        public static event Action OnKeyUsed;
         public static event Action OnLifeSaverUsed;
         public static event Action OnBoosterUsed; 
 
@@ -68,9 +69,11 @@ namespace Controllers.InGameControllers
                 notificationText.ShowNotification("no keys left");
                 return;
             }
+            
             KeysCount--;
             notificationText.ShowNotification("key used, exit unlocked");
             lockObject.Reset();
+            OnKeyUsed?.Invoke();
         }
         
         private void UseLifeSaver()

@@ -1,5 +1,6 @@
 ﻿using Controllers;
 using Requests;
+using UI;
 using Zenject;
 
 namespace Infrastructure
@@ -11,15 +12,15 @@ namespace Infrastructure
             Container
                 .Bind<ScenesLoader>()
                 .AsSingle();
-
-            Container
-                .Bind<BestPlayerRequest>()
-                .AsSingle();
             
             Container
                 .Bind<BestPlayersRequest>()
                 .AsSingle();
 
+            Container
+                .Bind<ScoresFormatter>()
+                .AsSingle();
+            
             Container
                 .Bind<LoginPlayerRequest>()
                 .AsSingle();

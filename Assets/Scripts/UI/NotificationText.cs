@@ -8,6 +8,7 @@ namespace UI
     public class NotificationText : MonoBehaviour
     {
         private Text _textObject;
+        private bool _isNotificationShown;
 
         private void Awake()
         {
@@ -30,11 +31,14 @@ namespace UI
         {
             _textObject.DOFade(1f, 1f);
             _textObject.text = text;
+            _isNotificationShown = true;
         }
         
         private void HideNotification()
         {
-            _textObject.DOFade(0f, 1.5f);
+            if (!_isNotificationShown) return;
+            _textObject.DOFade(0f, 2.5f);
+            _isNotificationShown = false;
         }
     }
 }

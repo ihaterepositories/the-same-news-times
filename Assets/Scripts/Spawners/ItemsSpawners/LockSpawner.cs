@@ -3,7 +3,7 @@ using Models.Items;
 using Models.MazeGeneration;
 using UnityEngine;
 
-namespace Spawners.ObjectsSpawners
+namespace Spawners.ItemsSpawners
 {
     public class LockSpawner : MonoBehaviour
     {

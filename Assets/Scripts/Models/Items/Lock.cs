@@ -10,6 +10,7 @@ namespace Models.Items
 
         public event Action<IPoolAble> OnDestroyed;
         public static event Action<Lock> OnUnlockTry;
+        public static event Action OnUnlocked;
 
         private void OnCollisionEnter2D(Collision2D other)
         {
@@ -19,6 +20,7 @@ namespace Models.Items
 
         public void Reset()
         {
+            OnUnlocked?.Invoke();
             OnDestroyed?.Invoke(this);
         }
     }

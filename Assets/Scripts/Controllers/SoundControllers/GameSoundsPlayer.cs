@@ -11,6 +11,7 @@ namespace Controllers.SoundControllers
         [SerializeField] private AudioClip gameOverSound;
         [SerializeField] private AudioClip scorePickedSound;
         [SerializeField] private AudioClip itemPickedSound;
+        [SerializeField] private AudioClip itemUsedSound;
 
         private void Start()
         {
@@ -23,17 +24,33 @@ namespace Controllers.SoundControllers
         private void OnEnable()
         {
             LevelFinisher.OnGameFinished += PlayGameOverSound;
-            GreenScore.OnPicked += PlayItemPickedSound;
-            PinkScore.OnPicked += PlayItemPickedSound;
-            Key.OnPicked += PlayToolPickedSound;
+            
+            GreenScore.OnPicked += PlayScorePickedSound;
+            PinkScore.OnPicked += PlayScorePickedSound;
+            
+            Key.OnPicked += PlayItemPickedSound;
+            LifeSaver.OnPicked += PlayItemPickedSound;
+            Booster.OnPicked += PlayItemPickedSound;
+            
+            Inventory.OnKeyUsed += PlayItemUsedSound;
+            Inventory.OnLifeSaverUsed += PlayItemUsedSound;
+            Inventory.OnBoosterUsed += PlayItemUsedSound;
         }
         
         private void OnDisable()
         {
             LevelFinisher.OnGameFinished -= PlayGameOverSound;
-            GreenScore.OnPicked -= PlayItemPickedSound;
-            PinkScore.OnPicked -= PlayItemPickedSound;
-            Key.OnPicked -= PlayToolPickedSound;
+            
+            GreenScore.OnPicked -= PlayScorePickedSound;
+            PinkScore.OnPicked -= PlayScorePickedSound;
+            
+            Key.OnPicked -= PlayItemPickedSound;
+            LifeSaver.OnPicked -= PlayItemPickedSound;
+            Booster.OnPicked -= PlayItemPickedSound;
+            
+            Inventory.OnKeyUsed -= PlayItemUsedSound;
+            Inventory.OnLifeSaverUsed -= PlayItemUsedSound;
+            Inventory.OnBoosterUsed -= PlayItemUsedSound;
         }
         
         private void PlayGameOverSound()
@@ -41,14 +58,19 @@ namespace Controllers.SoundControllers
             audioSource.PlayOneShot(gameOverSound);
         }
         
-        private void PlayItemPickedSound()
+        private void PlayScorePickedSound()
         {
             audioSource.PlayOneShot(scorePickedSound);
         }
         
-        private void PlayToolPickedSound()
+        private void PlayItemPickedSound()
         {
             audioSource.PlayOneShot(itemPickedSound);
+        }
+
+        private void PlayItemUsedSound()
+        {
+            audioSource.PlayOneShot(itemUsedSound);
         }
     }
 }

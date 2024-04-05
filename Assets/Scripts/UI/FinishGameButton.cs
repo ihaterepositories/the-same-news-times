@@ -1,5 +1,5 @@
 using System.Collections;
-using AnimationsScripts;
+using AnimationControllers;
 using UnityEngine;
 
 namespace UI

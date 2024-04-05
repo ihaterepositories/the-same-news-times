@@ -1,13 +1,14 @@
 using System.Collections;
 using DataModels;
-using UnityEditor.PackageManager;
+using Enums;
 using UnityEngine.Networking;
 
 namespace Requests
 {
     public class LoginPlayerRequest
     {
-        public IEnumerator PostRequestCoroutine(PlayerLoginData playerLoginData, System.Action<StatusCode, string> callback)
+        public IEnumerator PostRequestCoroutine(PlayerLoginData playerLoginData,
+            System.Action<StatusCode, string> callback)
         {
             var url = "http://localhost:5139/api/Player/Login";
             url += "?username=" + playerLoginData.username + "&password=" + playerLoginData.password;

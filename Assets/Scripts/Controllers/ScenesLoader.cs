@@ -1,24 +1,35 @@
+using System;
 using System.Collections;
-using AnimationsScripts;
+using AnimationControllers;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 namespace Controllers
 {
     public class ScenesLoader
     {
-        public IEnumerator LoadSceneCoroutine(string sceneName, bool isAnimated)
+        public event Action OnSceneLoaded; 
+        
+        public IEnumerator LoadSceneCoroutine(string sceneAddress, bool isAnimated)
         {
             if (isAnimated) { CircleAnimation.Instance.Increase(); }
             
             yield return new WaitForSeconds(1f);
             
-            var asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            LoadScene(sceneAddress);
+        }
+        
+        private async void LoadScene(string sceneAddress)
+        {
+            var handle = Addressables.LoadSceneAsync(sceneAddress);
 
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
+            await handle.Task;
+            
+            var loadedScene = handle.Result.Scene;
+            SceneManager.SetActiveScene(loadedScene);
+            
+            OnSceneLoaded?.Invoke();
         }
     }
 }

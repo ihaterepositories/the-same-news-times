@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
-using AnimationsScripts;
+using AnimationControllers;
+using Constants;
 using DG.Tweening;
 using Spawners;
 using UI;

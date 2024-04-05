@@ -12,7 +12,7 @@ namespace UI
     public class PressKeyToContinueText : MonoBehaviour
     {
         [SerializeField] private KeyCode keyToPress;
-        [SerializeField] private string nextSceneString;
+        [SerializeField] private string nextSceneAddress;
         [SerializeField] private bool useCircleAnimation = true;
 
         private Text _text;
@@ -60,7 +60,7 @@ namespace UI
         {
             if (Input.GetKeyDown(keyToPress))
             {
-                StartCoroutine(_scenesLoader.LoadSceneCoroutine(nextSceneString, useCircleAnimation));
+                StartCoroutine(_scenesLoader.LoadSceneCoroutine(nextSceneAddress, useCircleAnimation));
             }
         }
     }

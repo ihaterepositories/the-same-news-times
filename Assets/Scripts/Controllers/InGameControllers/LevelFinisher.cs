@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using AnimationsScripts;
+using AnimationControllers;
 using Models;
 using UI;
 using UnityEngine;

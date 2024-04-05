@@ -1,4 +1,5 @@
-﻿using Spawners.ObjectsSpawners;
+﻿using Spawners.ItemsSpawners;
+using Spawners.ObjectsSpawners;
 
 namespace Spawners
 {

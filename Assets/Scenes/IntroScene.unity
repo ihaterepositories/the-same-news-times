@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyToPress: 13
-  nextSceneString: Menu
+  nextSceneAddress: MenuScene
   useCircleAnimation: 1
 --- !u!114 &1442045335
 MonoBehaviour:

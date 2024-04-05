@@ -1,15 +1,21 @@
-using System.Collections;
-using AnimationsScripts;
+using Controllers;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
     public class SceneLoadingFromButton : MonoBehaviour
     {
         [SerializeField] private Button button;
-        [SerializeField] private string sceneName;
+        [SerializeField] private string nextSceneAddress;
+        private ScenesLoader _scenesLoader;
+
+        [Inject]
+        private void Construct(ScenesLoader scenesLoader)
+        {
+            _scenesLoader = scenesLoader;
+        }
         
         private void Start()
         {
@@ -18,24 +24,7 @@ namespace UI
 
         private void OnClick()
         {
-            StartCoroutine(LoadSceneWithAnimationCoroutine());
-        }
-
-        private IEnumerator LoadSceneWithAnimationCoroutine()
-        {
-            CircleAnimation.Instance.Increase();
-            yield return new WaitForSeconds(1f);
-            StartCoroutine(LoadSceneAsyncCoroutine());
-        }
-
-        private IEnumerator LoadSceneAsyncCoroutine()
-        {
-            var asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
+            StartCoroutine(_scenesLoader.LoadSceneCoroutine(nextSceneAddress, true));
         }
     }
 }

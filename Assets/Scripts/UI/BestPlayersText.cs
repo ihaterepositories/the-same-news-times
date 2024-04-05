@@ -12,12 +12,15 @@ namespace UI
     {
         [SerializeField] private Text usernamesText;
         [SerializeField] private Text totalScoresText;
+        
         private BestPlayersRequest _bestPlayersRequest;
+        private ScoresFormatter _scoresFormatter;
 
         [Inject]
-        private void Construct(BestPlayersRequest bestPlayersRequest)
+        private void Construct(BestPlayersRequest bestPlayersRequest, ScoresFormatter scoresFormatter)
         {
             _bestPlayersRequest = bestPlayersRequest;
+            _scoresFormatter = scoresFormatter;
         }
         
         private void Start()
@@ -27,21 +30,24 @@ namespace UI
 
         private void ProcessBestPlayersRequestResult(string jsonData)
         {
+            usernamesText.text = "username" + "\n" + "\n";
+            totalScoresText.text = "total score" + "\n" + "\n";
+            
             if (string.IsNullOrEmpty(jsonData))
             {
-                usernamesText.text = "usernames" + "\n" + "server is not available";
-                totalScoresText.text = "total scores" + "\n" + "server is not available";
+                for (var i = 0; i < 5; i++)
+                {
+                    usernamesText.text += "not available" + "\n" + "----------------" + "\n";
+                    totalScoresText.text += "not available" + "\n" + "----------------" + "\n";
+                }
                 return;
             }
-            
-            usernamesText.text = "usernames" + "\n" + "\n";
-            totalScoresText.text = "total scores" + "\n" + "\n";
 
             var playersData = JsonConvert.DeserializeObject<List<BestPlayerData>>(jsonData);
             foreach (var playerData in playersData)
             {
                 usernamesText.text += playerData.name + "\n" + "----------------" + "\n";
-                totalScoresText.text += playerData.totalScore + "\n" + "----------------" + "\n";
+                totalScoresText.text += _scoresFormatter.FormatNumber(playerData.totalScore) + "\n" + "----------------" + "\n";
             }
         }
     }

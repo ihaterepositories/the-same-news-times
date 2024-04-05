@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 82221011}
-  sceneName: Menu
+  nextSceneAddress: MenuScene
 --- !u!1 &418564545
 GameObject:
   m_ObjectHideFlags: 0

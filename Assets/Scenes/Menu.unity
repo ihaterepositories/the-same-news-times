@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 399443033}
-  sceneName: KeyTipsScene
+  nextSceneAddress: KeyTipsScene
 --- !u!1 &402455973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1450879087}
-  sceneName: AuthorizationScene
+  nextSceneAddress: AuthorizationScene
 --- !u!1 &1510409868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1575878610}
-  sceneName: RecordsScene
+  nextSceneAddress: RecordsScene
 --- !u!1 &1609984824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,7 +2009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1688510592}
-  sceneName: OptionsScene
+  nextSceneAddress: OptionsScene
 --- !u!1 &1884456810
 GameObject:
   m_ObjectHideFlags: 0

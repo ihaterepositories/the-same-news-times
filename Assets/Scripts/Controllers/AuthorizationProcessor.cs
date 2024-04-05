@@ -1,7 +1,7 @@
 using DataModels;
+using Enums;
 using Requests;
 using UI;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -42,6 +42,26 @@ namespace Controllers
                 password = passwordInputField.text,
                 bestRecordId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
             };
+            
+            if (string.IsNullOrEmpty(playerRegistrationData.name) || 
+                string.IsNullOrEmpty(playerRegistrationData.email) || 
+                string.IsNullOrEmpty(playerRegistrationData.password))
+            {
+                SetRequestText("Please fill all fields");
+                return;
+            }
+
+            if (playerRegistrationData.name.Length > 15)
+            {
+                SetRequestText("Name is too long (max 15 characters)");
+                return;
+            }
+            
+            if (playerRegistrationData.password.Length < 6)
+            {
+                SetRequestText("Password is too short (min 6 characters)");
+                return;
+            }
             
             StartCoroutine(_registerPlayerRequest.PostRequestCoroutine(playerRegistrationData, ProcessRegistrationRequestResult));
         }
