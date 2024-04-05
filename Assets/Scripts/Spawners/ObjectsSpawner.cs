@@ -1,5 +1,5 @@
-﻿using Spawners.ItemsSpawners;
-using Spawners.ObjectsSpawners;
+﻿using Spawners.EnemiesSpawners;
+using Spawners.ItemsSpawners;
 
 namespace Spawners
 {

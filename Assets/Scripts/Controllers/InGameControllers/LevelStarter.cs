@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
-using AnimationControllers;
+using Animations;
 using Constants;
 using DG.Tweening;
 using Spawners;
 using UI;
+using UI.TextControllers;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

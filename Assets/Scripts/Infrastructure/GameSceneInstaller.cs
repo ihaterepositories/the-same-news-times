@@ -1,9 +1,10 @@
-﻿using AnimationControllers;
+﻿using Animations;
+using Controllers.InGameControllers;
 using Models;
 using Spawners;
+using Spawners.EnemiesSpawners;
 using Spawners.ItemsSpawners;
 using Spawners.LevelsSpawners;
-using Spawners.ObjectsSpawners;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +24,7 @@ namespace Infrastructure
         [SerializeField] private GameObject boosterSpawnerPrefab;
         [SerializeField] private GameObject lifeSaverSpawnerPrefab;
         [SerializeField] private GameObject mazeAppearanceAnimationPrefab;
+        [SerializeField] private GameObject positionsBlocker;
         
         public override void InstallBindings()
         {
@@ -39,6 +41,11 @@ namespace Infrastructure
             Container
                 .Bind<Player>()
                 .FromComponentInNewPrefab(playerPrefab)
+                .AsSingle();
+            
+            Container
+                .Bind<PositionsBlocker>()
+                .FromComponentInNewPrefab(positionsBlocker)
                 .AsSingle();
             
             InstallObjectsSpawners();

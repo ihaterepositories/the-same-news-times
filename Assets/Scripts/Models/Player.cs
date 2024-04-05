@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using Controllers.InGameControllers;
-using Interfaces;
+using Models.Enemies.Interfaces;
+using Models.Items.Interfaces;
 using UnityEngine;
 
 namespace Models

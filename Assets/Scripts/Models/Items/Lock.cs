@@ -1,5 +1,5 @@
 using System;
-using Interfaces;
+using Pooling.Interfaces;
 using UnityEngine;
 
 namespace Models.Items

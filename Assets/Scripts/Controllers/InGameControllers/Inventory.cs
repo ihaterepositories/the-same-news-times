@@ -1,6 +1,7 @@
 using System;
 using Models.Items;
 using UI;
+using UI.TextControllers;
 using UnityEngine;
 
 namespace Controllers.InGameControllers

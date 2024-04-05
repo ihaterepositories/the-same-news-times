@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Controllers.InGameControllers;
-using Models.MazeGeneration;
+using MazeGeneration;
+using Pooling;
 using UnityEngine;
 
 namespace Spawners

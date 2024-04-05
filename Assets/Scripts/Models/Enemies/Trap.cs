@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using Controllers.InGameControllers;
 using DG.Tweening;
-using Interfaces;
+using Models.Enemies.Interfaces;
+using Pooling.Interfaces;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

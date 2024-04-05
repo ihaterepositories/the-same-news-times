@@ -1,4 +1,4 @@
-using AnimationControllers;
+using Animations;
 using UnityEngine;
 
 namespace Spawners.LevelsSpawners

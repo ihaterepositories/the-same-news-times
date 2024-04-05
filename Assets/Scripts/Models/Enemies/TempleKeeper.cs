@@ -1,6 +1,7 @@
 using System;
 using Controllers.InGameControllers;
-using Interfaces;
+using Models.Enemies.Interfaces;
+using Pooling.Interfaces;
 using UnityEngine;
 
 namespace Models.Enemies

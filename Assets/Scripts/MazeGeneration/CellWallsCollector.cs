@@ -1,10 +1,10 @@
 using System;
 using Controllers.InGameControllers;
 using DG.Tweening;
-using Interfaces;
+using Pooling.Interfaces;
 using UnityEngine;
 
-namespace Models.MazeGeneration
+namespace MazeGeneration
 {
     public class CellWallsCollector : MonoBehaviour, IPoolAble
     {

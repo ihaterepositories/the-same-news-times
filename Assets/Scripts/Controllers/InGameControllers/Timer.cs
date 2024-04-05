@@ -1,5 +1,7 @@
 using System.Collections;
 using UI;
+using UI.Formatters;
+using UI.TextControllers;
 using UnityEngine;
 
 namespace Controllers.InGameControllers

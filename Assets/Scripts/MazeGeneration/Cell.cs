@@ -1,4 +1,4 @@
-namespace Models.MazeGeneration
+namespace MazeGeneration
 {
     public class Cell
     {

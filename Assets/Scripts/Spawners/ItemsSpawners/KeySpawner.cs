@@ -1,7 +1,9 @@
 using Controllers.InGameControllers;
+using MazeGeneration;
 using Models.Items;
-using Models.MazeGeneration;
+using Pooling;
 using UnityEngine;
+using Zenject;
 
 namespace Spawners.ItemsSpawners
 {
@@ -10,6 +12,13 @@ namespace Spawners.ItemsSpawners
         [SerializeField] private Key keyPrefab;
 
         private ObjectPool<Key> _pool;
+        private PositionsBlocker _positionsBlocker;
+        
+        [Inject]
+        private void Construct(PositionsBlocker positionsBlocker)
+        {
+            _positionsBlocker = positionsBlocker;
+        }
 
         private void Awake()
         {
@@ -25,13 +34,13 @@ namespace Spawners.ItemsSpawners
 
                 if (xPosition != MazeGenerator.ExitCell.X && 
                     yPosition != MazeGenerator.ExitCell.Y && 
-                    PositionBlocker.CheckPositionAvailability(xPosition, yPosition))
+                    _positionsBlocker.CheckPositionAvailability(xPosition, yPosition))
                 {
                     var cell = maze[xPosition, yPosition];
                     var key = GetKeyObject();
                     key.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
 
-                    PositionBlocker.BlockPosition(xPosition, yPosition, true);
+                    _positionsBlocker.BlockPosition(xPosition, yPosition, true);
                 }
                 else
                 {

@@ -1,9 +1,11 @@
 using Controllers.InGameControllers;
+using MazeGeneration;
 using Models.Items;
-using Models.MazeGeneration;
+using Pooling;
 using UnityEngine;
+using Zenject;
 
-namespace Spawners.ObjectsSpawners
+namespace Spawners.ItemsSpawners
 {
     public class GreenScoresSpawner : MonoBehaviour
     {
@@ -11,6 +13,13 @@ namespace Spawners.ObjectsSpawners
 
         private ObjectPool<GreenScore> _pool;
         private int _greenScoresCount;
+        private PositionsBlocker _positionsBlocker;
+        
+        [Inject]
+        private void Construct(PositionsBlocker positionsBlocker)
+        {
+            _positionsBlocker = positionsBlocker;
+        }
 
         public int GreenScoresCount { get => _greenScoresCount; set => _greenScoresCount = value; }
 
@@ -31,14 +40,14 @@ namespace Spawners.ObjectsSpawners
 
                 if (xPosition != MazeGenerator.ExitCell.X && 
                     yPosition != MazeGenerator.ExitCell.Y &&
-                    PositionBlocker.CheckPositionAvailability(xPosition, yPosition))
+                    _positionsBlocker.CheckPositionAvailability(xPosition, yPosition))
                 {
                     var cell = maze[xPosition, yPosition];
                     var greenScore = GetGreenScoreObject();
                     greenScore.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
                     _greenScoresCount++;
 
-                    PositionBlocker.BlockPosition(xPosition, yPosition, false);
+                    _positionsBlocker.BlockPosition(xPosition, yPosition, false);
                 }
             }
         }

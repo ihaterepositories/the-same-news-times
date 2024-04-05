@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Models.MazeGeneration
+namespace MazeGeneration
 {
     public class MazeGenerator
     {

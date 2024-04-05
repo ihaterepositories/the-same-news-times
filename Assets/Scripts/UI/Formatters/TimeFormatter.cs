@@ -1,6 +1,6 @@
 using System;
 
-namespace UI
+namespace UI.Formatters
 {
     public static class TimeFormatter
     {

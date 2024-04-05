@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
-using AnimationControllers;
+using Animations;
 using Models;
 using UI;
+using UI.TextControllers;
 using UnityEngine;
 using UnityEngine.UI;
 

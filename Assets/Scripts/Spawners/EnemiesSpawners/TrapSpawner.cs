@@ -1,15 +1,24 @@
 using Controllers.InGameControllers;
+using MazeGeneration;
 using Models.Enemies;
-using Models.MazeGeneration;
+using Pooling;
 using UnityEngine;
+using Zenject;
 
-namespace Spawners.ObjectsSpawners
+namespace Spawners.EnemiesSpawners
 {
     public class TrapSpawner : MonoBehaviour
     {
         [SerializeField] private Trap trapPrefab;
 
         private ObjectPool<Trap> _pool;
+        private PositionsBlocker _positionsBlocker;
+        
+        [Inject]
+        private void Construct(PositionsBlocker positionsBlocker)
+        {
+            _positionsBlocker = positionsBlocker;
+        }
 
         private void Awake()
         {
@@ -27,14 +36,14 @@ namespace Spawners.ObjectsSpawners
 
                 if (xPosition != MazeGenerator.ExitCell.X &&
                     yPosition != MazeGenerator.ExitCell.Y &&
-                    PositionBlocker.CheckPositionAvailability(xPosition, yPosition))
+                    _positionsBlocker.CheckPositionAvailability(xPosition, yPosition))
                 {
                     var cell = maze[xPosition, yPosition];
                     var trap = GetTrapObject();
                     trap.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
                     trap.PlayAppearingAnimation();
 
-                    PositionBlocker.BlockPosition(xPosition, yPosition, true);
+                    _positionsBlocker.BlockPosition(xPosition, yPosition, true);
                 }
             }
         }

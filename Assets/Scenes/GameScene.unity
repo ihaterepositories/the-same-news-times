@@ -461,7 +461,6 @@ Transform:
   - {fileID: 717656131}
   - {fileID: 873177866}
   - {fileID: 1958177594}
-  - {fileID: 926913873}
   - {fileID: 1828641471}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1372,50 +1371,6 @@ MonoBehaviour:
   gameOverText: {fileID: 1388597313}
   scoresCounter: {fileID: 1958177595}
   pressAnyKeyText: {fileID: 1894931057}
---- !u!1 &926913872
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 926913873}
-  - component: {fileID: 926913874}
-  m_Layer: 0
-  m_Name: PositionBlocker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &926913873
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926913872}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 248804534}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &926913874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 926913872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c972ea0fd2e41b94086b1181b884fff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1015340162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,6 +2168,7 @@ MonoBehaviour:
   boosterSpawnerPrefab: {fileID: 3654326119057017207, guid: 95c674d1d432f9844ac5d05c729733cf, type: 3}
   lifeSaverSpawnerPrefab: {fileID: 2596147663110490569, guid: 75831b3d023cc2740b92246d2e8e7533, type: 3}
   mazeAppearanceAnimationPrefab: {fileID: 7318539911723638521, guid: 372e597fdf7e64d4a9077cdd57c942bd, type: 3}
+  positionsBlocker: {fileID: 645897480511190406, guid: 8bc757bde5ee3a0489aece2189e576d4, type: 3}
 --- !u!1 &1441131511
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,9 @@
-using Controllers.InGameControllers;
+using MazeGeneration;
 using Models.Enemies;
-using Models.MazeGeneration;
+using Pooling;
 using UnityEngine;
 
-namespace Spawners.ObjectsSpawners
+namespace Spawners.EnemiesSpawners
 {
     public class GhostSpawner : MonoBehaviour
     {

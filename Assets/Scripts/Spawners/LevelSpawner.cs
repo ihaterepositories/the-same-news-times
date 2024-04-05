@@ -1,7 +1,7 @@
 using Controllers.InGameControllers;
 using Models;
+using Spawners.ItemsSpawners;
 using Spawners.LevelsSpawners;
-using Spawners.ObjectsSpawners;
 using UnityEngine;
 
 namespace Spawners

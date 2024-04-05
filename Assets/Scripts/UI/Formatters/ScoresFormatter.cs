@@ -1,4 +1,4 @@
-﻿namespace UI
+﻿namespace UI.Formatters
 {
     public class ScoresFormatter
     {

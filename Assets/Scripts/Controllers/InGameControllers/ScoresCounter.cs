@@ -1,9 +1,11 @@
 using System;
-using DataModels;
-using Enums;
 using Models.Items;
-using Requests;
+using Networking.DataModels;
+using Networking.Enums;
+using Networking.Requests;
 using UI;
+using UI.Formatters;
+using UI.TextControllers;
 using UnityEngine;
 using Zenject;
 
