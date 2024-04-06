@@ -1,4 +1,5 @@
 ﻿using Controllers.InGameControllers;
+using Loaders;
 using MazeGeneration;
 using Models.Items;
 using Pooling;
@@ -9,20 +10,20 @@ namespace Spawners.ItemsSpawners
 {
     public class BoosterSpawner : MonoBehaviour
     {
-        [SerializeField] private Booster boosterPrefab;
-
         private ObjectPool<Booster> _pool;
         private PositionsBlocker _positionsBlocker;
+        private PrefabsLoader _prefabsLoader;
         
         [Inject]
-        private void Construct(PositionsBlocker positionsBlocker)
+        private void Construct(PositionsBlocker positionsBlocker, PrefabsLoader prefabsLoader)
         {
             _positionsBlocker = positionsBlocker;
+            _prefabsLoader = prefabsLoader;
         }
 
         private void Awake()
         {
-            _pool = new ObjectPool<Booster>(boosterPrefab);
+            _pool = new ObjectPool<Booster>(_prefabsLoader.GetPrefab("Booster").GetComponent<Booster>());
         }
 
         public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)

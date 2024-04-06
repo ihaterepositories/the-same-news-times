@@ -1,6 +1,6 @@
 using System.Collections;
-using Controllers;
 using DG.Tweening;
+using Loaders;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -34,16 +34,16 @@ namespace UI.TextControllers
             _scaleY = localScale.y;
         }
 
-        private void Start()
-        {
-            StartCoroutine(ChangeScaleCoroutine());
-        }
-
         private void Update()
         {
             EnableNextSceneLoading();
         }
-        
+
+        private void OnEnable()
+        {
+            StartCoroutine(ChangeScaleCoroutine());
+        }
+
         // ReSharper disable once FunctionRecursiveOnAllPaths
         private IEnumerator ChangeScaleCoroutine()
         {

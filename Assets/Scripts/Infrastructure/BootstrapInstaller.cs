@@ -1,4 +1,5 @@
 ﻿using Controllers;
+using Loaders;
 using Networking.Requests;
 using UI;
 using UI.Formatters;
@@ -12,6 +13,10 @@ namespace Infrastructure
         {
             Container
                 .Bind<ScenesLoader>()
+                .AsSingle();
+            
+            Container
+                .Bind<PrefabsLoader>()
                 .AsSingle();
             
             Container

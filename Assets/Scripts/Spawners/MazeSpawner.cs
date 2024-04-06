@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Controllers.InGameControllers;
+using Loaders;
 using MazeGeneration;
 using Pooling;
 using UnityEngine;
+using Zenject;
 
 namespace Spawners
 {
@@ -11,6 +13,7 @@ namespace Spawners
         [SerializeField] private CellWallsCollector cellPrefab;
 
         private ObjectPool<CellWallsCollector> _pool;
+        private PrefabsLoader _prefabsLoader;
 
         public Vector2 FirstCellCoordinates => new(-(MazeWidth / 2f) + 0.9f, -(MazeHeight / 2f) + 0.9f);
         public int MazeWidth { get; private set; }
@@ -18,10 +21,16 @@ namespace Spawners
         public int SpawnedCyclesCount { get; private set; }
         public Cell[,] Maze { get; private set; }
         public List<CellWallsCollector> CellObjects { get; private set; }
+        
+        [Inject]
+        private void Construct(PrefabsLoader prefabsLoader)
+        {
+            _prefabsLoader = prefabsLoader;
+        }
 
         private void Awake()
         {
-            _pool = new ObjectPool<CellWallsCollector>(cellPrefab);
+            _pool = new ObjectPool<CellWallsCollector>(_prefabsLoader.GetPrefab("CellObject").GetComponent<CellWallsCollector>());
         }
         
         public void Spawn(int cyclesCount)

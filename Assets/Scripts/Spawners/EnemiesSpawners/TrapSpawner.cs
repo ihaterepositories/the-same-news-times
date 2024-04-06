@@ -1,4 +1,5 @@
 using Controllers.InGameControllers;
+using Loaders;
 using MazeGeneration;
 using Models.Enemies;
 using Pooling;
@@ -9,20 +10,20 @@ namespace Spawners.EnemiesSpawners
 {
     public class TrapSpawner : MonoBehaviour
     {
-        [SerializeField] private Trap trapPrefab;
-
         private ObjectPool<Trap> _pool;
         private PositionsBlocker _positionsBlocker;
+        private PrefabsLoader _prefabsLoader;
         
         [Inject]
-        private void Construct(PositionsBlocker positionsBlocker)
+        private void Construct(PositionsBlocker positionsBlocker, PrefabsLoader prefabsLoader)
         {
             _positionsBlocker = positionsBlocker;
+            _prefabsLoader = prefabsLoader;
         }
 
         private void Awake()
         {
-            _pool = new ObjectPool<Trap>(trapPrefab);
+            _pool = new ObjectPool<Trap>(_prefabsLoader.GetPrefab("Trap").GetComponent<Trap>());
         }
 
         public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)

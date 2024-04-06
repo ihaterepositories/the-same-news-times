@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4abc962e863b03e4ab233238aee2845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeAnimationStart: 2
+  delayBeforeAnimationStart: 1
   positionToMove: {x: 0, y: 800, z: 0}
 --- !u!1 &750454597
 GameObject:
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4abc962e863b03e4ab233238aee2845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeAnimationStart: 2.5
+  delayBeforeAnimationStart: 1.5
   positionToMove: {x: 0, y: 800, z: 0}
 --- !u!1 &1106474486
 GameObject:
@@ -647,7 +647,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c1da372925ce7c64396ad32829cf5892, type: 3}
-    m_FontSize: 25
+    m_FontSize: 23
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -658,7 +658,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press enter to continue...
+  m_Text: press enter to continue...
 --- !u!222 &1442045336
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4abc962e863b03e4ab233238aee2845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeAnimationStart: 2.7
+  delayBeforeAnimationStart: 1.7
   positionToMove: {x: 0, y: -400, z: 0}
 --- !u!1 &1448840843
 GameObject:
@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 1448840845}
   - component: {fileID: 1448840844}
   m_Layer: 0
-  m_Name: CircleAnimationSingletone
+  m_Name: CircleAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1048,7 +1048,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c1da372925ce7c64396ad32829cf5892, type: 3}
-    m_FontSize: 35
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1059,11 +1059,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.25
-  m_Text: You've entered a mysterious temple of labyrinths, where guardians watch
-    over enormous treasures. However, these creatures have a penchant for sleeping,
-    and your goal is to navigate through the mazes, avoiding the slumbering sentinels,
-    and collect the most treasures among all brave adventurers. Prepare for an exhilarating
-    journey and become a legendary record-holder in the temple!
+  m_Text: You have entered the mysterious temples, where the treasures are guarded
+    by guards and traps. However, you have to be more cunning than they are, and
+    your goal is to get through the mazes, avoiding sleepy guards, other-dimensional
+    ghosts, deadly traps and collect the most treasures among all the brave adventurers
+    with the help of artifacts you find in the temples. Get ready for an exciting
+    journey and become a legendary record holder in the temple!
 --- !u!222 &2129279192
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1084,7 +1085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4abc962e863b03e4ab233238aee2845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeAnimationStart: 2.5
+  delayBeforeAnimationStart: 1.5
   positionToMove: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

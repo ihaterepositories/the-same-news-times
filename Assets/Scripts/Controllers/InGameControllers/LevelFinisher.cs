@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using Animations;
+using Loaders;
 using Models;
-using UI;
 using UI.TextControllers;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Controllers.InGameControllers
 {
@@ -15,10 +16,20 @@ namespace Controllers.InGameControllers
         [SerializeField] private ScoresCounter scoresCounter;
         [SerializeField] private Text pressAnyKeyText;
 
+        private PrefabsLoader _prefabsLoader;
+        private Player _player;
+        
         public static event Action OnLevelFinished;
         public static event Action OnReadyToStartNewLevel;
         public static event Action OnGameFinished;
 
+        [Inject]
+        private void Construct(PrefabsLoader prefabsLoader, Player player)
+        {
+            _prefabsLoader = prefabsLoader;
+            _player = player;
+        }
+        
         private void Awake()
         {
             pressAnyKeyText.gameObject.SetActive(false);
@@ -61,6 +72,7 @@ namespace Controllers.InGameControllers
         private IEnumerator FinishLevelCoroutine()
         {
             CircleAnimation.Instance.Increase(0.2f);
+            _player.ClearTrailRender();
             yield return new WaitForSeconds(0.2f);
             OnLevelFinished?.Invoke();
             yield return new WaitForSeconds(1.5f);
@@ -75,8 +87,10 @@ namespace Controllers.InGameControllers
         private IEnumerator FinishGameCoroutine()
         {
             CircleAnimation.Instance.Increase();
+            _player.ClearTrailRender();
             yield return new WaitForSeconds(1f);
             OnGameFinished?.Invoke();
+            _prefabsLoader.ReleaseAll();
             gameOverText.SetText(scoresCounter.GetCurrentGameScore());
             scoresCounter.CalculateTotalTimeSpent();
             scoresCounter.UpdateOnlineBestScore();

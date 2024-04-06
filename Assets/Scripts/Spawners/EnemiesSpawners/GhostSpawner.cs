@@ -1,19 +1,26 @@
+using Loaders;
 using MazeGeneration;
 using Models.Enemies;
 using Pooling;
 using UnityEngine;
+using Zenject;
 
 namespace Spawners.EnemiesSpawners
 {
     public class GhostSpawner : MonoBehaviour
     {
-        [SerializeField] private Ghost ghostPrefab;
-        
         private ObjectPool<Ghost> _pool;
+        private PrefabsLoader _prefabsLoader;
 
+        [Inject]
+         private void Construct(PrefabsLoader prefabsLoader)
+         {
+             _prefabsLoader = prefabsLoader;
+         }
+        
         private void Awake()
         {
-            _pool = new ObjectPool<Ghost>(ghostPrefab);
+            _pool = new ObjectPool<Ghost>(_prefabsLoader.GetPrefab("Ghost").GetComponent<Ghost>());
         }
 
         public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)

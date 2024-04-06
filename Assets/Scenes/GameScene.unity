@@ -1755,6 +1755,7 @@ GameObject:
   - component: {fileID: 1295446378}
   - component: {fileID: 1295446377}
   - component: {fileID: 1295446379}
+  - component: {fileID: 1295446380}
   m_Layer: 5
   m_Name: ItemsCountText
   m_TagString: Untagged
@@ -1841,6 +1842,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemsCountText: {fileID: 1295446377}
   inventory: {fileID: 1828641472}
+--- !u!114 &1295446380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295446375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bff01df5bf46a5aa7e271f364ec20d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textObject: {fileID: 1295446377}
 --- !u!1 &1342309253
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,19 +2170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691fce0192fb45feaf116781a07d0c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3644842019870960266, guid: a6c13d67666b0c9458c568caff1cee57, type: 3}
-  mazeSpawnerPrefab: {fileID: 637117169453822278, guid: f092c9a9268a26943aec820d6396159e, type: 3}
-  pinkScoreSpawnerPrefab: {fileID: 2506336958894786937, guid: 44003ad79230a8b42882bf6589c60a8e, type: 3}
-  greenScoresSpawnerPrefab: {fileID: 7873772437296308130, guid: 861d057fc1de10243ba32f4d77207b68, type: 3}
-  templeKeeperSpawnerPrefab: {fileID: 6614782163437879663, guid: 10682faa446863849b5a712c1bd8caaf, type: 3}
-  lockSpawnerPrefab: {fileID: 1895158736376825697, guid: 27088180bafa3a143a88e9f7ee8381b0, type: 3}
-  keySpawnerPrefab: {fileID: 2434142538254483659, guid: 087847e0baa319f40a7fc94816f11f85, type: 3}
-  trapSpawnerPrefab: {fileID: 6267902851572715545, guid: 71ebb4fe56177f34e9c2230eb68aabd9, type: 3}
-  ghostSpawnerPrefab: {fileID: 1681597992719914329, guid: 3e103227c64b56e4baa0560bbb7c7eaa, type: 3}
-  boosterSpawnerPrefab: {fileID: 3654326119057017207, guid: 95c674d1d432f9844ac5d05c729733cf, type: 3}
-  lifeSaverSpawnerPrefab: {fileID: 2596147663110490569, guid: 75831b3d023cc2740b92246d2e8e7533, type: 3}
-  mazeAppearanceAnimationPrefab: {fileID: 7318539911723638521, guid: 372e597fdf7e64d4a9077cdd57c942bd, type: 3}
-  positionsBlocker: {fileID: 645897480511190406, guid: 8bc757bde5ee3a0489aece2189e576d4, type: 3}
 --- !u!1 &1441131511
 GameObject:
   m_ObjectHideFlags: 0

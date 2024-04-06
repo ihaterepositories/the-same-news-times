@@ -37,7 +37,7 @@ namespace UI.TextControllers
         private void HideNotification()
         {
             if (!_isNotificationShown) return;
-            _textObject.DOFade(0f, 2.5f);
+            _textObject.DOFade(0f, 4f);
             _isNotificationShown = false;
         }
     }

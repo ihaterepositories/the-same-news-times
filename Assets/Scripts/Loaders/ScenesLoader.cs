@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
-namespace Controllers
+namespace Loaders
 {
     public class ScenesLoader
     {

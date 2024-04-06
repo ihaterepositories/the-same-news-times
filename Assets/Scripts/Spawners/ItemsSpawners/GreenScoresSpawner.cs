@@ -1,4 +1,5 @@
 using Controllers.InGameControllers;
+using Loaders;
 using MazeGeneration;
 using Models.Items;
 using Pooling;
@@ -9,29 +10,28 @@ namespace Spawners.ItemsSpawners
 {
     public class GreenScoresSpawner : MonoBehaviour
     {
-        [SerializeField] private GreenScore greenScorePrefab;
-
         private ObjectPool<GreenScore> _pool;
-        private int _greenScoresCount;
         private PositionsBlocker _positionsBlocker;
+        private PrefabsLoader _prefabsLoader;
+        
+        public int GreenScoresCount { get; set; }
         
         [Inject]
-        private void Construct(PositionsBlocker positionsBlocker)
+        private void Construct(PositionsBlocker positionsBlocker, PrefabsLoader prefabsLoader)
         {
             _positionsBlocker = positionsBlocker;
+            _prefabsLoader = prefabsLoader;
         }
-
-        public int GreenScoresCount { get => _greenScoresCount; set => _greenScoresCount = value; }
 
         private void Awake()
         {
-            _pool = new ObjectPool<GreenScore>(greenScorePrefab);
+            _pool = new ObjectPool<GreenScore>(_prefabsLoader.GetPrefab("GreenScore").GetComponent<GreenScore>());
         }
 
         public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight, int iterationsCoefficient = 1)
         {
             var iterations = Random.Range(mazeWidth - 10, mazeHeight - 5) * iterationsCoefficient;
-            _greenScoresCount = 0;
+            GreenScoresCount = 0;
 
             for (var i = 0; i < iterations; i++)
             {
@@ -45,7 +45,7 @@ namespace Spawners.ItemsSpawners
                     var cell = maze[xPosition, yPosition];
                     var greenScore = GetGreenScoreObject();
                     greenScore.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
-                    _greenScoresCount++;
+                    GreenScoresCount++;
 
                     _positionsBlocker.BlockPosition(xPosition, yPosition, false);
                 }
@@ -54,7 +54,7 @@ namespace Spawners.ItemsSpawners
 
         public void LuckySpawn(Cell[,] maze, int mazeWidth, int mazeHeight)
         {
-            _greenScoresCount = 0;
+            GreenScoresCount = 0;
 
             for (var i = 0; i < mazeWidth - 1; i++)
             {
@@ -70,7 +70,7 @@ namespace Spawners.ItemsSpawners
 
                     var greenScore = GetGreenScoreObject();
                     greenScore.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
-                    _greenScoresCount++;
+                    GreenScoresCount++;
                 }
             }
         }

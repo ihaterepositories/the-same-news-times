@@ -1,5 +1,6 @@
 ﻿using Animations;
 using Controllers.InGameControllers;
+using Loaders;
 using Models;
 using Spawners;
 using Spawners.EnemiesSpawners;
@@ -12,40 +13,34 @@ namespace Infrastructure
 {
     public class GameSceneInstaller : MonoInstaller
     {
-        [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private GameObject mazeSpawnerPrefab;
-        [SerializeField] private GameObject pinkScoreSpawnerPrefab;
-        [SerializeField] private GameObject greenScoresSpawnerPrefab;
-        [SerializeField] private GameObject templeKeeperSpawnerPrefab;
-        [SerializeField] private GameObject lockSpawnerPrefab;
-        [SerializeField] private GameObject keySpawnerPrefab;
-        [SerializeField] private GameObject trapSpawnerPrefab;
-        [SerializeField] private GameObject ghostSpawnerPrefab;
-        [SerializeField] private GameObject boosterSpawnerPrefab;
-        [SerializeField] private GameObject lifeSaverSpawnerPrefab;
-        [SerializeField] private GameObject mazeAppearanceAnimationPrefab;
-        [SerializeField] private GameObject positionsBlocker;
+        private PrefabsLoader _prefabsLoader;
+        
+        [Inject]
+        private void Construct(PrefabsLoader prefabsLoader)
+        {
+            _prefabsLoader = prefabsLoader;
+        }
         
         public override void InstallBindings()
         {
             Container
                 .Bind<MazeAppearanceAnimation>()
-                .FromComponentInNewPrefab(mazeAppearanceAnimationPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("MazeAppearanceAnimation"))
                 .AsSingle();
             
             Container
                 .Bind<MazeSpawner>()
-                .FromComponentInNewPrefab(mazeSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("MazeSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<Player>()
-                .FromComponentInNewPrefab(playerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("Player"))
                 .AsSingle();
             
             Container
                 .Bind<PositionsBlocker>()
-                .FromComponentInNewPrefab(positionsBlocker)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PositionsBlocker"))
                 .AsSingle();
             
             InstallObjectsSpawners();
@@ -65,47 +60,47 @@ namespace Infrastructure
         {
             Container
                 .Bind<PinkScoreSpawner>()
-                .FromComponentInNewPrefab(pinkScoreSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PinkScoreSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<GreenScoresSpawner>()
-                .FromComponentInNewPrefab(greenScoresSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("GreenScoresSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<TempleKeeperSpawner>()
-                .FromComponentInNewPrefab(templeKeeperSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("TempleKeeperSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<LockSpawner>()
-                .FromComponentInNewPrefab(lockSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("LockSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<KeySpawner>()
-                .FromComponentInNewPrefab(keySpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("KeySpawner"))
                 .AsSingle();
             
             Container
                 .Bind<TrapSpawner>()
-                .FromComponentInNewPrefab(trapSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("TrapSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<GhostSpawner>()
-                .FromComponentInNewPrefab(ghostSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("GhostSpawner"))
                 .AsSingle();
 
             Container
                 .Bind<BoosterSpawner>()
-                .FromComponentInNewPrefab(boosterSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("BoosterSpawner"))
                 .AsSingle();
 
             Container
                 .Bind<LifeSaverSpawner>()
-                .FromComponentInNewPrefab(lifeSaverSpawnerPrefab)
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("LifeSaverSpawner"))
                 .AsSingle();
         }
 
