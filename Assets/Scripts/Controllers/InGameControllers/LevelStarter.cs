@@ -4,7 +4,6 @@ using Animations;
 using Constants;
 using DG.Tweening;
 using Spawners;
-using UI;
 using UI.TextControllers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,13 +18,15 @@ namespace Controllers.InGameControllers
         [SerializeField] private InfoText levelRarityText;
 
         private LevelSpawner _levelSpawner;
-        
+        private SceneLoadingAnimation _sceneLoadingAnimation;
+
         public static event Action OnAllSpawned;
 
         [Inject]
-        private void Construct(LevelSpawner levelSpawner)
+        private void Construct(LevelSpawner levelSpawner, SceneLoadingAnimation sceneLoadingAnimation)
         {
             _levelSpawner = levelSpawner;
+            _sceneLoadingAnimation = sceneLoadingAnimation;
         }
         
         private void Awake()
@@ -66,7 +67,7 @@ namespace Controllers.InGameControllers
         {
             yield return new WaitForSeconds(2.5f);
             levelDescriptionText.GetComponent<Text>().DOFade(0f, 0.15f);
-            CircleAnimation.Instance.Decrease(0.2f);
+            _sceneLoadingAnimation.Decrease(0.2f);
             OnAllSpawned?.Invoke();
         }
 

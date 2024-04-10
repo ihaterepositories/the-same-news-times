@@ -7,16 +7,19 @@ namespace Spawners.LevelsSpawners
     {
         private readonly MazeSpawner _mazeSpawner;
         private readonly ObjectsSpawner _objectsSpawner;
-        private readonly MazeAppearanceAnimation _mazeAppearanceAnimation;
+        private readonly MazeDisappearanceAnimation mazeDisappearanceAnimation;
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
 
-        public LegendaryLevelsSpawner(MazeSpawner mazeSpawner, ObjectsSpawner objectsSpawner, MazeAppearanceAnimation mazeAppearanceAnimation)
+        public LegendaryLevelsSpawner(
+            MazeSpawner mazeSpawner, 
+            ObjectsSpawner objectsSpawner, 
+            MazeDisappearanceAnimation mazeDisappearanceAnimation)
         {
             _mazeSpawner = mazeSpawner;
             _objectsSpawner = objectsSpawner;
-            _mazeAppearanceAnimation = mazeAppearanceAnimation;
+            this.mazeDisappearanceAnimation = mazeDisappearanceAnimation;
         }
         
         public void SpawnRandomLevel()
@@ -34,7 +37,6 @@ namespace Spawners.LevelsSpawners
             _mazeSpawner.Spawn(0, Random.Range(5, 9), Random.Range(5, 9));
             _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             _objectsSpawner.GreenScoresSpawner.LuckySpawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-            _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
             LevelDescription = "Congratulations, this is lucky temple, no enemies, no difficulties, just treasures!";
         }
     }

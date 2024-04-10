@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Controllers.InGameControllers;
+using DG.Tweening;
 using Models.Enemies.Interfaces;
 using Models.Items.Interfaces;
 using UnityEngine;
@@ -12,16 +13,26 @@ namespace Models
 
     public class Player : MonoBehaviour
     {
-        private TrailRenderer _trailRender;
-        private float _speed = 9f;
-
-        public static Vector2 Position;
+        [SerializeField] private Gradient defaultTrailGradient;
+        [SerializeField] private Gradient poisonedTrailGradient;
+        [SerializeField] private Gradient boostedTrailGradient;
         
+        private TrailRenderer _trailRender;
+
+        private const float DefaultSpeed = 9f;
+        private float _speed;
+
+        public bool IsBoosted { get; private set; }
+        public static Vector2 Position;
+
+        public static event Action OnPoisoned;
+        public static event Action OnDePoisoned;
         public static event Action OnDestroyedByEnemy;
 
         private void Awake()
         {
             _trailRender = GetComponent<TrailRenderer>();
+            _speed = DefaultSpeed;
         }
 
         private void FixedUpdate()
@@ -32,13 +43,11 @@ namespace Models
 
         private void OnEnable()
         {
-            Inventory.OnBoosterUsed += Boost;
             LevelFinisher.OnLevelFinished += ClearTrailRender;
         }
 
         private void OnDisable()
         {
-            Inventory.OnBoosterUsed -= Boost;
             LevelFinisher.OnLevelFinished -= ClearTrailRender;
         }
 
@@ -51,17 +60,49 @@ namespace Models
             enemy.CaughtPlayer();
             OnDestroyedByEnemy?.Invoke();
         }
-
-        private void Boost()
+        
+        public IEnumerator BoostCoroutine()
         {
-            StartCoroutine(BoostCoroutine());
+            IsBoosted = true;
+            ChangeTrailGradient(boostedTrailGradient, 1f);
+            _speed += 4f;
+            yield return new WaitForSeconds(8f);
+            _speed = DefaultSpeed;
+            ChangeTrailGradient(defaultTrailGradient, 1f);
+            IsBoosted = false;
         }
         
-        private IEnumerator BoostCoroutine()
+        public IEnumerator SlowDownCoroutine()
         {
-            _speed = 11f;
-            yield return new WaitForSeconds(3f);
-            _speed = 9f;
+            OnPoisoned?.Invoke();
+            ChangeTrailGradient(poisonedTrailGradient, 1f);
+            _speed -= 4f;
+            yield return new WaitForSeconds(8f);
+            _speed = DefaultSpeed;
+            ChangeTrailGradient(defaultTrailGradient, 1f);
+            OnDePoisoned?.Invoke();
+        }
+        
+        private void ChangeTrailGradient(Gradient newGradient, float duration)
+        {
+            for (var i = 0; i < _trailRender.colorGradient.colorKeys.Length; i++)
+            {
+                var index = i;
+                DOTween.To(() => _trailRender.colorGradient.colorKeys[index].color, 
+                    x => SetColorKey(index, x), 
+                    newGradient.colorKeys[index].color, 
+                    duration);
+            }
+        }
+
+        private void SetColorKey(int index, Color newColor)
+        {
+            var colorGradient = _trailRender.colorGradient;
+            var colorKeys = colorGradient.colorKeys;
+            colorKeys[index].color = newColor;
+            var newGradient = new Gradient { colorKeys = colorKeys, alphaKeys = colorGradient.alphaKeys };
+            colorGradient = newGradient;
+            _trailRender.colorGradient = colorGradient;
         }
 
         private void Move()

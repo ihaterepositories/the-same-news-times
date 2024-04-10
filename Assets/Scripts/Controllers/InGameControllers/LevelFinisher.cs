@@ -18,16 +18,18 @@ namespace Controllers.InGameControllers
 
         private PrefabsLoader _prefabsLoader;
         private Player _player;
-        
+        private SceneLoadingAnimation _sceneLoadingAnimation;
+
         public static event Action OnLevelFinished;
         public static event Action OnReadyToStartNewLevel;
         public static event Action OnGameFinished;
 
         [Inject]
-        private void Construct(PrefabsLoader prefabsLoader, Player player)
+        private void Construct(PrefabsLoader prefabsLoader, Player player, SceneLoadingAnimation sceneLoadingAnimation)
         {
             _prefabsLoader = prefabsLoader;
             _player = player;
+            _sceneLoadingAnimation = sceneLoadingAnimation;
         }
         
         private void Awake()
@@ -71,7 +73,7 @@ namespace Controllers.InGameControllers
 
         private IEnumerator FinishLevelCoroutine()
         {
-            CircleAnimation.Instance.Increase(0.2f);
+            _sceneLoadingAnimation.Increase(0.2f);
             _player.ClearTrailRender();
             yield return new WaitForSeconds(0.2f);
             OnLevelFinished?.Invoke();
@@ -86,7 +88,7 @@ namespace Controllers.InGameControllers
 
         private IEnumerator FinishGameCoroutine()
         {
-            CircleAnimation.Instance.Increase();
+            _sceneLoadingAnimation.Increase(0.2f);
             _player.ClearTrailRender();
             yield return new WaitForSeconds(1f);
             OnGameFinished?.Invoke();

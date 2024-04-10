@@ -3,7 +3,6 @@ using Models.Items;
 using Networking.DataModels;
 using Networking.Enums;
 using Networking.Requests;
-using UI;
 using UI.Formatters;
 using UI.TextControllers;
 using UnityEngine;

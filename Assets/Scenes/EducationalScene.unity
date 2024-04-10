@@ -2045,7 +2045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyToPress: 13
-  nextSceneAddress: BootScene
+  nextSceneAddress: MenuScene
   useCircleAnimation: 1
 --- !u!114 &2042517222
 MonoBehaviour:
@@ -2080,7 +2080,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'press enter to load resources of temples
+  m_Text: 'press enter to back to the menu
 
 '
 --- !u!222 &2042517223

@@ -17,6 +17,8 @@ namespace Spawners
         private readonly GreenScoresSpawner _greenScoresSpawner;
 
         private readonly Player _player;
+        
+        private int _lastLevelType;
 
         public int MazeWidth { get; private set; } 
         public int MazeHeight { get; private set; } 
@@ -46,6 +48,13 @@ namespace Spawners
         public void Spawn()
         {
             var levelType = LevelRarityGenerator.GetLevelType();
+            
+            while (levelType == _lastLevelType)
+            {
+                levelType = LevelRarityGenerator.GetLevelType();
+            }
+            
+            _lastLevelType = levelType;
 
             switch (levelType)
             {

@@ -14,6 +14,7 @@ namespace Spawners
         public GhostSpawner GhostSpawner { get; }
         public BoosterSpawner BoosterSpawner { get; }
         public LifeSaverSpawner LifeSaverSpawner { get; }
+        public PoisonSpawner PoisonSpawner { get; }
 
         public ObjectsSpawner(
             PinkScoreSpawner pinkScoreSpawner, 
@@ -24,7 +25,8 @@ namespace Spawners
             TrapSpawner trapSpawner, 
             GhostSpawner ghostSpawner,
             BoosterSpawner boosterSpawner,
-            LifeSaverSpawner lifeSaverSpawner)
+            LifeSaverSpawner lifeSaverSpawner,
+            PoisonSpawner poisonSpawner)
         {
             PinkScoreSpawner = pinkScoreSpawner;
             GreenScoresSpawner = greenScoresSpawner;
@@ -35,6 +37,7 @@ namespace Spawners
             GhostSpawner = ghostSpawner;
             BoosterSpawner = boosterSpawner;
             LifeSaverSpawner = lifeSaverSpawner;
+            PoisonSpawner = poisonSpawner;
         }
     }
 }

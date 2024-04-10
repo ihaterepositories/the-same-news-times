@@ -7,16 +7,19 @@ namespace Spawners.LevelsSpawners
     {
         private readonly MazeSpawner _mazeSpawner;
         private readonly ObjectsSpawner _objectsSpawner;
-        private readonly MazeAppearanceAnimation _mazeAppearanceAnimation;
+        private readonly MazeDisappearanceAnimation mazeDisappearanceAnimation;
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
         
-        public RareLevelsSpawner(MazeSpawner mazeSpawner, ObjectsSpawner objectsSpawner, MazeAppearanceAnimation mazeAppearanceAnimation)
+        public RareLevelsSpawner(
+            MazeSpawner mazeSpawner, 
+            ObjectsSpawner objectsSpawner, 
+            MazeDisappearanceAnimation mazeDisappearanceAnimation)
         {
             _mazeSpawner = mazeSpawner;
             _objectsSpawner = objectsSpawner;
-            _mazeAppearanceAnimation = mazeAppearanceAnimation;
+            this.mazeDisappearanceAnimation = mazeDisappearanceAnimation;
         }
 
         public void SpawnRandomLevel()
@@ -33,12 +36,15 @@ namespace Spawners.LevelsSpawners
         {
             _mazeSpawner.Spawn(Random.Range(20, 25), Random.Range(30, 36), Random.Range(15, 19));
             _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-            if (Random.Range(0, 5) == 0)
+            if (Random.Range(0, 3) == 0)
             {
                 _objectsSpawner.LifeSaverSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             }
+            if (Random.Range(0, 2) == 1)
+            {
+                _objectsSpawner.PoisonSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+            }
             _objectsSpawner.GreenScoresSpawner.GreenScoresCount = 0;
-            _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
             LevelDescription = "Abandoned temple, there is nothing here...";
         }
     }

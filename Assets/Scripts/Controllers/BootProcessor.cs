@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Loaders;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -48,6 +47,7 @@ namespace Controllers
         private void EnableNextSceneLoading()
         {
             pressKeyToContinueText.SetActive(true);
+            _prefabsLoader.PrintLoadedPrefabs();
         }
     }
 }

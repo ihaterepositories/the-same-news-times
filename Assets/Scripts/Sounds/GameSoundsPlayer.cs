@@ -2,7 +2,7 @@ using Controllers.InGameControllers;
 using Models.Items;
 using UnityEngine;
 
-namespace Sound
+namespace Sounds
 {
     public class GameSoundsPlayer : MonoBehaviour
     {
@@ -32,9 +32,7 @@ namespace Sound
             LifeSaver.OnPicked += PlayItemPickedSound;
             Booster.OnPicked += PlayItemPickedSound;
             
-            Inventory.OnKeyUsed += PlayItemUsedSound;
-            Inventory.OnLifeSaverUsed += PlayItemUsedSound;
-            Inventory.OnBoosterUsed += PlayItemUsedSound;
+            Inventory.OnItemUsed += PlayItemUsedSound;
         }
         
         private void OnDisable()
@@ -48,9 +46,7 @@ namespace Sound
             LifeSaver.OnPicked -= PlayItemPickedSound;
             Booster.OnPicked -= PlayItemPickedSound;
             
-            Inventory.OnKeyUsed -= PlayItemUsedSound;
-            Inventory.OnLifeSaverUsed -= PlayItemUsedSound;
-            Inventory.OnBoosterUsed -= PlayItemUsedSound;
+            Inventory.OnItemUsed -= PlayItemUsedSound;
         }
         
         private void PlayGameOverSound()

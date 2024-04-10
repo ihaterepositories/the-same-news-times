@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Controllers.InGameControllers;
+using DG.Tweening;
 using Models.Enemies;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,12 +14,14 @@ namespace UI.TextControllers
         {
             TempleKeeper.OnPlayerInDangerous += SetLightColor;
             TempleKeeper.OnEndOfPlayerDangerous += SetDarkColor;
+            LevelFinisher.OnLevelFinished += SetDarkColor;
         }
 
         private void OnDisable()
         {
             TempleKeeper.OnPlayerInDangerous -= SetLightColor;
             TempleKeeper.OnEndOfPlayerDangerous -= SetDarkColor;
+            LevelFinisher.OnLevelFinished -= SetDarkColor;
         }
 
         private void SetLightColor()

@@ -1,6 +1,5 @@
 using System;
 using Controllers.InGameControllers;
-using DG.Tweening;
 using Pooling.Interfaces;
 using UnityEngine;
 
@@ -29,28 +28,23 @@ namespace MazeGeneration
 
         public void Reset()
         {
+            MakeVisible();
             OnDestroyed?.Invoke(this);
         }
-
-        public void PlayAppearanceAnimation(float duration)
-        {
-            bottomWallSpriteRenderer.DOFade(1, duration);
-            leftWallSpriteRenderer.DOFade(1, duration);
-        }
-
-        public void ChangeTransparency(float transparency)
+        
+        private void MakeVisible()
         {
             bottomWallSpriteRenderer.color = new Color(
                 bottomWallSpriteRenderer.color.r,
                 bottomWallSpriteRenderer.color.g,
                 bottomWallSpriteRenderer.color.b,
-                transparency);
+                1f);
 
             leftWallSpriteRenderer.color = new Color(
                 bottomWallSpriteRenderer.color.r,
                 bottomWallSpriteRenderer.color.g,
                 bottomWallSpriteRenderer.color.b,
-                transparency);
+                1f);
         }
     }
 }

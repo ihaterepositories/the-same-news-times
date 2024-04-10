@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Models.Items
 {
-    public class Booster : MonoBehaviour, IPickAble, IPoolAble
+    public class Poison : MonoBehaviour, IPickAble, IPoolAble
     {
         public GameObject GameObject => gameObject;
-
+        
         public event Action<IPoolAble> OnDestroyed;
         public static event Action OnPicked;
-
+        
         private void OnEnable()
         {
             LevelFinisher.OnLevelFinished += Reset;
@@ -24,7 +24,7 @@ namespace Models.Items
             LevelFinisher.OnLevelFinished -= Reset;
             LevelFinisher.OnGameFinished -= Reset;
         }
-
+        
         public void Pick()
         {
             OnPicked?.Invoke();

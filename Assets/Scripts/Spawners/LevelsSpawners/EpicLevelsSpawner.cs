@@ -7,16 +7,19 @@ namespace Spawners.LevelsSpawners
     {
         private readonly MazeSpawner _mazeSpawner;
         private readonly ObjectsSpawner _objectsSpawner;
-        private readonly MazeAppearanceAnimation _mazeAppearanceAnimation;
+        private readonly MazeDisappearanceAnimation mazeDisappearanceAnimation;
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
         
-        public EpicLevelsSpawner(MazeSpawner mazeSpawner, ObjectsSpawner objectsSpawner, MazeAppearanceAnimation mazeAppearanceAnimation)
+        public EpicLevelsSpawner(
+            MazeSpawner mazeSpawner, 
+            ObjectsSpawner objectsSpawner, 
+            MazeDisappearanceAnimation mazeDisappearanceAnimation)
         {
             _mazeSpawner = mazeSpawner;
             _objectsSpawner = objectsSpawner;
-            _mazeAppearanceAnimation = mazeAppearanceAnimation;
+            this.mazeDisappearanceAnimation = mazeDisappearanceAnimation;
         }
 
         public void SpawnRandomLevel()
@@ -34,11 +37,14 @@ namespace Spawners.LevelsSpawners
             _mazeSpawner.Spawn(Random.Range(3, 7));
             _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             _objectsSpawner.GreenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-            if (Random.Range(0, 1) == 0)
+            if (Random.Range(0, 3) == 0)
             {
                 _objectsSpawner.BoosterSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             }
-            _mazeAppearanceAnimation.Play(_mazeSpawner.CellObjects);
+            if (Random.Range(0, 2) == 1)
+            {
+                _objectsSpawner.PoisonSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
+            }
             LevelDescription = "Default temple, just default temple...";
         }
     }

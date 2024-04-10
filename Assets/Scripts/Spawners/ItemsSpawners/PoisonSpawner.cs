@@ -8,9 +8,9 @@ using Zenject;
 
 namespace Spawners.ItemsSpawners
 {
-    public class BoosterSpawner : MonoBehaviour
+    public class PoisonSpawner : MonoBehaviour
     {
-        private ObjectPool<Booster> _pool;
+        private ObjectPool<Poison> _pool;
         private PositionsBlocker _positionsBlocker;
         private PrefabsLoader _prefabsLoader;
         
@@ -23,7 +23,7 @@ namespace Spawners.ItemsSpawners
 
         private void Awake()
         {
-            _pool = new ObjectPool<Booster>(_prefabsLoader.GetPrefab("Booster").GetComponent<Booster>());
+            _pool = new ObjectPool<Poison>(_prefabsLoader.GetPrefab("Poison").GetComponent<Poison>());
         }
 
         public void Spawn(Cell[,] maze, int mazeWidth, int mazeHeight)
@@ -38,7 +38,7 @@ namespace Spawners.ItemsSpawners
                     _positionsBlocker.CheckPositionAvailability(xPosition, yPosition))
                 {
                     var cell = maze[xPosition, yPosition];
-                    var booster = GetBoosterObject();
+                    var booster = GetPoisonObject();
                     booster.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
 
                     _positionsBlocker.BlockPosition(xPosition, yPosition, true);
@@ -52,10 +52,10 @@ namespace Spawners.ItemsSpawners
             }
         }
 
-        private Booster GetBoosterObject()
+        private Poison GetPoisonObject()
         {
             var poolAble = _pool.GetFreeObject();
-            return poolAble as Booster;
-        }    
+            return poolAble as Poison;
+        }
     }
 }

@@ -1,4 +1,3 @@
-using Controllers;
 using DG.Tweening;
 using Loaders;
 using UnityEngine;
@@ -6,16 +5,16 @@ using Zenject;
 
 namespace Animations
 {
-    public class CircleAnimation : MonoBehaviour
+    public class SceneLoadingAnimation : MonoBehaviour
     {
-        public static CircleAnimation Instance { get; private set; }
+        private SceneLoadingAnimation _instance;
         private ScenesLoader _scenesLoader;
 
         private void Awake()
         {
-            if (Instance == null)
+            if (_instance == null)
             {
-                Instance = this;
+                _instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else

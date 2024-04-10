@@ -1,7 +1,6 @@
 using Networking.DataModels;
 using Networking.Enums;
 using Networking.Requests;
-using UI;
 using UI.TextControllers;
 using UnityEngine;
 using UnityEngine.UI;

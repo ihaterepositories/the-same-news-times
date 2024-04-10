@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -8,7 +9,7 @@ namespace Loaders
 {
     public class PrefabsLoader
     {
-        private Dictionary<string, GameObject> _loadedPrefabs = new Dictionary<string, GameObject>();
+        private readonly Dictionary<string, GameObject> _loadedPrefabs = new Dictionary<string, GameObject>();
         private int _totalPrefabsToLoad;
         private int _loadedPrefabsCount;
         
@@ -35,6 +36,14 @@ namespace Loaders
                 };
             }
         }
+        
+        public async Task<GameObject> LoadPrefab(AssetReference prefabReference)
+        {
+            var handle = prefabReference.LoadAssetAsync<GameObject>();
+            await handle.Task;
+            _loadedPrefabs[handle.Result.name] = handle.Result;
+            return handle.Result;
+        }
 
         public GameObject GetPrefab(string prefabName)
         {
@@ -54,6 +63,14 @@ namespace Loaders
                 Addressables.ReleaseInstance(prefab);
             }
             _loadedPrefabs.Clear();
+        }
+        
+        public void PrintLoadedPrefabs()
+        {
+            foreach (var prefab in _loadedPrefabs)
+            {
+                Debug.Log($"Prefab ID: {prefab.Key}, Prefab Name: {prefab.Value.name}");
+            }
         }
     }
 }

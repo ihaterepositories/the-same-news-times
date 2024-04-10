@@ -17,8 +17,7 @@ namespace UI.TextControllers
         private void SetItemsCountText()
         {
             itemsCountText.text = inventory.LifeSaversCount + "x" + "\n" +
-                                  inventory.BoostersCount + "x" + "\n" +
-                                  inventory.KeysCount + "x";
+                                  inventory.BoostersCount + "x";
         }
     }
 }

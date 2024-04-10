@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Controllers.InGameControllers;
 using Loaders;
 using MazeGeneration;
 using Pooling;
@@ -86,8 +85,6 @@ namespace Spawners
                     cell.transform.localPosition = new Vector2(
                         cellPositionX - (MazeWidth / 2f) + 0.5f, 
                         cellPositionY - (MazeHeight / 2f) + 0.5f);
-
-                    cell.ChangeTransparency(0);
 
                     cell.leftWall.SetActive(maze[cellPositionX, cellPositionY].IsHaveLeftWall);
                     cell.bottomWall.SetActive(maze[cellPositionX, cellPositionY].IsHaveBottomWall);

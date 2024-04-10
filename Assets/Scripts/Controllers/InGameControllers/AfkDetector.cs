@@ -1,5 +1,7 @@
 using System;
+using UI.TextControllers;
 using UnityEngine;
+using Zenject;
 
 namespace Controllers.InGameControllers
 {
@@ -8,9 +10,15 @@ namespace Controllers.InGameControllers
         private readonly float _maxAfkTime = 30f;
         private float _currentAfkTime;
         private bool _isAfk;
-        
-        public static event Action<string> OnAfkDetected;
+        private NotificationText _notificationText;
+
         public static event Action OnPlayerIsAfk;
+        
+        [Inject]
+        private void Construct(NotificationText notificationText)
+        {
+            _notificationText = notificationText;
+        }
 
         private void Update()
         {
@@ -30,7 +38,7 @@ namespace Controllers.InGameControllers
 
                 if (_currentAfkTime >= 15f)
                 {
-                    OnAfkDetected?.Invoke($"You are afk, game will be finished in {(int)(_maxAfkTime - _currentAfkTime)} seconds.");
+                    _notificationText.ShowNotification($"You are afk, game will be finished in {(int)(_maxAfkTime - _currentAfkTime)} seconds.", false);
                 }
                 
                 if (_currentAfkTime >= _maxAfkTime && !_isAfk)

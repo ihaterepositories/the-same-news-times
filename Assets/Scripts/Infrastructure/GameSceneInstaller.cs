@@ -13,6 +13,9 @@ namespace Infrastructure
 {
     public class GameSceneInstaller : MonoInstaller
     {
+        [SerializeField] private Inventory inventory;
+        [SerializeField] private AfkDetector afkDetector;
+        
         private PrefabsLoader _prefabsLoader;
         
         [Inject]
@@ -24,7 +27,7 @@ namespace Infrastructure
         public override void InstallBindings()
         {
             Container
-                .Bind<MazeAppearanceAnimation>()
+                .Bind<MazeDisappearanceAnimation>()
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("MazeAppearanceAnimation"))
                 .AsSingle();
             
@@ -43,6 +46,11 @@ namespace Infrastructure
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PositionsBlocker"))
                 .AsSingle();
             
+            Container
+                .Bind<AfkDetector>()
+                .FromInstance(afkDetector)
+                .AsSingle();
+            
             InstallObjectsSpawners();
 
             Container
@@ -53,6 +61,11 @@ namespace Infrastructure
             
             Container
                 .Bind<LevelSpawner>()
+                .AsSingle();
+
+            Container
+                .Bind<Inventory>()
+                .FromInstance(inventory)
                 .AsSingle();
         }
 
@@ -101,6 +114,11 @@ namespace Infrastructure
             Container
                 .Bind<LifeSaverSpawner>()
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("LifeSaverSpawner"))
+                .AsSingle();
+            
+            Container
+                .Bind<PoisonSpawner>()
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PoisonSpawner"))
                 .AsSingle();
         }
 

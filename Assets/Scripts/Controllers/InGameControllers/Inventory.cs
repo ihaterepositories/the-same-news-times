@@ -1,14 +1,16 @@
 using System;
+using Models;
 using Models.Items;
-using UI;
 using UI.TextControllers;
 using UnityEngine;
+using Zenject;
 
 namespace Controllers.InGameControllers
 {
     public class Inventory : MonoBehaviour
     {
-        [SerializeField] private NotificationText notificationText;
+        private NotificationText _notificationText;
+        private Player _player;
         
         public int KeysCount { get; private set; }
         public int LifeSaversCount { get; private set; }
@@ -16,7 +18,14 @@ namespace Controllers.InGameControllers
         
         public static event Action OnKeyUsed;
         public static event Action OnLifeSaverUsed;
-        public static event Action OnBoosterUsed; 
+        public static event Action OnItemUsed;
+
+        [Inject]
+        private void Construct(NotificationText notificationText, Player player)
+        {
+            _notificationText = notificationText;
+            _player = player;
+        }
 
         private void Update()
         {
@@ -36,6 +45,7 @@ namespace Controllers.InGameControllers
             LifeSaver.OnPicked += AddLifeSaver;
             Booster.OnPicked += AddBooster;
             
+            Poison.OnPicked += UsePoison;
             Lock.OnUnlockTry += UseKey;
         }
         
@@ -45,62 +55,67 @@ namespace Controllers.InGameControllers
             LifeSaver.OnPicked -= AddLifeSaver;
             Booster.OnPicked -= AddBooster;
             
+            Poison.OnPicked -= UsePoison;
             Lock.OnUnlockTry -= UseKey;
         }
 
-        private void AddKey()
-        {
-            KeysCount++;
-        }
-        
-        private void AddLifeSaver()
-        {
-            LifeSaversCount++;
-        }
-        
-        private void AddBooster()
-        {
-            BoostersCount++;
-        }
+        private void AddKey() => KeysCount++;
+        private void AddLifeSaver() => LifeSaversCount++;
+        private void AddBooster() => BoostersCount++;
         
         private void UseKey(Lock lockObject)
         {
             if (KeysCount <= 0)
             {
-                notificationText.ShowNotification("no keys left");
+                _notificationText.ShowNotification("no keys left");
                 return;
             }
             
             KeysCount--;
-            notificationText.ShowNotification("key used, exit unlocked");
+            _notificationText.ShowNotification("key used, exit unlocked");
             lockObject.Reset();
             OnKeyUsed?.Invoke();
+            OnItemUsed?.Invoke();
         }
         
         private void UseLifeSaver()
         {
             if (LifeSaversCount <= 0)
             {
-                notificationText.ShowNotification("no life savers left");
+                _notificationText.ShowNotification("no life savers left");
                 return;
             }
             
             LifeSaversCount--;
-            notificationText.ShowNotification("life saver used, yo`re teleported");
+            _notificationText.ShowNotification("life saver used, yo`re teleported");
             OnLifeSaverUsed?.Invoke();
+            OnItemUsed?.Invoke();
         }
 
         private void UseBooster()
         {
             if (BoostersCount <= 0)
             {
-                notificationText.ShowNotification("no boosters left");
+                _notificationText.ShowNotification("no boosters left");
                 return;
             }
 
             BoostersCount--;
-            notificationText.ShowNotification("booster used, you`re faster for 5 seconds");
-            OnBoosterUsed?.Invoke();
+            _notificationText.ShowNotification("booster used, you`re faster for some time");
+            StartCoroutine(_player.BoostCoroutine());
+            OnItemUsed?.Invoke();
+        }
+        
+        private void UsePoison()
+        {
+            if (_player.IsBoosted)
+            {
+                _notificationText.ShowNotification("poison drunk, but booster saved you");
+                return; 
+            }
+            
+            _notificationText.ShowNotification("poison drunk, you`re slower for some time");
+            StartCoroutine(_player.SlowDownCoroutine());
         }
     }
 }

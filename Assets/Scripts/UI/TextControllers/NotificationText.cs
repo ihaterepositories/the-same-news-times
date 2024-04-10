@@ -1,4 +1,4 @@
-using Controllers.InGameControllers;
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,37 +8,25 @@ namespace UI.TextControllers
     public class NotificationText : MonoBehaviour
     {
         private Text _textObject;
-        private bool _isNotificationShown;
 
         private void Awake()
         {
             _textObject = GetComponent<Text>();
         }
 
-        private void OnEnable()
-        {
-            AfkDetector.OnAfkDetected += ShowNotification;
-            LevelStarter.OnAllSpawned += HideNotification;
-        }
-
-        private void OnDisable()
-        {
-            AfkDetector.OnAfkDetected -= ShowNotification;
-            LevelStarter.OnAllSpawned -= HideNotification;
-        }
-
-        public void ShowNotification(string text)
+        public void ShowNotification(string text, bool isHideAfterTime = true)
         {
             _textObject.DOFade(1f, 1f);
             _textObject.text = text;
-            _isNotificationShown = true;
+            
+            if (isHideAfterTime)
+                StartCoroutine(HideNotificationCoroutine());
         }
         
-        private void HideNotification()
+        private IEnumerator HideNotificationCoroutine()
         {
-            if (!_isNotificationShown) return;
+            yield return new WaitForSeconds(5f);
             _textObject.DOFade(0f, 4f);
-            _isNotificationShown = false;
         }
     }
 }

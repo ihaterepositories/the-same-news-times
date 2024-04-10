@@ -74,4 +74,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c1d3a2298d42528517cd06dc3ad61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSoundtrackPlayerPrefab: {fileID: 8487323077986209406, guid: c95882a4247f6e84b8de8c7d02b36c55, type: 3}
+  _sceneLoadingAnimation: {fileID: 7535637059466127358, guid: 0f8b54dbe4a383f47a586e0b75946033, type: 3}

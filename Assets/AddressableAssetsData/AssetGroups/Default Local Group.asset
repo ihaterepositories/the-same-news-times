@@ -172,6 +172,21 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b8675f9a22b23b4ca2a931674ed1f7b
+    m_Address: Assets/Prefabs/Models/Poison.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8974dff27a71622458f83a4a2c90401f
+    m_Address: Assets/Prefabs/Spawners/PoisonSpawner.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f7d9fcc9262db446b636345680a34be
+    m_Address: Assets/Prefabs/AfkDetector.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 9223e8e425e647946a5daa1c5f1fef7d, type: 2}
   m_SchemaSet:
