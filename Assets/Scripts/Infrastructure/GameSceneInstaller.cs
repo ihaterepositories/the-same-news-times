@@ -15,6 +15,7 @@ namespace Infrastructure
     {
         [SerializeField] private Inventory inventory;
         [SerializeField] private AfkDetector afkDetector;
+        [SerializeField] private ItemCountTextsSetter itemCountTextsSetter;
         
         private PrefabsLoader _prefabsLoader;
         
@@ -66,6 +67,11 @@ namespace Infrastructure
             Container
                 .Bind<Inventory>()
                 .FromInstance(inventory)
+                .AsSingle();
+            
+            Container
+                .Bind<ItemCountTextsSetter>()
+                .FromInstance(itemCountTextsSetter)
                 .AsSingle();
         }
 
