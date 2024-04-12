@@ -1,4 +1,5 @@
 using Animations;
+using Constants;
 using UnityEngine;
 
 namespace Spawners.LevelsSpawners
@@ -7,19 +8,17 @@ namespace Spawners.LevelsSpawners
     {
         private readonly MazeSpawner _mazeSpawner;
         private readonly ObjectsSpawner _objectsSpawner;
-        private readonly MazeDisappearanceAnimation mazeDisappearanceAnimation;
+        
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
         
         public EpicLevelsSpawner(
             MazeSpawner mazeSpawner, 
-            ObjectsSpawner objectsSpawner, 
-            MazeDisappearanceAnimation mazeDisappearanceAnimation)
+            ObjectsSpawner objectsSpawner)
         {
             _mazeSpawner = mazeSpawner;
             _objectsSpawner = objectsSpawner;
-            this.mazeDisappearanceAnimation = mazeDisappearanceAnimation;
         }
 
         public void SpawnRandomLevel()
@@ -45,7 +44,7 @@ namespace Spawners.LevelsSpawners
             {
                 _objectsSpawner.PoisonSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             }
-            LevelDescription = "Default temple, just default temple...";
+            LevelDescription = LevelDescriptions.DefaultLevel;
         }
     }
 }

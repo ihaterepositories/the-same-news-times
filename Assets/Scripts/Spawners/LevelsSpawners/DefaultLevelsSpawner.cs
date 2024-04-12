@@ -1,4 +1,5 @@
 using Animations;
+using Constants;
 using UnityEngine;
 
 namespace Spawners.LevelsSpawners
@@ -7,26 +8,27 @@ namespace Spawners.LevelsSpawners
     {
         private readonly MazeSpawner _mazeSpawner;
         private readonly ObjectsSpawner _objectsSpawner;
-        private readonly MazeDisappearanceAnimation mazeDisappearanceAnimation;
+        private readonly MazeDisappearanceAnimation _mazeDisappearanceAnimation;
+        
         private delegate void LevelSpawnDelegate();
 
         public string LevelDescription { get; private set; }
         
         public DefaultLevelsSpawner(
             MazeSpawner mazeSpawner, 
-            ObjectsSpawner objectsSpawner, 
+            ObjectsSpawner objectsSpawner,
             MazeDisappearanceAnimation mazeDisappearanceAnimation)
         {
             _mazeSpawner = mazeSpawner;
             _objectsSpawner = objectsSpawner;
-            this.mazeDisappearanceAnimation = mazeDisappearanceAnimation;
+            _mazeDisappearanceAnimation = mazeDisappearanceAnimation;
         }
         
         public void SpawnRandomLevel()
         {
             LevelSpawnDelegate[] levelSpawnDelegates =
             {
-                SpawnEnemyLevel,
+                SpawnTempleKeeperLevel,
                 SpawnLockedLevel,
                 SpawnInvisibleLevel
             };
@@ -34,13 +36,13 @@ namespace Spawners.LevelsSpawners
             levelSpawnDelegates[Random.Range(0, levelSpawnDelegates.Length)]();
         }
 
-        private void SpawnEnemyLevel()
+        private void SpawnTempleKeeperLevel()
         {
             _mazeSpawner.Spawn(Random.Range(1, 5));
             _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             _objectsSpawner.TempleKeeperSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             _objectsSpawner.GreenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
-            LevelDescription = "Be careful, this temple is guarded by the temple keeper!";
+            LevelDescription = LevelDescriptions.TempleKeeperLevel;
         }
 
         private void SpawnLockedLevel()
@@ -55,12 +57,17 @@ namespace Spawners.LevelsSpawners
             {
                 _objectsSpawner.PoisonSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             }
-            LevelDescription = "The exit from this temple is locked, find the key and be aware from traps!";
+
+            LevelDescription = LevelDescriptions.LockedLevel;
         }
 
         private void SpawnInvisibleLevel()
         {
-            _mazeSpawner.Spawn(0, Random.Range(6, 10), Random.Range(6, 10));
+            _mazeSpawner.Spawn(
+                0, 
+                Random.Range(MazeSizes.MinWidthInvisibleLevel, MazeSizes.MaxWidthInvisibleLevel), 
+                Random.Range(MazeSizes.MinHeightInvisibleLevel, MazeSizes.MaxHeightInvisibleLevel));
+            
             _objectsSpawner.PinkScoreSpawner.Spawn(_mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             _objectsSpawner.GhostSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             _objectsSpawner.GreenScoresSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
@@ -68,8 +75,8 @@ namespace Spawners.LevelsSpawners
             {
                 _objectsSpawner.PoisonSpawner.Spawn(_mazeSpawner.Maze, _mazeSpawner.MazeWidth, _mazeSpawner.MazeHeight);
             }
-            mazeDisappearanceAnimation.PlayForInvisibleLevel(_mazeSpawner.CellObjects);
-            LevelDescription = "This temple have invisible walls, be aware of ghosts from other dimension!";
+            _mazeDisappearanceAnimation.PlayForInvisibleLevel(_mazeSpawner.CellObjects);
+            LevelDescription = LevelDescriptions.InvisibleLevel;
         }
     }
 }

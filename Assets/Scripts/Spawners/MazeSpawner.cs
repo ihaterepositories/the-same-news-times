@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Constants;
 using Loaders;
 using MazeGeneration;
 using Pooling;
@@ -34,8 +35,8 @@ namespace Spawners
         
         public void Spawn(int cyclesCount)
         {
-            MazeWidth = Random.Range(20, 36);
-            MazeHeight = Random.Range(15, 19);
+            MazeWidth = Random.Range(MazeSizes.DefaultMinWidth, MazeSizes.DefaultMaxWidth);
+            MazeHeight = Random.Range(MazeSizes.DefaultMinHeight, MazeSizes.DefaultMaxHeight);
             Maze = new MazeGenerator(MazeWidth, MazeHeight).Generate();
             CellObjects = new List<CellWallsCollector>();
             CreateCycles(Maze, cyclesCount);
