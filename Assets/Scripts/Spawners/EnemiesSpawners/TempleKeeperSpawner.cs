@@ -42,7 +42,7 @@ namespace Spawners.EnemiesSpawners
                     templeKeeper.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
                     templeKeeper.MakeEnemySleep();
 
-                    _positionsBlocker.BlockPosition(xPosition, yPosition, true);
+                    _positionsBlocker.Block(xPosition, yPosition, true);
                 }
                 else
                 {

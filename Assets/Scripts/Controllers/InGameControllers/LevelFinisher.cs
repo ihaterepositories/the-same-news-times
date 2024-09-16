@@ -5,6 +5,7 @@ using Loaders;
 using Models;
 using UI.TextControllers;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -13,23 +14,29 @@ namespace Controllers.InGameControllers
     public class LevelFinisher : MonoBehaviour
     {
         [SerializeField] private InfoText gameOverText;
-        [SerializeField] private ScoresCounter scoresCounter;
+        [FormerlySerializedAs("scoresCounter")] [SerializeField] private ScoreCounter scoreCounter;
         [SerializeField] private Text pressAnyKeyText;
 
         private PrefabsLoader _prefabsLoader;
         private Player _player;
         private SceneLoadingAnimation _sceneLoadingAnimation;
+        private Timer _timer;
 
         public static event Action OnLevelFinished;
         public static event Action OnReadyToStartNewLevel;
         public static event Action OnGameFinished;
 
         [Inject]
-        private void Construct(PrefabsLoader prefabsLoader, Player player, SceneLoadingAnimation sceneLoadingAnimation)
+        private void Construct(
+            PrefabsLoader prefabsLoader, 
+            Player player, 
+            SceneLoadingAnimation sceneLoadingAnimation,
+            Timer timer)
         {
             _prefabsLoader = prefabsLoader;
             _player = player;
             _sceneLoadingAnimation = sceneLoadingAnimation;
+            _timer = timer;
         }
         
         private void Awake()
@@ -44,18 +51,16 @@ namespace Controllers.InGameControllers
 
         private void OnEnable()
         {
-            ScoresCounter.OnPinkScoreUpdated += FinishLevel;
-            Inventory.OnLifeSaverUsed += FinishLevel;
+            ScoreCounter.OnMazesScoreUpdated += FinishLevel;
             Player.OnDestroyedByEnemy += FinishGame;
-            AfkDetector.OnPlayerIsAfk += FinishGame;
+            Timer.OnTimerEnd += FinishGame;
         }
 
         private void OnDisable()
         {
-            ScoresCounter.OnPinkScoreUpdated -= FinishLevel;
-            Inventory.OnLifeSaverUsed -= FinishLevel;
+            ScoreCounter.OnMazesScoreUpdated -= FinishLevel;
             Player.OnDestroyedByEnemy -= FinishGame;
-            AfkDetector.OnPlayerIsAfk -= FinishGame;
+            Timer.OnTimerEnd -= FinishGame;
         }
 
         private void EnableGameStopping()
@@ -73,6 +78,7 @@ namespace Controllers.InGameControllers
 
         private IEnumerator FinishLevelCoroutine()
         {
+            _timer.StopTimer();
             _sceneLoadingAnimation.Increase(0.2f);
             _player.ClearTrailRender();
             yield return new WaitForSeconds(0.2f);
@@ -88,14 +94,13 @@ namespace Controllers.InGameControllers
 
         private IEnumerator FinishGameCoroutine()
         {
+            _timer.StopTimer();
             _sceneLoadingAnimation.Increase(0.2f);
             _player.ClearTrailRender();
             yield return new WaitForSeconds(1f);
             OnGameFinished?.Invoke();
             _prefabsLoader.ReleaseAll();
-            gameOverText.SetText(scoresCounter.GetCurrentGameScore());
-            scoresCounter.CalculateTotalTimeSpent();
-            scoresCounter.UpdateOnlineBestScore();
+            gameOverText.SetText(scoreCounter.GetCurrentGameScore());
             StartCoroutine(ActivateExitButtonCoroutine());
         }
 

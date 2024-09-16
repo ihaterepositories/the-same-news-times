@@ -2,10 +2,10 @@
 using Controllers.InGameControllers;
 using Loaders;
 using Models;
+using Models.Items;
 using Spawners;
 using Spawners.EnemiesSpawners;
 using Spawners.ItemsSpawners;
-using Spawners.LevelsSpawners;
 using UnityEngine;
 using Zenject;
 
@@ -13,10 +13,7 @@ namespace Infrastructure
 {
     public class GameSceneInstaller : MonoInstaller
     {
-        [SerializeField] private Inventory inventory;
-        [SerializeField] private AfkDetector afkDetector;
-        [SerializeField] private ItemCountTextsSetter itemCountTextsSetter;
-        
+        [SerializeField] private Timer timer;
         private PrefabsLoader _prefabsLoader;
         
         [Inject]
@@ -47,59 +44,46 @@ namespace Infrastructure
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PositionsBlocker"))
                 .AsSingle();
             
-            Container
-                .Bind<AfkDetector>()
-                .FromInstance(afkDetector)
-                .AsSingle();
-            
             InstallObjectsSpawners();
 
             Container
                 .Bind<ObjectsSpawner>()
                 .AsSingle();
             
-            InstallLevelSpawner();
+            Container
+                .Bind<LevelConstructor>()
+                .AsSingle();
             
             Container
                 .Bind<LevelSpawner>()
                 .AsSingle();
 
             Container
-                .Bind<Inventory>()
-                .FromInstance(inventory)
-                .AsSingle();
-            
-            Container
-                .Bind<ItemCountTextsSetter>()
-                .FromInstance(itemCountTextsSetter)
+                .Bind<Timer>()
+                .FromComponentInNewPrefab(timer)
                 .AsSingle();
         }
 
         private void InstallObjectsSpawners()
         {
             Container
-                .Bind<PinkScoreSpawner>()
+                .Bind<MazeExitSpawner>()
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PinkScoreSpawner"))
                 .AsSingle();
             
             Container
-                .Bind<GreenScoresSpawner>()
+                .Bind<PointsSpawner>()
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("GreenScoresSpawner"))
+                .AsSingle();
+
+            Container
+                .Bind<ModificatorsSpawner>()
+                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("ModificatorsSpawner"))
                 .AsSingle();
             
             Container
                 .Bind<TempleKeeperSpawner>()
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("TempleKeeperSpawner"))
-                .AsSingle();
-            
-            Container
-                .Bind<LockSpawner>()
-                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("LockSpawner"))
-                .AsSingle();
-            
-            Container
-                .Bind<KeySpawner>()
-                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("KeySpawner"))
                 .AsSingle();
             
             Container
@@ -110,40 +94,6 @@ namespace Infrastructure
             Container
                 .Bind<GhostSpawner>()
                 .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("GhostSpawner"))
-                .AsSingle();
-
-            Container
-                .Bind<BoosterSpawner>()
-                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("BoosterSpawner"))
-                .AsSingle();
-
-            Container
-                .Bind<LifeSaverSpawner>()
-                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("LifeSaverSpawner"))
-                .AsSingle();
-            
-            Container
-                .Bind<PoisonSpawner>()
-                .FromComponentInNewPrefab(_prefabsLoader.GetPrefab("PoisonSpawner"))
-                .AsSingle();
-        }
-
-        private void InstallLevelSpawner()
-        {
-            Container
-                .Bind<DefaultLevelsSpawner>()
-                .AsSingle();
-            
-            Container
-                .Bind<RareLevelsSpawner>()
-                .AsSingle();
-            
-            Container
-                .Bind<EpicLevelsSpawner>()
-                .AsSingle();
-            
-            Container
-                .Bind<LegendaryLevelsSpawner>()
                 .AsSingle();
         }
     }

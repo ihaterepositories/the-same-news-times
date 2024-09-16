@@ -13,18 +13,12 @@ namespace Animations
 
         private void OnEnable()
         {
-            Key.OnPicked += KeyPickedEffect;
-            Lock.OnUnlocked += KeyPickedEffect;
-            LifeSaver.OnPicked += LifeSaverPickedEffect;
-            Booster.OnPicked += BoosterPickedEffect;
+            
         }
         
         private void OnDisable()
         {
-            Key.OnPicked -= KeyPickedEffect;
-            Lock.OnUnlocked -= KeyPickedEffect;
-            LifeSaver.OnPicked -= LifeSaverPickedEffect;
-            Booster.OnPicked -= BoosterPickedEffect;
+            
         }
 
         private void KeyPickedEffect()

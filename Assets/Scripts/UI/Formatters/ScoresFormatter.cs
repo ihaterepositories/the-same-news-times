@@ -1,8 +1,8 @@
 ﻿namespace UI.Formatters
 {
-    public class ScoresFormatter
+    public static class ScoresFormatter
     {
-        public string FormatNumber(int number)
+        public static string FormatNumber(int number)
         {
             return number switch
             {

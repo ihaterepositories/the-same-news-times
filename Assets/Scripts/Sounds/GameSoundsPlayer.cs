@@ -25,28 +25,16 @@ namespace Sounds
         {
             LevelFinisher.OnGameFinished += PlayGameOverSound;
             
-            GreenScore.OnPicked += PlayScorePickedSound;
-            PinkScore.OnPicked += PlayScorePickedSound;
-            
-            Key.OnPicked += PlayItemPickedSound;
-            LifeSaver.OnPicked += PlayItemPickedSound;
-            Booster.OnPicked += PlayItemPickedSound;
-            
-            Inventory.OnItemUsed += PlayItemUsedSound;
+            Point.OnPicked += PlayScorePickedSound;
+            MazeExit.OnPicked += PlayScorePickedSound;
         }
         
         private void OnDisable()
         {
             LevelFinisher.OnGameFinished -= PlayGameOverSound;
             
-            GreenScore.OnPicked -= PlayScorePickedSound;
-            PinkScore.OnPicked -= PlayScorePickedSound;
-            
-            Key.OnPicked -= PlayItemPickedSound;
-            LifeSaver.OnPicked -= PlayItemPickedSound;
-            Booster.OnPicked -= PlayItemPickedSound;
-            
-            Inventory.OnItemUsed -= PlayItemUsedSound;
+            Point.OnPicked -= PlayScorePickedSound;
+            MazeExit.OnPicked -= PlayScorePickedSound;
         }
         
         private void PlayGameOverSound()

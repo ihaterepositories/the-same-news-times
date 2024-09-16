@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 1232bbc4b34f5644fb30748a8e13b339
   m_SerializeEntries:
-  - m_GUID: 7c0cf19230babb04490ddb0543eb30b5
-    m_Address: RecordsScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ac6b0ffd3c373c246938ecd7497655be
     m_Address: OptionsScene
     m_ReadOnly: 0
@@ -32,23 +27,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 465bb7bb8ee67624aaeb6e687a93f1a4
-    m_Address: KeyTipsScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 725d4d15fd4fae74b8bfd3e47224448a
     m_Address: GameScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 856dbc84c24c50d449b884353d786db6
-    m_Address: EducationalScene
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d9880c7204d5686449e215147e85e7d0
-    m_Address: AuthorizationScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -127,11 +107,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ccf4dd93544e61449b74a71f856f4e6f
-    m_Address: Assets/Prefabs/Models/Booster.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 005256168d959ef4ea4b02d566d17c1a
     m_Address: Assets/Prefabs/Models/CellObject.prefab
     m_ReadOnly: 0
@@ -139,21 +114,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 546128f71fd5a784db629d8482300887
     m_Address: Assets/Prefabs/Models/GreenScore.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a092e70f4ede9f2478d208aeb782d0d2
-    m_Address: Assets/Prefabs/Models/Key.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bf15350844ba93f48a243f9accae8031
-    m_Address: Assets/Prefabs/Models/LifeSaver.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8635683b7d4f8494981432326cb4712a
-    m_Address: Assets/Prefabs/Models/Lock.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -172,11 +132,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6b8675f9a22b23b4ca2a931674ed1f7b
-    m_Address: Assets/Prefabs/Models/Poison.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8974dff27a71622458f83a4a2c90401f
     m_Address: Assets/Prefabs/Spawners/PoisonSpawner.prefab
     m_ReadOnly: 0
@@ -184,6 +139,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f7d9fcc9262db446b636345680a34be
     m_Address: Assets/Prefabs/AfkDetector.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6da7397acb874ae42bc706fa53fe1fe6
+    m_Address: Assets/Prefabs/Spawners/ModificatorsSpawner.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f38841a0209574842ade9d324e24b017
+    m_Address: Assets/Prefabs/Models/Modificator.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

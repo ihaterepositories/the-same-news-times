@@ -1,7 +1,5 @@
 ﻿using Animations;
 using Loaders;
-using Networking.Requests;
-using UI.Formatters;
 using UnityEngine;
 using Zenject;
 
@@ -24,26 +22,6 @@ namespace Infrastructure
             
             Container
                 .Bind<PrefabsLoader>()
-                .AsSingle();
-            
-            Container
-                .Bind<BestPlayersRequest>()
-                .AsSingle();
-
-            Container
-                .Bind<ScoresFormatter>()
-                .AsSingle();
-            
-            Container
-                .Bind<LoginPlayerRequest>()
-                .AsSingle();
-
-            Container
-                .Bind<RegisterPlayerRequest>()
-                .AsSingle();
-
-            Container
-                .Bind<UpdateBestRecordRequest>()
                 .AsSingle();
         }
     }

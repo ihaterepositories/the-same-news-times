@@ -1,53 +1,53 @@
+using System;
 using System.Collections;
 using UI.Formatters;
-using UI.TextControllers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Controllers.InGameControllers
 {
     public class Timer : MonoBehaviour
     {
-        [SerializeField] private InfoText timerText;
+        [SerializeField] private Text timerText;
+        private float remainingTime;
+        private bool isRunning;
 
-        private float _gameDuration;
-        private Coroutine _timerCoroutine;
+        public static event Action OnTimerEnd;
 
-        public float GameDuration => _gameDuration;
-
-        private void OnEnable()
+        public void StartTimer(float duration)
         {
-            LevelStarter.OnAllSpawned += StartTimer;
-            LevelFinisher.OnLevelFinished += StopTimer;
-            LevelFinisher.OnGameFinished += StopTimer;
-        }
-
-        private void OnDisable()
-        {
-            LevelStarter.OnAllSpawned -= StartTimer;
-            LevelFinisher.OnLevelFinished -= StopTimer;
-            LevelFinisher.OnGameFinished -= StopTimer;
-        }
-
-        private void StartTimer()
-        {
-            _timerCoroutine = StartCoroutine(IncreaseTimeCoroutine());
-        }
-
-        private void StopTimer()
-        {
-            if (_timerCoroutine == null) return;
-            StopCoroutine(_timerCoroutine);
-            _timerCoroutine = null;
-        }
-
-        private IEnumerator IncreaseTimeCoroutine()
-        {
-            while (true)
+            if (!isRunning)
             {
-                _gameDuration += Time.deltaTime;
-                timerText.SetText(TimeFormatter.Format(_gameDuration));
-                yield return null;
+                remainingTime = duration;
+                UpdateTimerText();
+                isRunning = true;
+                StartCoroutine(TimerCoroutine());
             }
         }
+
+        public void StopTimer()
+        {
+            isRunning = false;
+            StopAllCoroutines();
+        }
+
+        private IEnumerator TimerCoroutine()
+        {
+            while (remainingTime > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                remainingTime--;
+                UpdateTimerText();
+            }
+
+            isRunning = false;
+            OnTimerEnd?.Invoke();
+        }
+
+        private void UpdateTimerText()
+        {
+            timerText.text = TimeFormatter.Format(remainingTime);
+        }
+        
     }
 }

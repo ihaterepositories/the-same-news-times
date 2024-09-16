@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1785570707748149887}
   - component: {fileID: 2931297921688927957}
   - component: {fileID: 3843236362802363343}
-  - component: {fileID: 1698650248402224570}
+  - component: {fileID: 2684213467386029106}
   m_Layer: 0
   m_Name: TempleKeeper
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 11, y: 11, z: 11}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8471924664965694087}
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 00a9fb8e91fc17f48ba96357800b323a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 25794e0b69d6d6d4ca07db894efc6e82, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,10 +102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2931297921688927957}
   triggerZone: {fileID: 7704201843357828698}
-  activeEnemySprite: {fileID: 21300000, guid: e7b4ed5b7ba832c4aa0fcea73b1eaeb9, type: 3}
-  sleepingEnemySprite: {fileID: 21300000, guid: 00a9fb8e91fc17f48ba96357800b323a, type: 3}
+  activeEnemySprite: {fileID: 21300000, guid: 25794e0b69d6d6d4ca07db894efc6e82, type: 3}
+  sleepingEnemySprite: {fileID: 21300000, guid: c5dc0592da7af5f4ea7f04deb9be9d24, type: 3}
   sleepingEffectParticle: {fileID: 5194597223711268548}
---- !u!61 &1698650248402224570
+--- !u!61 &2684213467386029106
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,21 +134,21 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.000000007450581, y: 0.007084042}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.57, y: 0.57}
+    oldSize: {x: 0.05, y: 0.05}
     newSize: {x: 0.57, y: 0.57}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.1}
+  m_Size: {x: 0.05, y: 0.05}
   m_EdgeRadius: 0
 --- !u!1 &6716463607099937132
 GameObject:
@@ -179,7 +179,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1785570707748149887}
@@ -226,7 +226,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.16470589, g: 0.20784314, b: 0.2509804, a: 0.14901961}
+  m_Color: {r: 0.18039216, g: 0.14901961, b: 0.13333334, a: 0.15686275}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -55,7 +55,7 @@ namespace Models.Enemies
             {
                 if (_isBreathing)
                 {
-                    transform.DOScale(4.5f, 1.5f);
+                    transform.DOScale(0.4f, 1.5f);
                     yield return new WaitForSeconds(1.5f);
                     
                     if (!_isBreathing) continue;

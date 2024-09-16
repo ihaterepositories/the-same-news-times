@@ -41,26 +41,26 @@ namespace Animations
 
         private void Decrease()
         {
-            transform.localScale = new Vector2(50f, 50f);
+            transform.localScale = new Vector2(200f, 200f);
             transform.DOScale(Vector2.zero, 0.5f);
         }
 
         public void Decrease(float duration)
         {
-            transform.localScale = new Vector2(50f, 50f);
+            transform.localScale = new Vector2(200f, 200f);
             transform.DOScale(Vector2.zero, duration);
         }
 
         public void Increase()
         {
             transform.localScale = Vector2.zero;
-            transform.DOScale(new Vector2(50f, 50f), 0.5f);
+            transform.DOScale(new Vector2(200f, 200f), 0.5f);
         }
 
         public void Increase(float duration)
         {
             transform.localScale = Vector2.zero;
-            transform.DOScale(new Vector2(50f, 50f), duration);
+            transform.DOScale(new Vector2(200f, 200f), duration);
         }
     }
 }

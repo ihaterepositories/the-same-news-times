@@ -44,7 +44,7 @@ namespace Spawners.EnemiesSpawners
                     trap.transform.localPosition = MazeSpawner.GetCellWorldCoordinates(cell, mazeWidth, mazeHeight);
                     trap.PlayAppearingAnimation();
 
-                    _positionsBlocker.BlockPosition(xPosition, yPosition, true);
+                    _positionsBlocker.Block(xPosition, yPosition, true);
                 }
             }
         }

@@ -30,7 +30,7 @@ namespace Controllers.InGameControllers
             _positionsY.Clear();
         }
 
-        public void BlockPosition(int x, int y, bool isBlockNearestPositions)
+        public void Block(int x, int y, bool isBlockNearestPositions)
         {
             _positionsX.Add(x);
             _positionsY.Add(y);
